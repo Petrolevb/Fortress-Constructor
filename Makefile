@@ -21,4 +21,4 @@ $(EXEC) : $(OBJS)
 clean :
 	@rm *.o
 mrproper :
-	@rm $(PROG) 
+	@rm $(EXEC)
