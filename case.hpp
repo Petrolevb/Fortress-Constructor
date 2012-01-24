@@ -1,6 +1,8 @@
 #ifndef HPP_CASE
 #define HPP_CASE
 
+#include<irrlicht/irrlicht.h>
+
 #include "objet.hpp"
 
 typedef enum {
@@ -17,6 +19,7 @@ class Case
 {
 	public :
 		Case();
+		Case(TypeCase type);
 		~Case();
 
 		void ajoutObjet(Objet *objet);
@@ -26,6 +29,8 @@ class Case
 		TypeCase m_TypeDeLaCase;
 		bool m_IsSmooth;
 		bool m_EstFortifie;
+
+		irr::scene::IAnimatedMesh *m_Mesh;
 };
 
 #endif

@@ -24,7 +24,7 @@ class Niveau
 		 * Prend en parramêtre la position de la case de départ et traite automatiquement 
 		 * la mise à jour des cases autour
 		 */
-		void creuse(int positionX, int positionY, Direction direction);
+		void creuse(int ligne, int colone, Direction direction);
 	private :
 		
 		std::vector< std::vector<Case> > m_Map;

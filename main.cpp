@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
 	sceneManager->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(5, 0, 0));
 
 
+	scene::IAnimatedMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.3ds");
+	scene::IAnimatedMeshSceneNode *mur_trois = sceneManager->addAnimatedMeshSceneNode(mesh);
+	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
+	mur_trois->setMaterialTexture(0, 
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 255, 255, 255));
