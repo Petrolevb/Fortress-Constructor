@@ -1,0 +1,3 @@
+
+Dans le futur,
+ class Case doit dériver de irr::scene::ISceneNode
