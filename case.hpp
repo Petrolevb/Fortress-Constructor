@@ -19,7 +19,7 @@ class Case
 {
 	public :
 		Case();
-		Case(TypeCase type);
+		Case(TypeCase type, irr::scene::ISceneManager *sceneManager);
 		~Case();
 
 		void ajoutObjet(Objet *objet);
@@ -30,7 +30,7 @@ class Case
 		bool m_IsSmooth;
 		bool m_EstFortifie;
 
-		irr::scene::IAnimatedMesh *m_Mesh;
+		irr::scene::IAnimatedMeshSceneNode *m_Mesh;
 };
 
 #endif
