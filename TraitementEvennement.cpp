@@ -2,9 +2,12 @@
 
 #include "TraitementEvennement.hpp"
 
+#include "niveau.hpp"
+
 using namespace irr;
 
-TraitementEvennement::TraitementEvennement()
+TraitementEvennement::TraitementEvennement(Niveau *niveau) :
+	m_Niveau(niveau)
 {
 	for(u32 i = 0; i < KEY_KEY_CODES_COUNT; i++)
 		m_KeyIsDown[i] = false;
@@ -66,3 +69,9 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode]; }
+
+void TraitementEvennement::majNiveau()
+{
+	if(MouseState.LeftButtonDown)
+		m_Niveau->creuse(0, 0, EST);
+}

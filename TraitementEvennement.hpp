@@ -3,6 +3,8 @@
 
 #include<irrlicht/irrlicht.h>
 
+#include "niveau.hpp"
+
 class TraitementEvennement : public irr::IEventReceiver
 {
 	public :
@@ -14,11 +16,13 @@ class TraitementEvennement : public irr::IEventReceiver
 			SMouseState() : LeftButtonDown(false), RightButtonDown(false) { }
 		} MouseState;
 		
-		TraitementEvennement();
+		TraitementEvennement(Niveau *niveau);
 		~TraitementEvennement();
 
 		virtual bool OnEvent(const irr::SEvent &event);
 		virtual bool IsKeyDown(irr::EKEY_CODE keyCode) const;
+
+		void majNiveau();
 
 		const SMouseState & GetMouseState() const
 		{ return MouseState; }
@@ -26,6 +30,8 @@ class TraitementEvennement : public irr::IEventReceiver
 		bool m_KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 		bool m_IsShiftDown;
 		bool m_IsCtrlDown;
+
+		Niveau *m_Niveau;
 };
 
 

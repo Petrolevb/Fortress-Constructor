@@ -1,5 +1,7 @@
 *.o
 *.swp
 *~
-
+*.dae
+*.obj
+*.mtl
 Fortress_Constructor

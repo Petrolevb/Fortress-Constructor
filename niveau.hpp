@@ -3,6 +3,8 @@
 
 #include<vector>
 
+#include<irrlicht/irrlicht.h>
+
 #include"case.hpp"
 
 typedef enum{
@@ -17,7 +19,7 @@ typedef enum{
 class Niveau
 {
 	public :
-		Niveau();
+		Niveau(irr::scene::ISceneManager *sceneManager);
 		~Niveau();
 
 		/* 
@@ -28,6 +30,8 @@ class Niveau
 	private :
 		
 		std::vector< std::vector<Case> > m_Map;
+		irr::scene::ISceneManager *m_LINK_sceneManager;
+
 };
 
 #endif

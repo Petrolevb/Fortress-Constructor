@@ -16,22 +16,23 @@ Case::Case() :
 Case::Case(TypeCase type, scene::ISceneManager *sceneManager) :
 	m_Objet(NULL), m_TypeDeLaCase(type), m_EstFortifie(false), m_IsSmooth(false)
 {
+	std::cerr << "Recuperation du mesh type " << m_TypeDeLaCase << std::endl;
 	switch(type)
 	{
 		case MUR_UN:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur un.dae"));
+			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur un.obj"));
 			break;
 		case MUR_DEUX_ADJACENTS:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur deux adjacents.dae"));
+			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur deux adjacents.obj"));
 			break;
 		case MUR_DEUX_OPPOSES:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur deux opposes.dae"));
+			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur deux opposes.obj"));
 			break;
 		case MUR_TROIS:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur trois.dae"));
+			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur trois.obj"));
 			break;
 		case SOL:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/sol-plafond.dae"));
+			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/sol-plafond.obj"));
 			break;
 		default: m_Mesh = NULL; break;
 	}

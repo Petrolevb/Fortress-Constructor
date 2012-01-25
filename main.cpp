@@ -1,7 +1,13 @@
+// Include STL
 #include<iostream>
 
+// Include Librairies 
 #include<irrlicht/irrlicht.h>
 
+// Include Redéfinitions
+#include"TraitementEvennement.hpp"
+
+// Include Spécial programme
 #include "niveau.hpp"
 #include "case.hpp"
 #include "objet.hpp"
@@ -11,13 +17,27 @@ using namespace irr;
 
 int main(int argc, char *argv[])
 {
+	// Initialisation du moteur
 					     // api graphique : opengl, dimension fenetre : 800x600, bytes par pixel, 
 					     // fullscreen, stencilbuffer, vsync, receiver
 	IrrlichtDevice *device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800, 600), 32, false, true, false, 0);
+	cout << "Initialisation du device" << endl;
 	video::IVideoDriver *driver = device->getVideoDriver();
+	cout << "Initialisation du driver video" << endl;
 	scene::ISceneManager *sceneManager = device->getSceneManager();
+	cout << "Recuperation du scene manager" << endl;
+	
+	// Initialisation des composants du programme
+	// après un tableau, pour le moment, un seul
+	Niveau niveau1(sceneManager);
+	cout << "Initialisation des niveaux" << endl;
+	
+	// Initialisation des redéfinitions
+	TraitementEvennement receptionEvennement(&niveau1);
+	cout << "Initialisation du gestionnaire d'évennement" << endl;
+	device->setEventReceiver(&receptionEvennement);
 
-	scene::IAnimatedMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.dae");
+	scene::IAnimatedMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.obj");
 	scene::IAnimatedMeshSceneNode *mur_trois = sceneManager->addAnimatedMeshSceneNode(mesh);
 	
 	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -47,12 +67,12 @@ int main(int argc, char *argv[])
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 255, 255, 255));
+		receptionEvennement.majNiveau();
+		
 		sceneManager->drawAll();
 		driver->endScene();
 	}
 
-	// Creuser un mur
-	// Ajouter un objet
 
 	device->drop();
 	return 0;
