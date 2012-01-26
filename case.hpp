@@ -15,12 +15,24 @@ typedef enum {
 } TypeCase;
 
 
-class Case
+class Case : irr::scene::ISceneNode
 {
 	public :
 		Case();
-		Case(TypeCase type, irr::scene::ISceneManager *sceneManager);
+
+		Case(irr::scene::ISceneNode *parent, irr::scene::ISceneManager *sceneManager);
+		// Héritage impose :
+		// ISceneNode parent, SceneManager, id, position, rotation, scale
+		Case(irr::scene::ISceneNode *parent, irr::scene::ISceneManager *sceneManager, 
+		     TypeCase type, irr::s32 id=-1,
+		     const irr::core::vector3df& position = irr::core::vector3df(0, 0, 0),
+		     const irr::core::vector3df& rotation = irr::core::vector3df(0, 0, 0),
+		     const irr::core::vector3df& scale = irr::core::vector3df(1.0f, 1.0f, 1.0f)); 
 		~Case();
+		
+		Case & operator=(const Case &caseACopier);
+		virtual void render() = 0;
+		virtual const irr::core::aabbox3d<float>& getBoundingBox() const = 0;
 
 		void ajoutObjet(Objet *objet);
 		void retireObjet();

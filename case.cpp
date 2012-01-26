@@ -8,20 +8,32 @@
 using namespace irr;
 
 Case::Case() :
-	m_Objet(NULL), m_TypeDeLaCase(VIDE), m_EstFortifie(false), m_IsSmooth(false),
+	scene::ISceneNode(0, NULL),
+	m_Objet(NULL), m_TypeDeLaCase(VIDE), m_IsSmooth(false), m_EstFortifie(false),
 	m_Mesh(NULL)
-{
-}
+{ }
 
-Case::Case(TypeCase type, scene::ISceneManager *sceneManager) :
-	m_Objet(NULL), m_TypeDeLaCase(type), m_EstFortifie(false), m_IsSmooth(false)
+Case::Case(scene::ISceneNode *parent, scene::ISceneManager *sceneManager) :
+	scene::ISceneNode(parent, sceneManager),
+	m_Objet(NULL), m_TypeDeLaCase(VIDE), m_IsSmooth(false), m_EstFortifie(false), 
+	m_Mesh(NULL)
+{ }
+
+Case::Case(scene::ISceneNode *parent, scene::ISceneManager *sceneManager,
+	TypeCase type, 
+	s32 id/*=1*/, 
+	const core::vector3df& position /*= core::vector3df(0, 0, 0)*/,
+	const core::vector3df& rotation /*= core::vector3df(0, 0, 0)*/, 
+	const core::vector3df& scale /*= core::vector3df(1.0f, 1.0f, 1.0f)*/)
+		: scene::ISceneNode(parent, sceneManager, id, position, rotation, scale),
+		  m_Objet(NULL), m_TypeDeLaCase(type), m_IsSmooth(false), m_EstFortifie(false) 
 {
 	std::cerr << "Recuperation du mesh type " << m_TypeDeLaCase << std::endl;
 	switch(type)
 	{
 		case MUR_UN:
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur un.obj"));
-			break;
+		m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur un.obj"));
+		break;
 		case MUR_DEUX_ADJACENTS:
 			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/mur deux adjacents.obj"));
 			break;
@@ -45,10 +57,32 @@ Case::Case(TypeCase type, scene::ISceneManager *sceneManager) :
 }
 
 Case::~Case()
+{ }
+
+Case & Case::operator=(const Case &caseACopier)
 {
+	m_TypeDeLaCase = caseACopier.m_TypeDeLaCase;
+	
+	if(m_Objet != NULL) delete m_Objet;
+	m_Objet = new Objet(*(caseACopier.m_Objet));
+	
+	m_IsSmooth = caseACopier.m_IsSmooth;
+	m_EstFortifie = caseACopier.m_EstFortifie;
+	return *this;
+}
+/*
+void Case::render()
+{
+	// fonction abstraite pure dans la classe mère
+	//scene::ISceneNode::render();
 }
 
-
+const core::aabbox3d<float>& Case::getBoundingBox() const
+{
+	// fonction abstraite pure dans la classe mère
+	//return scene::ISceneNode::getBoundingBox();
+}
+*/
 void Case::ajoutObjet(Objet *objet)
 {
 	m_Objet = objet;
