@@ -29,16 +29,16 @@ int main(int argc, char *argv[])
 	
 	// Initialisation des composants du programme
 	// après un tableau, pour le moment, un seul
-	Niveau niveau1(sceneManager);
+	// ISceneNode *parent = 0, ISceneManager *
+	Niveau niveau1(0, sceneManager);
 	cout << "Initialisation des niveaux" << endl;
 	
 	// Initialisation des redéfinitions
 	TraitementEvennement receptionEvennement(&niveau1);
 	cout << "Initialisation du gestionnaire d'évennement" << endl;
 	device->setEventReceiver(&receptionEvennement);
-
-	scene::IAnimatedMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.obj");
-	scene::IAnimatedMeshSceneNode *mur_trois = sceneManager->addAnimatedMeshSceneNode(mesh);
+	scene::IMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.obj");
+	scene::IMeshSceneNode *mur_trois = sceneManager->addMeshSceneNode(mesh);
 	
 	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
 //	mur_trois->setMaterialTexture(0, driver->getTexture("data/texture/plafond.jpg"));
