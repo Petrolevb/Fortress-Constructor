@@ -19,7 +19,7 @@ typedef enum{
 class Niveau
 {
 	public :
-		Niveau(irr::scene::ISceneManager *sceneManager);
+		Niveau(irr::scene::ISceneNode *parent,  irr::scene::ISceneManager *sceneManager);
 		~Niveau();
 
 		/* 
