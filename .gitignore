@@ -1,7 +1,12 @@
 *.o
 *.swp
 *~
+
 *.dae
-*.obj
-*.mtl
+*.3ds
+
+#*.blend
+#*.obj
+#*.mtl
+
 Fortress_Constructor
