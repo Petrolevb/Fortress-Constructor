@@ -27,9 +27,12 @@ class Objet
 		 */
 		Objet(TypeObjet type, irr::scene::ISceneManager *sceneManager, irr::scene::IAnimatedMeshSceneNode *parent);
 		~Objet();
+
+		Objet & operator=(const Objet &objetACopier);
+
 	private :
 		TypeObjet m_TypeDeLObjet;
-		irr::scene::IAnimatedMeshSceneNode * m_Mesh;
+		irr::scene::SMesh * m_Mesh;
 };
 
 #endif

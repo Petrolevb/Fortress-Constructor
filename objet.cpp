@@ -13,7 +13,7 @@ Objet::Objet(TypeObjet type, scene::ISceneManager *sceneManager, scene::IAnimate
 	{
 		/*
 		case : 
-			m_Mesh = sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("data/mesh/objet/"));
+			m_Mesh = sceneManager->getMesh("data/mesh/objet/"));
 			break;
 		*/
 		default : m_Mesh = NULL;
@@ -29,4 +29,18 @@ Objet::Objet(TypeObjet type, scene::ISceneManager *sceneManager, scene::IAnimate
 
 Objet::~Objet()
 {
+}
+
+Objet & Objet::operator=(const Objet &objetACopier)
+{
+	m_TypeDeLObjet = objetACopier.m_TypeDeLObjet;
+	
+	if(m_Mesh != NULL) delete m_Mesh;
+
+	if(objetACopier.m_Mesh != NULL)
+		m_Mesh = new scene::SMesh(*(objetACopier.m_Mesh));
+	else 
+		m_Mesh = NULL;
+
+	return *this;
 }
