@@ -1,6 +1,6 @@
 # Blender v2.61 (sub 0) OBJ File: 'mur un.blend'
 # www.blender.org
-mtllib mur un.mtl
+mtllib mur_un.mtl
 o Cube
 v -1.000000 1.500000 1.000000
 v 0.999999 1.500000 1.000001

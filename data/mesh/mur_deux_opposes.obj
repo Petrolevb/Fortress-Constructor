@@ -1,6 +1,6 @@
 # Blender v2.61 (sub 0) OBJ File: 'mur deux opposes.blend'
 # www.blender.org
-mtllib mur deux opposes.mtl
+mtllib mur_deux_opposes.mtl
 o Cube
 v -1.000000 1.500000 1.000000
 v 0.999999 1.500000 1.000001

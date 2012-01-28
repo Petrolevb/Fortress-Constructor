@@ -21,23 +21,24 @@ int main(int argc, char *argv[])
 					     // api graphique : opengl, dimension fenetre : 800x600, bytes par pixel, 
 					     // fullscreen, stencilbuffer, vsync, receiver
 	IrrlichtDevice *device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800, 600), 32, false, true, false, 0);
-	cout << "Initialisation du device" << endl;
+	cerr << "Initialisation du device" << endl;
 	video::IVideoDriver *driver = device->getVideoDriver();
-	cout << "Initialisation du driver video" << endl;
+	cerr << "Initialisation du driver video" << endl;
 	scene::ISceneManager *sceneManager = device->getSceneManager();
-	cout << "Recuperation du scene manager" << endl;
+	cerr << "Recuperation du scene manager" << endl;
 	
 	// Initialisation des composants du programme
 	// après un tableau, pour le moment, un seul
 	// ISceneNode *parent = 0, ISceneManager *
-	Niveau niveau1(0, sceneManager);
-	cout << "Initialisation des niveaux" << endl;
+	Niveau niveau1();
+	cerr << "Initialisation des niveaux" << endl;
 	
 	// Initialisation des redéfinitions
 	TraitementEvennement receptionEvennement(&niveau1);
-	cout << "Initialisation du gestionnaire d'évennement" << endl;
+	cerr << "Initialisation du gestionnaire d'évennement" << endl;
 	device->setEventReceiver(&receptionEvennement);
-	scene::IMesh *mesh = sceneManager->getMesh("data/mesh/mur trois.obj");
+	
+	scene::IMesh *mesh = sceneManager->getMesh("data/mesh/mur_trois.obj");
 	scene::IMeshSceneNode *mur_trois = sceneManager->addMeshSceneNode(mesh);
 	
 	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -66,8 +67,11 @@ int main(int argc, char *argv[])
 
 	while(device->run())
 	{
-		driver->beginScene(true, true, video::SColor(255, 255, 255, 255));
+		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
 		receptionEvennement.majNiveau();
+
+		// Affichage et chargement des niveaux 
+		
 		
 		sceneManager->drawAll();
 		driver->endScene();
