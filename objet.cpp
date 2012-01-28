@@ -4,28 +4,19 @@
 
 #include "case.hpp"
 
-using namespace irr;
+using namespace std;
 
-Objet::Objet(TypeObjet type, scene::ISceneManager *sceneManager, scene::IAnimatedMeshSceneNode *parent) :
+Objet::Objet() :
+	m_TypeDeLObjet(NULL_OBJET)
+{ cerr << "Objet : constructeur par defaut OK" << endl; }
+
+Objet::Objet(TypeObjet type) :
 	m_TypeDeLObjet(type)
-{
-	switch(m_TypeDeLObjet)
-	{
-		/*
-		case : 
-			m_Mesh = sceneManager->getMesh("data/mesh/objet/"));
-			break;
-		*/
-		default : m_Mesh = NULL;
-	}
-	if(m_Mesh != NULL)
-	{
-		m_Mesh->setMaterialFlag(video::EMF_LIGHTING, false);
-		/*
-		m_Mesh->setMaterialTexture(0, driver->getTexture("data/textures/objets/");
-		*/
-	}
-}
+{ cerr << "Objet : constructeur normal de la classe OK" << endl; }
+
+Objet::Objet(const Objet &objetACopier) :
+	m_TypeDeLObjet(objetACopier.m_TypeDeLObjet)	
+{ cerr << "Objet : Constructeur de copie OK" << endl; }
 
 Objet::~Objet()
 {
@@ -33,14 +24,8 @@ Objet::~Objet()
 
 Objet & Objet::operator=(const Objet &objetACopier)
 {
+	cerr << "Objet : opérateur de copie ";
 	m_TypeDeLObjet = objetACopier.m_TypeDeLObjet;
-	
-	if(m_Mesh != NULL) delete m_Mesh;
-
-	if(objetACopier.m_Mesh != NULL)
-		m_Mesh = new scene::SMesh(*(objetACopier.m_Mesh));
-	else 
-		m_Mesh = NULL;
-
+	cerr << "OK" << endl;
 	return *this;
 }

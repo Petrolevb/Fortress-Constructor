@@ -1,33 +1,26 @@
+#include<iostream>
 #include<vector>
-
-#include<irrlicht/irrlicht.h>
 
 #include "niveau.hpp"
 #include "case.hpp"
 
-using namespace irr;
+using namespace std;
 
-Niveau::Niveau(scene::ISceneNode *parent, scene::ISceneManager *sceneManager) :
-	m_LINK_sceneManager(sceneManager)
+Niveau::Niveau()
 {
+	cout << "Niveau  constructeur normal de la classe" << endl;
 	m_Map.resize(1);
-	m_Map[0].push_back( /*new*/ Case(parent, sceneManager, MUR_UN));
+	m_Map[0].push_back(Case(MUR_UN));
 }
 
 Niveau::~Niveau()
 {
-/*
-	for(int i = 0; i < m_Map.size(); i++)
-		for(int j = 0; j < m_Map[i].size(); j++)
-			delete m_Map[i][j];
-			*/
 }
 
 void Niveau::creuse(int ligne, int colone, Direction direction)
 {
-	Case nouvelleCase(0, m_LINK_sceneManager, SOL), 
-	     nouveauMur(0, m_LINK_sceneManager, MUR_UN);
-	     // parent = 0, scene manager, type mur
+	Case nouvelleCase(SOL), 
+	     nouveauMur(MUR_UN);
 	switch(direction)
 	{
 		case HAUT :
@@ -41,11 +34,11 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 
 			// Ajoute une ligne si nécessaire
 			if(m_Map.size() <= (unsigned int)ligne+1)
-				m_Map.push_back(std::vector<Case>(0));
+				m_Map.push_back(vector<Case>(0));
 			// Ajoute les colones
 			m_Map[ligne].insert((m_Map[ligne].begin() + colone), nouvelleCase);
 			m_Map[ligne][colone+2] = nouveauMur;
-			m_Map[ligne+1][colone+1] = nouveauMur;
+			//m_Map[ligne+1][colone+1] = nouveauMur;
 			break;
 		case NORD :
 			break;
