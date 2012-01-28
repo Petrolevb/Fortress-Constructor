@@ -1,5 +1,5 @@
 CPP=g++
-CPPFLAGS=-Wextra  -Wall 
+CPPFLAGS=-g -Wextra  -Wall 
 
 SRC=$(wildcard *.cpp)
 INC=$(wildcard *.hpp)
