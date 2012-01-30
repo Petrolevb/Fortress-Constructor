@@ -1,7 +1,7 @@
 Faire les constructeur de copie
 
 T::T(const T& tACopier)
-
+	=> OK
 
 Dans le futur,
  class Case doit dériver de irr::scene::ISceneNode
