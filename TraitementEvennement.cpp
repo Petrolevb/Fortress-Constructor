@@ -70,10 +70,9 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode]; }
 
-void TraitementEvennement::majNiveau()
+void TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager)
 {
 	if(MouseState.LeftButtonDown)
 		m_Niveau->creuse(0, 0, EST);
-	if(IsKeyDown(KEY_KEY_A))
-		m_Niveau->afficheConsole();
+	m_Niveau->afficheConsole(sceneManager);
 }
