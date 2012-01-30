@@ -17,10 +17,36 @@ Niveau::~Niveau()
 {
 }
 
+void Niveau::afficheConsole()
+{
+	cout << endl << endl << endl;
+	// Affichage et chargement des niveaux 
+	// On n'affiche que les changements
+	for(int i = 0; i < m_Map.size(); i++)
+	{
+		for(int j = 0; j < m_Map[i].size(); j++)
+		{
+			switch(m_Map[i][j].getTypeDeLaCase())
+			{
+				case VIDE : cout << " "; break;
+				case MUR_UN : cout << "|"; break;
+				case MUR_DEUX_OPPOSES : cout << "H"; break;
+				case MUR_DEUX_ADJACENTS : cout << "L"; break;
+				case MUR_TROIS : cout << "U"; break;
+				case SOL : cout << "#"; break;
+				default : cout << " "; break;
+			}
+		}
+		cout << endl;
+	}
+}
+
 void Niveau::creuse(int ligne, int colone, Direction direction)
 {
 	Case nouvelleCase(SOL), 
 	     nouveauMur(MUR_UN);
+
+	vector<Case> nouveauVector;
 	switch(direction)
 	{
 		case HAUT :
@@ -37,7 +63,9 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 				m_Map.push_back(vector<Case>(0));
 			// Ajoute les colones
 			m_Map[ligne].insert((m_Map[ligne].begin() + colone), nouvelleCase);
-			m_Map[ligne][colone+2] = nouveauMur;
+			m_Map[ligne].insert((m_Map[ligne].begin() + colone+1), nouveauMur);
+			m_Map.insert((m_Map.begin() + ligne), nouveauVector);
+//			m_Map[ligne+1].insert((m_Map.begin() + colone), nouveauMur);
 			//m_Map[ligne+1][colone+1] = nouveauMur;
 			break;
 		case NORD :

@@ -74,4 +74,6 @@ void TraitementEvennement::majNiveau()
 {
 	if(MouseState.LeftButtonDown)
 		m_Niveau->creuse(0, 0, EST);
+	if(IsKeyDown(KEY_KEY_A))
+		m_Niveau->afficheConsole();
 }

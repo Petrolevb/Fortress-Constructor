@@ -8,21 +8,26 @@ using namespace std;
 Case::Case() :
 	m_Objet(NULL), 
 	m_TypeDeLaCase(VIDE), m_IsSmooth(false), 
-	m_EstFortifie(false), m_EstVisible(false)
+	m_EstFortifie(false)
 {
-	cerr << "Case : constructeur par défaut" << endl;
+	cerr << "Case : constructeur par défaut ";
+	m_Objet = new Objet(NULL_OBJET);
+	cerr << "OK" << endl;
 }
 
 Case::Case(TypeCase type) :
 	m_Objet(NULL),
 	m_TypeDeLaCase(type), m_IsSmooth(false), 
-	m_EstFortifie(false), m_EstVisible(true)	
+	m_EstFortifie(false)
 {
 	cerr << "Case : constructeur normal de la classe ";
+	m_Objet = new Objet(NULL_OBJET);
+	cerr << "OK" << endl;
 }
 
 Case::Case(const Case &caseACopier) :
-	m_TypeDeLaCase(caseACopier.m_TypeDeLaCase), m_IsSmooth(caseACopier.m_IsSmooth), 
+	m_TypeDeLaCase(caseACopier.m_TypeDeLaCase), 
+	m_IsSmooth(caseACopier.m_IsSmooth), 
 	m_EstFortifie(caseACopier.m_EstFortifie)
 {
 	cerr << "Case : constructeur de copie ";
@@ -38,17 +43,19 @@ Case::~Case()
 
 Case & Case::operator=(const Case &caseACopier)
 {
-	cerr << "Case : opérateur de copie ";
+	cerr << "Case : opérateur de copie : ";
 	m_TypeDeLaCase = caseACopier.m_TypeDeLaCase;
-	
-	if(m_Objet != NULL) delete m_Objet;
+	cerr << "Type, ";
 
+	if(m_Objet != NULL) delete m_Objet;
+	cerr << "Suppression Objet, ";
 	if(caseACopier.m_Objet != NULL)
 		m_Objet = new Objet(*(caseACopier.m_Objet));
-	
+	cerr << "Objet, ";
+
 	m_IsSmooth = caseACopier.m_IsSmooth;
 	m_EstFortifie = caseACopier.m_EstFortifie;
-	
+	cerr << "Smooth, Fortification, ";
 	cerr << "OK" << endl;
 	return *this;
 }

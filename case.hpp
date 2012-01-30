@@ -22,6 +22,9 @@ class Case
 		~Case();
 			
 		Case & operator=(const Case &caseACopier);
+		
+		// Accesseur
+		TypeCase getTypeDeLaCase() { return m_TypeDeLaCase; }
 
 		void ajoutObjet(Objet objet);
 		void retireObjet();
@@ -31,7 +34,6 @@ class Case
 		TypeCase m_TypeDeLaCase;
 		bool m_IsSmooth;
 		bool m_EstFortifie;
-		bool m_EstVisible;
 };
 
 #endif

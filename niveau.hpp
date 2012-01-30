@@ -25,6 +25,8 @@ class Niveau
 		 * la mise à jour des cases autour
 		 */
 		void creuse(int ligne, int colone, Direction direction);
+		//std::vector< std::vector<TypeCase> > chaineNiveau();
+		void afficheConsole();
 	private :
 		
 		std::vector< std::vector<Case> > m_Map;

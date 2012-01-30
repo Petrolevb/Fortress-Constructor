@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	// Initialisation des composants du programme
 	// après un tableau, pour le moment, un seul
 	// ISceneNode *parent = 0, ISceneManager *
-	Niveau niveau1();
+	Niveau niveau1;
 	cerr << "Initialisation des niveaux" << endl;
 	
 	// Initialisation des redéfinitions
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	scene::IMeshSceneNode *mur_trois = sceneManager->addMeshSceneNode(mesh);
 	
 	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
-//	mur_trois->setMaterialTexture(0, driver->getTexture("data/texture/plafond.jpg"));
+	mur_trois->setMaterialTexture(0, driver->getTexture("data/texture/mur trois.png"));
 
 	SKeyMap keyMap[5];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -64,15 +64,12 @@ int main(int argc, char *argv[])
 	 * noVerticalMovement (bool), jumpSpeed
 	 */
 	sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, -1, keyMap, 5, true, 0.4);
-
+	
+	vector< vector<TypeCase> > niveauEnCase, ancienNiveauEnCase;
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
 		receptionEvennement.majNiveau();
-
-		// Affichage et chargement des niveaux 
-		
-		
 		sceneManager->drawAll();
 		driver->endScene();
 	}
