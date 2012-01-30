@@ -10,7 +10,7 @@ Case::Case() :
 	m_TypeDeLaCase(VIDE), m_IsSmooth(false), 
 	m_EstFortifie(false)
 {
-	cerr << "Case : constructeur par défaut ";
+	cerr << "Case : constructeur par défaut " << endl << '\t';
 	m_Objet = new Objet(NULL_OBJET);
 	cerr << "OK" << endl;
 }
@@ -20,7 +20,7 @@ Case::Case(TypeCase type) :
 	m_TypeDeLaCase(type), m_IsSmooth(false), 
 	m_EstFortifie(false)
 {
-	cerr << "Case : constructeur normal de la classe ";
+	cerr << "Case : constructeur normal de la classe " << endl << '\t';
 	m_Objet = new Objet(NULL_OBJET);
 	cerr << "OK" << endl;
 }
@@ -30,7 +30,7 @@ Case::Case(const Case &caseACopier) :
 	m_IsSmooth(caseACopier.m_IsSmooth), 
 	m_EstFortifie(caseACopier.m_EstFortifie)
 {
-	cerr << "Case : constructeur de copie ";
+	cerr << "Case : constructeur de copie " << endl << '\t';
 	
 	if(caseACopier.m_Objet != NULL)
 		m_Objet = new Objet(*(caseACopier.m_Objet));
@@ -45,17 +45,14 @@ Case & Case::operator=(const Case &caseACopier)
 {
 	cerr << "Case : opérateur de copie : ";
 	m_TypeDeLaCase = caseACopier.m_TypeDeLaCase;
-	cerr << "Type, ";
 
 	if(m_Objet != NULL) delete m_Objet;
-	cerr << "Suppression Objet, ";
+	cerr << endl << '\t';
 	if(caseACopier.m_Objet != NULL)
 		m_Objet = new Objet(*(caseACopier.m_Objet));
-	cerr << "Objet, ";
 
 	m_IsSmooth = caseACopier.m_IsSmooth;
 	m_EstFortifie = caseACopier.m_EstFortifie;
-	cerr << "Smooth, Fortification, ";
 	cerr << "OK" << endl;
 	return *this;
 }
