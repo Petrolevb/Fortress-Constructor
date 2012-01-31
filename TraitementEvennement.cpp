@@ -77,5 +77,16 @@ bool TraitementEvennement::majNiveau()
 	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST); changement = true; }
 	if(MouseState.RightButtonDown)
 	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD); changement = true; }
+
+
+	if(IsKeyDown(KEY_UP))
+	{ changement = true; m_Niveau->setLigneInit(m_Niveau->getLigneInit()+1); }
+	if(IsKeyDown(KEY_DOWN))
+	{ changement = true; m_Niveau->setLigneInit(m_Niveau->getLigneInit()-1); }
+	if(IsKeyDown(KEY_LEFT))
+	{ changement = true; m_Niveau->setColoneInit(m_Niveau->getColoneInit()+1); }
+	if(IsKeyDown(KEY_RIGHT))
+	{ changement = true; m_Niveau->setColoneInit(m_Niveau->getLigneInit()-1); }
+
 	return changement;
 }
