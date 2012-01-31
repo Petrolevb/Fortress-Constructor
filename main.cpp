@@ -38,12 +38,6 @@ int main(int argc, char *argv[])
 	cerr << "Initialisation du gestionnaire d'évennement" << endl;
 	device->setEventReceiver(&receptionEvennement);
 	
-	scene::IMesh *mesh = sceneManager->getMesh("data/mesh/mur_trois.obj");
-	scene::IMeshSceneNode *mur_trois = sceneManager->addMeshSceneNode(mesh);
-	
-	mur_trois->setMaterialFlag(video::EMF_LIGHTING, false);
-	mur_trois->setMaterialTexture(0, driver->getTexture("data/texture/mur trois.png"));
-
 	SKeyMap keyMap[5];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
 	keyMap[0].KeyCode = KEY_KEY_Z;
@@ -65,11 +59,10 @@ int main(int argc, char *argv[])
 	 */
 	sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, -1, keyMap, 5, true, 0.4);
 	
-	vector< vector<TypeCase> > niveauEnCase, ancienNiveauEnCase;
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
-		receptionEvennement.majNiveau();
+		receptionEvennement.majNiveau(sceneManager);
 		sceneManager->drawAll();
 		driver->endScene();
 	}
