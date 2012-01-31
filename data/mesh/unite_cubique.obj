@@ -1,6 +1,6 @@
-# Blender v2.61 (sub 0) OBJ File: 'unite cubique.blend'
+# Blender v2.61 (sub 0) OBJ File: 'unite_cubique.blend'
 # www.blender.org
-mtllib unite cubique.mtl
+mtllib unite_cubique.mtl
 o Cube
 v 1.000000 -1.500000 -1.000000
 v 1.000000 -1.500000 1.000000
