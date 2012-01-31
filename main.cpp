@@ -59,13 +59,25 @@ int main(int argc, char *argv[])
 	 */
 	sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, -1, keyMap, 5, true, 0.4);
 	niveau1.afficheConsole(sceneManager);
+	// affichage en haut a droite des m_InitColone et m_InitLigne
+	core::stringw positionCase = L"Ligne ";
+		positionCase += + niveau1.getLigneInit();
+		positionCase +=  " : Colone ";
+		positionCase += niveau1.getColoneInit();
+
+	device->setWindowCaption(positionCase.c_str());
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
 		if(receptionEvennement.majNiveau())
 		{
 			// réinit de la scene
-			
+			core::array<scene::ISceneNode *> meshs;
+			sceneManager->getSceneNodesFromType(scene::ESNT_MESH, meshs);
+			for(int i = 0; i < meshs.size(); i++)
+				meshs[i]->remove();
+
+
 			// affichage
 			niveau1.afficheConsole(sceneManager);
 
