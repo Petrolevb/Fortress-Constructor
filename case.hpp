@@ -33,7 +33,8 @@ class Case
 {
 	public :
 		Case();
-		Case(TypeCase type); 
+		Case(TypeCase type);
+		Case(TypeObjet typeObjet); // Constructeur automatique d'une case sol avec un objet chargé
 		Case(const Case &caseACopier);
 		~Case();
 			

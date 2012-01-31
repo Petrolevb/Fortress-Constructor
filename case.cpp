@@ -10,7 +10,7 @@ Case::Case() :
 	m_TypeDeLaCase(VIDE), m_IsSmooth(false), 
 	m_EstFortifie(false)
 {
-	cerr << "Case : constructeur par défaut " << endl << '\t';
+	cerr << "Case : constructeur par défaut " << '\t';
 	m_Objet = new Objet(NULL_OBJET);
 	cerr << "OK" << endl;
 }
@@ -20,8 +20,17 @@ Case::Case(TypeCase type) :
 	m_TypeDeLaCase(type), m_IsSmooth(false), 
 	m_EstFortifie(false)
 {
-	cerr << "Case : constructeur normal de la classe " << endl << '\t';
+	cerr << "Case : constructeur normal de la classe "  << '\t';
 	m_Objet = new Objet(NULL_OBJET);
+	cerr << "OK" << endl;
+}
+
+Case::Case(TypeObjet typeObjet):
+	m_TypeDeLaCase(SOL), m_IsSmooth(false),
+	m_EstFortifie(false)
+{
+	cerr << "Case : constructeur SOL + Objet de la classe " << '\t';
+	m_Objet = new Objet(typeObjet);
 	cerr << "OK" << endl;
 }
 
