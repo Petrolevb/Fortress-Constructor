@@ -68,6 +68,14 @@ int main(int argc, char *argv[])
 			
 			// affichage
 			niveau1.afficheConsole(sceneManager);
+
+			// affichage en haut a droite des m_InitColone et m_InitLigne
+			core::stringw positionCase = L"Ligne ";
+			positionCase += + niveau1.getLigneInit();
+			positionCase +=  " : Colone ";
+			positionCase += niveau1.getColoneInit();
+
+			device->setWindowCaption(positionCase.c_str());
 		}
 		sceneManager->drawAll();
 		driver->endScene();
