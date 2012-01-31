@@ -1,7 +1,9 @@
-Faire les constructeur de copie
+Faire les constructeur de copie :
+	T::T(const T& tACopier)
+=> OK
 
-T::T(const T& tACopier)
-	=> OK
+Réinitialiser les mesh, effacer le contenu du sceneManager
+
 
 Dans le futur,
  class Case doit dériver de irr::scene::ISceneNode
