@@ -3,6 +3,8 @@
 
 #include<vector>
 
+#include<irrlicht/irrlicht.h>
+
 #include"case.hpp"
 
 typedef enum{
@@ -25,11 +27,16 @@ class Niveau
 		 * la mise à jour des cases autour
 		 */
 		void creuse(int ligne, int colone, Direction direction);
-		//std::vector< std::vector<TypeCase> > chaineNiveau();
-		void afficheConsole();
+
+		void afficheConsole(irr::scene::ISceneManager *sceneManager);
+
+		int getLigneInit() { return m_Init_Ligne; }
+		int getColoneInit() { return m_Init_Colone; } 
+
 	private :
-		
 		std::vector< std::vector<Case> > m_Map;
+		int m_Init_Ligne;
+		int m_Init_Colone;
 };
 
 #endif
