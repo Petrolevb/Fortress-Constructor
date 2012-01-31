@@ -58,11 +58,17 @@ int main(int argc, char *argv[])
 	 * noVerticalMovement (bool), jumpSpeed
 	 */
 	sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, -1, keyMap, 5, true, 0.4);
-	
+	niveau1.afficheConsole(sceneManager);
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
-		receptionEvennement.majNiveau(sceneManager);
+		if(receptionEvennement.majNiveau())
+		{
+			// réinit de la scene
+			
+			// affichage
+			niveau1.afficheConsole(sceneManager);
+		}
 		sceneManager->drawAll();
 		driver->endScene();
 	}

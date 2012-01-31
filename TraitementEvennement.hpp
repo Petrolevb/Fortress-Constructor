@@ -22,7 +22,7 @@ class TraitementEvennement : public irr::IEventReceiver
 		virtual bool OnEvent(const irr::SEvent &event);
 		virtual bool IsKeyDown(irr::EKEY_CODE keyCode) const;
 
-		void majNiveau(irr::scene::ISceneManager *sceneManager);
+		bool majNiveau();
 
 		const SMouseState & GetMouseState() const
 		{ return MouseState; }

@@ -70,12 +70,12 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode]; }
 
-void TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager)
+bool TraitementEvennement::majNiveau()
 {
+	bool changement = false;
 	if(MouseState.LeftButtonDown)
-		m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST);
+	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST); changement = true; }
 	if(MouseState.RightButtonDown)
-		m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD);
-
-	m_Niveau->afficheConsole(sceneManager);
+	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD); changement = true; }
+	return changement;
 }
