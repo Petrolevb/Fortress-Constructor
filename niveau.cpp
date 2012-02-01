@@ -122,7 +122,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
 					break;
 				case MUR_TROIS_OUEST :
-					rotation = core::vector3df(0, 0, 0);
+					rotation = core::vector3df(0, 180, 0);
 					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
 					break;
 				case SOL : 
@@ -184,6 +184,65 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 		case BAS :
 			break;
 		case OUEST :
+			if(colone-2 < 0) // Si on va creuser hors du tableau, il faut ajouter une colone complête
+			{
+				for(unsigned int i = 0; i < m_Map.size(); i++)
+					m_Map[i].insert(m_Map[i].begin(), Case(VIDE));
+				m_Init_Colone++; colone++;
+			}
+			switch(m_Map[ligne][colone-2].getTypeDeLaCase())
+			{
+				case VIDE :
+					m_Map[ligne][colone-2] = Case(MUR_UN_EST);
+				default : break;
+			}
+			switch(m_Map[ligne][colone-1].getTypeDeLaCase())
+			{
+				case VIDE :
+				case MUR_UN_EST :
+					m_Map[ligne][colone-1] = Case(SOL);
+				default : break;
+			}
+			if(ligne-1 < 0)
+			{
+				m_Map.insert(m_Map.begin(), vector<Case>());
+				m_Init_Ligne++;
+				ligne++;
+			}
+			// Case en bas à gauche
+			switch(m_Map[ligne-1][colone-1].getTypeDeLaCase())
+			{
+				case VIDE : m_Map[ligne-1][colone-1] = Case(MUR_UN_NORD); break;
+				case MUR_UN_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_OUEST);break; 
+				case MUR_UN_EST : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_EST); break; 
+				case MUR_UN_SUD : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_OPPOSES_NORD_SUD); break;
+				
+				case MUR_DEUX_OPPOSES_EST_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_SUD); break;
+				case MUR_DEUX_ADJACENTS_SUD_EST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_OUEST); break;
+				case MUR_DEUX_ADJACENTS_SUD_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_EST); break;
+
+				case MUR_DEUX_OPPOSES_NORD_SUD : 
+				case MUR_DEUX_ADJACENTS_NORD_EST : 
+				case MUR_DEUX_ADJACENTS_NORD_OUEST : 
+				default : break;
+			}
+			// Case en haut a gauche
+			switch(m_Map[ligne+1][colone-1].getTypeDeLaCase())
+			{
+				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR_UN_SUD); break;
+				case MUR_UN_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_OUEST);break; 
+				case MUR_UN_EST : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_EST); break; 
+				case MUR_UN_NORD : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_OPPOSES_NORD_SUD); break;
+				
+				case MUR_DEUX_OPPOSES_EST_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_NORD); break;
+				case MUR_DEUX_ADJACENTS_SUD_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_EST); break;
+				case MUR_DEUX_ADJACENTS_NORD_EST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_OUEST); break;
+
+				case MUR_DEUX_OPPOSES_NORD_SUD : 
+				case MUR_DEUX_ADJACENTS_SUD_EST :
+				case MUR_DEUX_ADJACENTS_NORD_OUEST : 
+				default : break;
+			}
 			break;
 		case EST :
 			/* Ajoute un Sol à droite, un mur_un_sud diagonale haut droite, un mur_un_nord diagonale bas droite */
@@ -206,7 +265,7 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			// Fin ajout du SOL a droite
 
 			// Ajout des MUR_SUD et MUR_NORD de chaque coté du SOL
-			// MUR SUD
+			// Case en haut : MUR SUD
 				while(m_Map[ligne+1].size() <= (colone+1))
 					m_Map[ligne+1].insert(m_Map[ligne+1].begin(), Case(VIDE));
 				
@@ -218,7 +277,7 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 					case MUR_UN_OUEST : m_Map[ligne+1][colone+1] = Case(MUR_DEUX_ADJACENTS_SUD_OUEST); break;
 					default : break;
 				}
-			// MUR NORD
+			// Case en bas : MUR NORD
 				if(ligne-1 < 0)
 				{
 					m_Map.insert(m_Map.begin(), vector<Case>());
