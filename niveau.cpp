@@ -17,20 +17,20 @@ Niveau::Niveau() :
 	cout << endl << '\t';
 	
 	// Initialisation d'une petite salle, porte d'entrée de la forteresse
-	m_Map[0].push_back(Case(MUR_UN_SUD));
-	m_Map[0].push_back(Case(MUR_DEUX_ADJACENTS_SUD_EST));
+	m_Map[0].push_back(Case(MUR));
+	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(SOL)); // Après, Case(PORTE)
-	m_Map[0].push_back(Case(MUR_DEUX_ADJACENTS_SUD_OUEST));
-	m_Map[0].push_back(Case(MUR_UN_SUD));
+	m_Map[0].push_back(Case(MUR));
+	m_Map[0].push_back(Case(MUR));
 
 	m_Map[1].push_back(Case(VIDE));
-	m_Map[1].push_back(Case(MUR_UN_EST));
+	m_Map[1].push_back(Case(MUR));
 	m_Map[1].push_back(Case(SOL));
-	m_Map[1].push_back(Case(MUR_UN_OUEST));
+	m_Map[1].push_back(Case(MUR));
 
 	m_Map[2].push_back(Case(VIDE));
 	m_Map[2].push_back(Case(VIDE));
-	m_Map[2].push_back(Case(MUR_UN_SUD));
+	m_Map[2].push_back(Case(MUR));
 
 	cout << "OK" << endl;
 }
@@ -61,73 +61,16 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 		for(unsigned int j = 0; j < m_Map[i].size(); j++)
 		{
 			scene::IMesh *meshCourant = NULL;
-			core::vector3df rotation(0, 0, 0);
 
 			switch(m_Map[i][j].getTypeDeLaCase())
 			{
-				case VIDE : continue;
-				case MUR_UN_NORD : 
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_un.obj");
-					break;
-				case MUR_UN_SUD : 
-					rotation = core::vector3df(0, 180, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_un.obj");
-					break;
-				case MUR_UN_EST : 
-					rotation = core::vector3df(0, 90, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_un.obj");
-					break;
-				case MUR_UN_OUEST :
-					rotation = core::vector3df(0, -90, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_un.obj");
-					break;
-
-				case MUR_DEUX_OPPOSES_NORD_SUD :
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_opposes.obj");
-					break;
-				case MUR_DEUX_OPPOSES_EST_OUEST :
-					rotation = core::vector3df(0, 90, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_opposes.obj");
-					break;
-
-				case MUR_DEUX_ADJACENTS_NORD_OUEST :
-					rotation = core::vector3df(0, 90, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_adjacents.obj");
-					break;
-				case MUR_DEUX_ADJACENTS_NORD_EST : 
-					rotation = core::vector3df(0, 180, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_adjacents.obj");
-					break;
-				case MUR_DEUX_ADJACENTS_SUD_OUEST :
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_adjacents.obj");
-					break;
-				case MUR_DEUX_ADJACENTS_SUD_EST :
-					rotation = core::vector3df(0, -90, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_deux_adjacents.obj");
-					break;
-
-				case MUR_TROIS_NORD : 
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
-					break;
-				case MUR_TROIS_SUD :
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
-					break;
-				case MUR_TROIS_EST :
-					rotation = core::vector3df(0, 0, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
-					break;
-				case MUR_TROIS_OUEST :
-					rotation = core::vector3df(0, 180, 0);
-					meshCourant = sceneManager->getMesh("data/mesh/mur_trois.obj");
+				case MUR : 
+					meshCourant = sceneManager->getMesh("data/mesh/murs.obj");
 					break;
 				case SOL : 
 					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond.obj");
 					break;
+				case VIDE :
 				default : continue;
 			}
 			
@@ -163,7 +106,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						 core::vector3df(j*(largeurBox + DISTANCE_ECART),
 						 		 0,
 								 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
-						 rotation,   // rotation
+						 core::vector3df(0, 0, 0),   // rotation
 						 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 						);
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -193,13 +136,13 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			switch(m_Map[ligne][colone-2].getTypeDeLaCase())
 			{
 				case VIDE :
-					m_Map[ligne][colone-2] = Case(MUR_UN_EST);
+					m_Map[ligne][colone-2] = Case(MUR);
 				default : break;
 			}
 			switch(m_Map[ligne][colone-1].getTypeDeLaCase())
 			{
 				case VIDE :
-				case MUR_UN_EST :
+				case MUR :
 					m_Map[ligne][colone-1] = Case(SOL);
 				default : break;
 			}
@@ -212,35 +155,13 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			// Case en bas à gauche
 			switch(m_Map[ligne-1][colone-1].getTypeDeLaCase())
 			{
-				case VIDE : m_Map[ligne-1][colone-1] = Case(MUR_UN_NORD); break;
-				case MUR_UN_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_OUEST);break; 
-				case MUR_UN_EST : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_EST); break; 
-				case MUR_UN_SUD : m_Map[ligne-1][colone-1] = Case(MUR_DEUX_OPPOSES_NORD_SUD); break;
-				
-				case MUR_DEUX_OPPOSES_EST_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_SUD); break;
-				case MUR_DEUX_ADJACENTS_SUD_EST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_OUEST); break;
-				case MUR_DEUX_ADJACENTS_SUD_OUEST : m_Map[ligne-1][colone-1] = Case(MUR_TROIS_EST); break;
-
-				case MUR_DEUX_OPPOSES_NORD_SUD : 
-				case MUR_DEUX_ADJACENTS_NORD_EST : 
-				case MUR_DEUX_ADJACENTS_NORD_OUEST : 
+				case VIDE : m_Map[ligne-1][colone-1] = Case(MUR); break;
 				default : break;
 			}
 			// Case en haut a gauche
 			switch(m_Map[ligne+1][colone-1].getTypeDeLaCase())
 			{
-				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR_UN_SUD); break;
-				case MUR_UN_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_OUEST);break; 
-				case MUR_UN_EST : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_ADJACENTS_NORD_EST); break; 
-				case MUR_UN_NORD : m_Map[ligne+1][colone-1] = Case(MUR_DEUX_OPPOSES_NORD_SUD); break;
-				
-				case MUR_DEUX_OPPOSES_EST_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_NORD); break;
-				case MUR_DEUX_ADJACENTS_SUD_OUEST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_EST); break;
-				case MUR_DEUX_ADJACENTS_NORD_EST : m_Map[ligne+1][colone-1] = Case(MUR_TROIS_OUEST); break;
-
-				case MUR_DEUX_OPPOSES_NORD_SUD : 
-				case MUR_DEUX_ADJACENTS_SUD_EST :
-				case MUR_DEUX_ADJACENTS_NORD_OUEST : 
+				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR); break;
 				default : break;
 			}
 			break;
@@ -253,28 +174,26 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 				m_Map[ligne][colone+1] = Case(SOL);
 
 				if(m_Map[ligne].size() <= (colone+2))
-					m_Map[ligne].push_back(Case(MUR_UN_OUEST));
+					m_Map[ligne].push_back(Case(MUR));
 				else // cela signifie qu'il y a quelque chose en "colone+2"
 				{
 					switch(m_Map[ligne][colone+2].getTypeDeLaCase())
 					{
-						case VIDE : m_Map[ligne][colone+2] = Case(MUR_UN_OUEST); break;
+						case VIDE : m_Map[ligne][colone+2] = Case(MUR); break;
 						default : break;
 					}
 				}
 			// Fin ajout du SOL a droite
 
-			// Ajout des MUR_SUD et MUR_NORD de chaque coté du SOL
-			// Case en haut : MUR SUD
+			// Case en haut : 
 				while(m_Map[ligne+1].size() <= (colone+1))
-					m_Map[ligne+1].insert(m_Map[ligne+1].begin(), Case(VIDE));
+					m_Map[ligne+1].insert(m_Map[ligne+1].begin() + m_Map[ligne+1].size(), Case(VIDE));
 				
 				switch(m_Map[ligne+1][colone+1].getTypeDeLaCase())
 				{
 					case VIDE : 
-						m_Map[ligne+1][colone+1] = Case(MUR_UN_SUD);
+						m_Map[ligne+1][colone+1] = Case(MUR);
 						break;
-					case MUR_UN_OUEST : m_Map[ligne+1][colone+1] = Case(MUR_DEUX_ADJACENTS_SUD_OUEST); break;
 					default : break;
 				}
 			// Case en bas : MUR NORD
@@ -288,9 +207,7 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 					m_Map[ligne-1].insert(m_Map[ligne-1].begin(), Case(VIDE));
 				switch(m_Map[ligne-1][colone+1].getTypeDeLaCase())
 				{
-					case VIDE : m_Map[ligne-1][colone+1] = Case(MUR_UN_NORD); break;
-					case MUR_UN_OUEST : m_Map[ligne-1][colone+1] = Case(MUR_DEUX_ADJACENTS_NORD_OUEST); break;
-					case MUR_DEUX_ADJACENTS_SUD_OUEST : m_Map[ligne-1][colone+1] = Case(MUR_TROIS_EST); break;
+					case VIDE : m_Map[ligne-1][colone+1] = Case(MUR); break;
 					default : break; // Si ce n'est pas une case que l'on vient d'ajouter
 				}
 
@@ -312,7 +229,7 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			// Case en haut a gauche
 			switch(m_Map[ligne+1][colone-1].getTypeDeLaCase())
 			{
-				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR_UN_EST); break;
+				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR); break;
 				default : break;
 			}
 
@@ -320,21 +237,21 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			switch(m_Map[ligne+1][colone].getTypeDeLaCase())
 			{
 				case VIDE : 
-				case MUR_UN_SUD : m_Map[ligne+1][colone] = Case(SOL); break;
+				case MUR : m_Map[ligne+1][colone] = Case(SOL); break;
 				default : break;
 			}
 
 			// Case en haut a droite
 			switch(m_Map[ligne+1][colone+1].getTypeDeLaCase())
 			{
-				case VIDE : m_Map[ligne+1][colone+1] = Case(MUR_UN_OUEST); break;
+				case VIDE : m_Map[ligne+1][colone+1] = Case(MUR); break;
 				default : break;
 			}
 			
 			// Case tout en haut
 			switch(m_Map[ligne+2][colone].getTypeDeLaCase())
 			{
-				case VIDE : m_Map[ligne+2][colone] = Case(MUR_UN_SUD); break;
+				case VIDE : m_Map[ligne+2][colone] = Case(MUR); break;
 				default : break;
 			};
 			break;
