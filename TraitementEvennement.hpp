@@ -28,6 +28,7 @@ class TraitementEvennement : public irr::IEventReceiver
 		{ return MouseState; }
 	private :
 		bool m_KeyIsDown[irr::KEY_KEY_CODES_COUNT];
+		bool m_KeyIsDownOld[irr::KEY_KEY_CODES_COUNT];
 		bool m_IsShiftDown;
 		bool m_IsCtrlDown;
 
