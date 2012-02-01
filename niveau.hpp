@@ -29,9 +29,12 @@ class Niveau
 		void creuse(int ligne, int colone, Direction direction);
 
 		void afficheConsole(irr::scene::ISceneManager *sceneManager);
-
+		
+		// Accesseurs
 		int getLigneInit() { return m_Init_Ligne; }
+		void setLigneInit(int val) { m_Init_Ligne = val; }
 		int getColoneInit() { return m_Init_Colone; } 
+		void setColoneInit(int val) { m_Init_Colone = val; }
 
 	private :
 		std::vector< std::vector<Case> > m_Map;
