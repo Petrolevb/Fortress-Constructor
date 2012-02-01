@@ -74,18 +74,17 @@ int main(int argc, char *argv[])
 			// réinit de la scene
 			core::array<scene::ISceneNode *> meshs;
 			sceneManager->getSceneNodesFromType(scene::ESNT_MESH, meshs);
-			for(int i = 0; i < meshs.size(); i++)
+			for(unsigned int i = 0; i < meshs.size(); i++)
 				meshs[i]->remove();
-
 
 			// affichage
 			niveau1.afficheConsole(sceneManager);
 
 			// affichage en haut a droite des m_InitColone et m_InitLigne
 			core::stringw positionCase = L"Ligne ";
-			positionCase += + niveau1.getLigneInit();
+			positionCase += + (niveau1.getLigneInit()+1);
 			positionCase +=  " : Colone ";
-			positionCase += niveau1.getColoneInit();
+			positionCase += (niveau1.getColoneInit()+1);
 
 			device->setWindowCaption(positionCase.c_str());
 		}
