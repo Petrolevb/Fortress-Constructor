@@ -5,6 +5,9 @@ Faire les constructeur de copie :
 Réinitialiser les mesh, effacer le contenu du sceneManager
 => OK
 
+Migration des addMeshSceneNode en addOctreeMeshSceneNode
+	Optimisation du rendu
+	Calcul uniquement des unitées visibles
 
 Dans le futur,
  class Case doit dériver de irr::scene::ISceneNode
