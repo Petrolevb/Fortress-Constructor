@@ -79,7 +79,7 @@ bool TraitementEvennement::majNiveau()
 	bool changement = false;
 	if(MouseState.LeftButtonDown)
 	{
-		if(m_IsShiftDown)
+		if(m_IsShiftDown|| m_IsCtrlDown)
 			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), OUEST); 
 		else
 			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST); 

@@ -19,7 +19,7 @@ Niveau::Niveau() :
 	// Initialisation d'une petite salle, porte d'entrée de la forteresse
 	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(SOL)); // Après, Case(PORTE)
+	m_Map[0].push_back(Case(PORTE_NORD)); // Après, Case(PORTE)
 	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(MUR));
 
@@ -61,7 +61,8 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 		for(unsigned int j = 0; j < m_Map[i].size(); j++)
 		{
 			scene::IMesh *meshCourant = NULL;
-
+			scene::IMesh *meshObjet = NULL;
+			core::vector3df rotationObjet(0, 0, 0);
 			switch(m_Map[i][j].getTypeDeLaCase())
 			{
 				case MUR : 
@@ -69,6 +70,16 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					break;
 				case SOL : 
 					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond.obj");
+					switch(m_Map[i][j].getTypeObjet())
+					{
+						case PORTE_NORD :
+							rotationObjet = core::vector3df(0, 90, 0);
+						case PORTE_EST :
+							meshObjet = sceneManager->getMesh("data/mesh/objets/porte.obj");
+							break;
+						default :
+							break;
+					}
 					break;
 				case VIDE :
 				default : continue;
@@ -109,6 +120,20 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						 core::vector3df(0, 0, 0),   // rotation
 						 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 						);
+			if(meshObjet != NULL)
+			{
+				scene::IMeshSceneNode *objet = sceneManager->
+					addMeshSceneNode(meshObjet,  // mesh
+							 sceneManager->getRootSceneNode(), // parent
+							 -1, // id par defaut
+							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
+							 		 0,
+									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
+							 rotationObjet,   // rotation
+							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
+							);
+				objet->setMaterialFlag(video::EMF_LIGHTING, false);
+			}
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
 		}
 		//cout << endl;

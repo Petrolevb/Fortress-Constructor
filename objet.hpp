@@ -9,7 +9,8 @@ typedef enum {
 	LIT,
 	CONSTRUCTION,
 
-	PORTE,
+	PORTE_NORD,
+	PORTE_EST,
 	PONT,
 
 	ESCALIER_HAUT,
@@ -28,6 +29,8 @@ class Objet
 		~Objet();
 
 		Objet & operator=(const Objet &objetACopier);
+
+		TypeObjet getTypeObjet() { return m_TypeDeLObjet; }
 
 	private :
 		TypeObjet m_TypeDeLObjet;

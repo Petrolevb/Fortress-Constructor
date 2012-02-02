@@ -23,7 +23,7 @@ class Case
 		
 		// Accesseur
 		TypeCase getTypeDeLaCase() { return m_TypeDeLaCase; }
-
+		TypeObjet getTypeObjet() { return m_Objet->getTypeObjet(); }
 		void ajoutObjet(Objet objet);
 		void retireObjet();
 		
