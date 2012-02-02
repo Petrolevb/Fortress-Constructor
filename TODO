@@ -5,6 +5,11 @@ Faire les constructeur de copie :
 Réinitialiser les mesh, effacer le contenu du sceneManager
 => OK
 
+Ajout gestion animation de la porte
+
+Retexturation du mesh de la porte
+
+
 Migration des addMeshSceneNode en addOctreeMeshSceneNode
 	Optimisation du rendu
 	Calcul uniquement des unitées visibles
