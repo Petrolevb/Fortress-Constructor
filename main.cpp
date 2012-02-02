@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 		if(receptionEvennement.majNiveau())
 		{
 			// réinit de la scene
-			core::array<scene::ISceneNode *> meshs;
-			sceneManager->getSceneNodesFromType(scene::ESNT_MESH, meshs);
+			core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
+			sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
 			for(unsigned int i = 0; i < meshs.size(); i++)
 				meshs[i]->remove();
 

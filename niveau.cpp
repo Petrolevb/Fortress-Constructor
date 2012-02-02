@@ -60,9 +60,11 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 	{
 		for(unsigned int j = 0; j < m_Map[i].size(); j++)
 		{
-			scene::IMesh *meshCourant = NULL;
-			scene::IMesh *meshObjet = NULL;
-			core::vector3df rotationObjet(0, 0, 0);
+			scene::IAnimatedMesh *meshCourant = NULL, 
+					     *meshObjet = NULL;
+			core::vector3df rotationObjet(0, 0, 0),
+					positionMesh(0, 0, 0);
+
 			switch(m_Map[i][j].getTypeDeLaCase())
 			{
 				case MUR : 
@@ -110,6 +112,13 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			 *  |/
 			 *   ---> X>
 			 **/
+			scene::IMeshSceneNode *element = sceneManager->addOctreeSceneNode(meshCourant->getMesh(0));
+			element->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
+								  // position : x, y, z
+			// Pas de rotation, pas de mise à l'echelle
+
+
+			/*
 			scene::IMeshSceneNode *element = sceneManager->
 				addMeshSceneNode(meshCourant,  // mesh
 						 sceneManager->getRootSceneNode(), // parent
@@ -120,8 +129,13 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						 core::vector3df(0, 0, 0),   // rotation
 						 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 						);
+			*/
 			if(meshObjet != NULL)
 			{
+				scene::IMeshSceneNode *objet = sceneManager->addOctreeSceneNode(meshObjet->getMesh(0));
+				objet->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
+				objet->setRotation(rotationObjet);
+				/*
 				scene::IMeshSceneNode *objet = sceneManager->
 					addMeshSceneNode(meshObjet,  // mesh
 							 sceneManager->getRootSceneNode(), // parent
@@ -132,6 +146,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							 rotationObjet,   // rotation
 							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 							);
+				*/
 				objet->setMaterialFlag(video::EMF_LIGHTING, false);
 			}
 			element->setMaterialFlag(video::EMF_LIGHTING, false);

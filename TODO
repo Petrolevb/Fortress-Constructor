@@ -13,6 +13,7 @@ Retexturation du mesh de la porte
 Migration des addMeshSceneNode en addOctreeMeshSceneNode
 	Optimisation du rendu
 	Calcul uniquement des unitées visibles
+=> OK
 
 Dans le futur,
  class Case doit dériver de irr::scene::ISceneNode
