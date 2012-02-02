@@ -74,11 +74,22 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode] && !m_KeyIsDownOld[keyCode]; }
 
-bool TraitementEvennement::majNiveau()
+bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::ICameraSceneNode *camera)
 {
 	bool changement = false;
-	if(MouseState.LeftButtonDown)
+	if(MouseState.LeftButtonDown || MouseState.RightButtonDown)
 	{
+		// Récupération du gestionnaire de collisions
+		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
+		scene::ISceneNode *mesh = collisionManager->getSceneNodeFromCameraBB(camera);
+		// Récupération de la position du mesh ciblé
+		core::vector3df positionMesh = mesh->getAbsolutePosition();
+		// Recalcul de Colone et de Ligne à partir des trois composantes
+		f32 colone = 0, 
+		    ligne = 0;
+
+	}
+		/*
 		if(m_IsShiftDown|| m_IsCtrlDown)
 			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), OUEST); 
 		else
@@ -87,6 +98,7 @@ bool TraitementEvennement::majNiveau()
 	}
 	if(MouseState.RightButtonDown)
 	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD); changement = true; }
+	*/
 
 /*
 	if(IsKeyDown(KEY_UP))
