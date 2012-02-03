@@ -83,8 +83,28 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
 		scene::ISceneNode *mesh = collisionManager->getSceneNodeFromCameraBB(camera);
 		// Récupération de la position du mesh ciblé
-		core::vector3df positionMesh = mesh->getAbsolutePosition();
-		// Recalcul de Colone et de Ligne à partir des trois composantes
+		core::vector3df positionMesh = mesh->getAbsolutePosition(),
+				positionCamera = camera->getAbsolutePosition();
+
+		// Calcul de la distance entre les deux points 
+		f32 distance = /* core::vector3df(positionMesh.X - positionCamera.X, 
+					       positionMesh.Y - positionCamera.Y,
+					       positionMesh.Z - positionCamera.Z).getLength(),*/
+				core::vector2df(positionMesh.X - positionCamera.X, positionMesh.Z - positionCamera.Z).getLength(),
+		// calcul de l'angle du vecteur entre les deux points
+		    angle = asinf( (positionMesh.X - positionCamera.X) / distance);
+
+		// Déduction de la direction
+		if(angle >= - core::PI/4.0f && angle < core::PI/4.0f)
+			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD);
+		else if(angle >= core::PI/4.0f && angle < 3.0f*core::PI/4.0f)
+			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), OUEST);
+		else if(angle >= 3.0f*core::PI/4.0f && angle < -3.0f*core::PI/4.0f)
+			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), SUD);
+		else
+			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST);
+		changement = true;
+		// Recalcul de Colone et de Ligne à partir des trois composantes de la caméra
 		f32 colone = 0, 
 		    ligne = 0;
 
