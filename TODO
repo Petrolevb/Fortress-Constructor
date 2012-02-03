@@ -7,6 +7,8 @@ Réinitialiser les mesh, effacer le contenu du sceneManager
 
 Ajout gestion animation de la porte
 
+Miggration d'animation de la porte vers collision avec le clic gauche (ou droit avec menu contextuel)
+
 Retexturation du mesh de la porte
 
 
