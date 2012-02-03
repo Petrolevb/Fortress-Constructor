@@ -66,8 +66,6 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 			break; // Fin du MOUSE_INPUT_EVENT
 		default : break;
 	}
-		
-		
 	return false;
 }
 
@@ -97,7 +95,12 @@ bool TraitementEvennement::majNiveau()
 	{ changement = true; m_Niveau->setColoneInit(m_Niveau->getColoneInit()+1); }
 	if(IsKeyDown(KEY_LEFT))
 	{ changement = true; m_Niveau->setColoneInit(m_Niveau->getColoneInit()-1); }
-*/	
+*/
+	if(IsKeyDown(KEY_KEY_A))
+	{
+		//changement = true;
+		m_Niveau->ouverturePorte();
+	}
 	if(IsKeyDown(KEY_F1))
 	{
 		if(m_IsCtrlDown)

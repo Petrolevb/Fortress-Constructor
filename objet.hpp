@@ -31,9 +31,15 @@ class Objet
 		Objet & operator=(const Objet &objetACopier);
 
 		TypeObjet getTypeObjet() { return m_TypeDeLObjet; }
+		bool getActif() { return m_Actif; }
+		void setActif(bool value) { m_Actif = value; }
+		bool getActiviteEnCours() { return m_ActiviteEnCours; }
+		void setActiviteEnCours(bool value) { m_ActiviteEnCours = value; }
 
 	private :
 		TypeObjet m_TypeDeLObjet;
+		bool m_Actif;
+		bool m_ActiviteEnCours;
 };
 
 #endif

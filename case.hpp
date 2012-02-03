@@ -24,6 +24,12 @@ class Case
 		// Accesseur
 		TypeCase getTypeDeLaCase() { return m_TypeDeLaCase; }
 		TypeObjet getTypeObjet() { return m_Objet->getTypeObjet(); }
+		bool getObjetActif() { return m_Objet->getActif(); }
+		void setObjetActif(bool value) { m_Objet->setActif(value); }
+		bool getObjetActivite() { return m_Objet->getActiviteEnCours(); }
+		void setObjetActivite(bool value) { m_Objet->setActiviteEnCours(value) ;}
+
+
 		void ajoutObjet(Objet objet);
 		void retireObjet();
 		

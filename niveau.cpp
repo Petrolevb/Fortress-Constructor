@@ -19,7 +19,7 @@ Niveau::Niveau() :
 	// Initialisation d'une petite salle, porte d'entrée de la forteresse
 	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(PORTE_NORD)); // Après, Case(PORTE)
+	m_Map[0].push_back(Case(PORTE_NORD)); 
 	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(MUR));
 
@@ -41,21 +41,13 @@ Niveau::~Niveau()
 
 void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 {
-	
-//	cout << endl << endl << endl;
 	// Affichage et chargement des niveaux 
-	// On n'affiche que les changements
 	const float DISTANCE_ECART = 0.1, 
 		  largeurBox = 2,
 		  longueurBox = 2;
 	
 	try
 	{
-		// Vide tout le scene manager
-		// On récupère tous les mesh et on les drop
-		//core::array<scene::ISceneNode*> meshsEnregistres;
-		//sceneManager->getSceneNodesFromType(scene::ESNT_MESH, meshsEnregistres);
-
 	for(unsigned int i = 0; i < m_Map.size(); i++)
 	{
 		for(unsigned int j = 0; j < m_Map[i].size(); j++)
@@ -77,7 +69,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						case PORTE_NORD :
 							rotationObjet = core::vector3df(0, 90, 0);
 						case PORTE_EST :
-							meshObjet = sceneManager->getMesh("data/mesh/objets/porte.obj");
+							meshObjet = sceneManager->getMesh("data/mesh/objets/porte.3ds");
 							break;
 						default :
 							break;
@@ -86,8 +78,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				case VIDE :
 				default : continue;
 			}
-			
-			// addMeshSceneNode : mesh, parent, id, position, rotation, scale
 			
 			core::aabbox3df box = meshCourant->getBoundingBox();
 			core::vector3df pointsBox[8];
@@ -117,41 +107,25 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 								  // position : x, y, z
 			// Pas de rotation, pas de mise à l'echelle
 
-
-			/*
-			scene::IMeshSceneNode *element = sceneManager->
-				addMeshSceneNode(meshCourant,  // mesh
-						 sceneManager->getRootSceneNode(), // parent
-						 -1, // id par defaut
-						 core::vector3df(j*(largeurBox + DISTANCE_ECART),
-						 		 0,
-								 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
-						 core::vector3df(0, 0, 0),   // rotation
-						 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
-						);
-			*/
 			if(meshObjet != NULL)
 			{
-				scene::IMeshSceneNode *objet = sceneManager->addOctreeSceneNode(meshObjet->getMesh(0));
-				objet->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
-				objet->setRotation(rotationObjet);
-				/*
-				scene::IMeshSceneNode *objet = sceneManager->
-					addMeshSceneNode(meshObjet,  // mesh
-							 sceneManager->getRootSceneNode(), // parent
-							 -1, // id par defaut
-							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
-							 		 0,
-									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
-							 rotationObjet,   // rotation
-							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
-							);
-				*/
+				scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
+					meshObjet, 
+					sceneManager->getRootSceneNode(),
+					-1, // id par défaut
+					core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
+					rotationObjet); // scale par défaut, booléen suivant par défaut
 				objet->setMaterialFlag(video::EMF_LIGHTING, false);
+				if(m_Map[i][j].getObjetActivite())
+				{
+					objet->setAnimationSpeed(50);
+					objet->setLoopMode(true);
+					// Animation finie
+					m_Map[i][j].setObjetActivite(false);
+				}
 			}
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
 		}
-		//cout << endl;
 	}
 	} catch (exception ex)
 	{ cerr << ex.what() << endl; }
@@ -299,4 +273,13 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 			break;
 		default: break;
 	}
+}
+
+void Niveau::ouverturePorte()
+{
+	// On connait pour le moment la position de la seule et unique porte, après sera donné la position
+	// position : Ligne 0, colone 2
+	m_Map[0][2].setObjetActif(!m_Map[0][2].getObjetActif());
+	// De toute faceon, l'objet change d'état
+	m_Map[0][2].setObjetActivite(true);
 }

@@ -75,7 +75,13 @@ int main(int argc, char *argv[])
 			core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
 			sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
 			for(unsigned int i = 0; i < meshs.size(); i++)
-				meshs[i]->remove();
+				if(meshs[i] != NULL)
+				{ meshs[i]->removeAll(); meshs[i]->remove(); }
+
+			sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
+			for(unsigned int i = 0; i < meshs.size(); i++)
+				if(meshs[i] != NULL)
+				{ meshs[i]->removeAll(); meshs[i]->remove(); }
 
 			// affichage
 			niveau1.afficheConsole(sceneManager);
