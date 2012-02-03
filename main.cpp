@@ -6,6 +6,7 @@
 
 // Include Redéfinitions
 #include"TraitementEvennement.hpp"
+#include"definitions.hpp"
 
 // Include Spécial programme
 #include "niveau.hpp"
@@ -57,13 +58,18 @@ int main(int argc, char *argv[])
 	 * keyMapArray, keyMapSize
 	 * noVerticalMovement (bool), jumpSpeed
 	 */
-	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, -1, keyMap, 5, true, 0.4);
+	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, ID_NEstPasAtteingable,
+									      keyMap, 5, true, 0.4);
 	niveau1.afficheConsole(sceneManager);
 	// affichage en haut a droite des m_InitColone et m_InitLigne
 	core::stringw positionCase = L"Ligne ";
-		positionCase += + niveau1.getLigneInit();
+		positionCase += niveau1.getLigneInit();
+		positionCase += ";";
+		positionCase += camera->getPosition().Z;
 		positionCase +=  " : Colone ";
 		positionCase += niveau1.getColoneInit();
+		positionCase += ";";
+		positionCase += camera->getPosition().X;
 
 	device->setWindowCaption(positionCase.c_str());
 	while(device->run())
@@ -81,13 +87,24 @@ int main(int argc, char *argv[])
 			niveau1.afficheConsole(sceneManager);
 
 			// affichage en haut a droite des m_InitColone et m_InitLigne
+			/*
 			core::stringw positionCase = L"Ligne ";
 			positionCase += + (niveau1.getLigneInit()+1);
 			positionCase +=  " : Colone ";
 			positionCase += (niveau1.getColoneInit()+1);
+			*/
 
 			device->setWindowCaption(positionCase.c_str());
 		}
+	core::stringw positionCase = L"Ligne ";
+		positionCase += niveau1.getLigneInit();
+		positionCase += ";";
+		positionCase += (int)(camera->getPosition().Z / 2);
+		positionCase +=  " : Colone ";
+		positionCase += niveau1.getColoneInit();
+		positionCase += ";";
+		positionCase += (int)(camera->getPosition().X/2);
+			device->setWindowCaption(positionCase.c_str());
 		sceneManager->drawAll();
 		driver->endScene();
 	}
