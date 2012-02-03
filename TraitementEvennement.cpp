@@ -1,6 +1,7 @@
 #include<irrlicht/irrlicht.h>
 
 #include "TraitementEvennement.hpp"
+#include "definitions.hpp"
 
 #include "niveau.hpp"
 
@@ -74,53 +75,39 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode] && !m_KeyIsDownOld[keyCode]; }
 
-bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::ICameraSceneNode *camera)
+bool TraitementEvennement::majNiveau(scene::ICameraSceneNode *camera)
 {
 	bool changement = false;
 	if(MouseState.LeftButtonDown || MouseState.RightButtonDown)
 	{
-		// Récupération du gestionnaire de collisions
-		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
-		scene::ISceneNode *mesh = collisionManager->getSceneNodeFromCameraBB(camera);
-		// Récupération de la position du mesh ciblé
-		core::vector3df positionMesh = mesh->getAbsolutePosition(),
-				positionCamera = camera->getAbsolutePosition();
-
-		// Calcul de la distance entre les deux points 
-		f32 distance = /* core::vector3df(positionMesh.X - positionCamera.X, 
-					       positionMesh.Y - positionCamera.Y,
-					       positionMesh.Z - positionCamera.Z).getLength(),*/
-				core::vector2df(positionMesh.X - positionCamera.X, positionMesh.Z - positionCamera.Z).getLength(),
+		// Récupération d'un trait de la caméra vers sa direction à une distance de 2
+		core::line3df rayon;
+		rayon.start = camera->getPosition();
+		rayon.end = rayon.start + (camera->getTarget() - rayon.start)*2.0f;
+		
 		// calcul de l'angle du vecteur entre les deux points
-		    angle = asinf( (positionMesh.X - positionCamera.X) / distance);
+		f32 angle = asinf( (rayon.end.Z - rayon.start.Z) / rayon.getLength());
+		
+		// Recalcul de Colone et de Ligne à partir des trois composantes de la caméra
+		int colone = (int)(rayon.start.X/2.0f), 
+		    ligne = (int)(rayon.start.Z/2.0f); // Largeur et longeur des box 
+		if(ligne < 0 || colone < 0)
+			return false;
 
 		// Déduction de la direction
-		if(angle >= - core::PI/4.0f && angle < core::PI/4.0f)
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD);
-		else if(angle >= core::PI/4.0f && angle < 3.0f*core::PI/4.0f)
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), OUEST);
-		else if(angle >= 3.0f*core::PI/4.0f && angle < -3.0f*core::PI/4.0f)
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), SUD);
+		if(angle >= -45  && angle < 45)
+			m_Niveau->creuse(ligne, colone, NORD);
+		else if(angle >= 45 && angle < 135)
+			m_Niveau->creuse(ligne, colone, EST);
+		else if(angle >=  135 && angle < -135)
+			m_Niveau->creuse(ligne, colone, SUD);
 		else
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST);
+			m_Niveau->creuse(ligne, colone, OUEST);
 		changement = true;
-		// Recalcul de Colone et de Ligne à partir des trois composantes de la caméra
-		f32 colone = 0, 
-		    ligne = 0;
+		
 
 	}
-		/*
-		if(m_IsShiftDown|| m_IsCtrlDown)
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), OUEST); 
-		else
-			m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), EST); 
-		changement = true; 
-	}
-	if(MouseState.RightButtonDown)
-	{ m_Niveau->creuse(m_Niveau->getLigneInit(), m_Niveau->getColoneInit(), NORD); changement = true; }
-	*/
-
-/*
+/*	
 	if(IsKeyDown(KEY_UP))
 	{ changement = true; m_Niveau->setLigneInit(m_Niveau->getLigneInit()+1); }
 	if(IsKeyDown(KEY_DOWN))
