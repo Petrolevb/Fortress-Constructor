@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	cerr << "Initialisation du driver video" << endl;
 	scene::ISceneManager *sceneManager = device->getSceneManager();
 	cerr << "Recuperation du scene manager" << endl;
-	
+	(device->getCursorControl())->setVisible(false);
 	// Initialisation des composants du programme
 	// après un tableau, pour le moment, un seul
 	// ISceneNode *parent = 0, ISceneManager *
