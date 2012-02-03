@@ -45,7 +45,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 //	cout << endl << endl << endl;
 	// Affichage et chargement des niveaux 
 	// On n'affiche que les changements
-	const float DISTANCE_ECART = 0.1, 
+	const float DISTANCE_ECART = 0, // 0.1, 
 		  largeurBox = 2,
 		  longueurBox = 2;
 	
