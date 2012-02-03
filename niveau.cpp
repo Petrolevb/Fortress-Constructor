@@ -3,6 +3,8 @@
 
 #include<irrlicht/irrlicht.h>
 
+#include "definitions.hpp"
+
 #include "niveau.hpp"
 #include "case.hpp"
 
@@ -87,10 +89,12 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			
 			// addMeshSceneNode : mesh, parent, id, position, rotation, scale
 			
+			/*
 			core::aabbox3df box = meshCourant->getBoundingBox();
 			core::vector3df pointsBox[8];
 
 			box.getEdges(pointsBox);
+			*/
 			/*
 			 * 
 			 * Les 8 points sont : 
@@ -113,7 +117,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			scene::IMeshSceneNode *element = sceneManager->
 				addMeshSceneNode(meshCourant,  // mesh
 						 sceneManager->getRootSceneNode(), // parent
-						 -1, // id par defaut
+						 ID_EstAtteignable, // id 
 						 core::vector3df(j*(largeurBox + DISTANCE_ECART),
 						 		 0,
 								 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
@@ -125,7 +129,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				scene::IMeshSceneNode *objet = sceneManager->
 					addMeshSceneNode(meshObjet,  // mesh
 							 sceneManager->getRootSceneNode(), // parent
-							 -1, // id par defaut
+							 ID_EstAtteignable, // id par defaut
 							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
 							 		 0,
 									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
