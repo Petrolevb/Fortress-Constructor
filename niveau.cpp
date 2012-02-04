@@ -66,27 +66,30 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			switch(m_Map[i][j].getTypeDeLaCase())
 			{
 				case MUR : 
-					meshCourant = sceneManager->getMesh("data/mesh/murs.obj");
+					meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
+					if(!meshCourant) exit(1);
 					break;
 				case SOL : 
-					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond.obj");
+					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
 					switch(m_Map[i][j].getTypeObjet())
 					{
 						case PORTE_NORD :
 							rotationObjet = core::vector3df(0, 90, 0);
 						case PORTE_EST :
-							meshObjet = sceneManager->getMesh("data/mesh/objets/porte.obj");
+							meshObjet = sceneManager->getMesh("data/mesh/objets/porte_test.3ds");
+							if(!meshObjet) exit(1);
 							break;
 						default :
 							break;
 					}
+					if(!meshCourant) exit(1);
 					break;
 				case VIDE :
 				default : continue;
 			}
 			
 			// addMeshSceneNode : mesh, parent, id, position, rotation, scale
-			
+				
 			core::aabbox3df box = meshCourant->getBoundingBox();
 			core::vector3df pointsBox[8];
 
@@ -133,6 +136,9 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 							);
 				objet->setMaterialFlag(video::EMF_LIGHTING, false);
+				objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
+				// Trouver le moyen de mettre les deux
+				//objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
 			}
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
 		}

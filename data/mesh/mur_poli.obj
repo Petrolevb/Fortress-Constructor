@@ -1,6 +1,6 @@
 # Blender v2.61 (sub 0) OBJ File: 'murs.blend'
 # www.blender.org
-mtllib murs.mtl
+mtllib mur_poli.mtl
 o Cube
 v 1.000000 -1.500000 -1.000000
 v 1.000000 1.500000 -1.000000
