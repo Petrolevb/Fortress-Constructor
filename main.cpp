@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 	device->setWindowCaption(positionCase.c_str());
 	while(device->run())
 	{
-		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
+		driver->beginScene(true, true, video::SColor(255, 0, 0, 0));
 		if(receptionEvennement.majNiveau())
 		{
 			// réinit de la scene
