@@ -53,11 +53,8 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 	
 	try
 	{
-		// Vide tout le scene manager
-		// On récupère tous les mesh et on les drop
-		//core::array<scene::ISceneNode*> meshsEnregistres;
-		//sceneManager->getSceneNodesFromType(scene::ESNT_MESH, meshsEnregistres);
-
+	
+	scene::IMetaTriangleSelector *metaSelector = sceneManager->createMetaTriangleSelector();
 	for(unsigned int i = 0; i < m_Map.size(); i++)
 	{
 		for(unsigned int j = 0; j < m_Map[i].size(); j++)
@@ -65,10 +62,13 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			scene::IMesh *meshCourant = NULL;
 			scene::IMesh *meshObjet = NULL;
 			core::vector3df rotationObjet(0, 0, 0);
+			scene::ITriangleSelector *selector = NULL;
 			switch(m_Map[i][j].getTypeDeLaCase())
 			{
 				case MUR : 
 					meshCourant = sceneManager->getMesh("data/mesh/murs.obj");
+					selector = sceneManager->createOctreeTriangleSelector(meshCourant, 
+											      sceneManager->getRootSceneNode());
 					break;
 				case SOL : 
 					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond.obj");
@@ -87,14 +87,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				default : continue;
 			}
 			
-			// addMeshSceneNode : mesh, parent, id, position, rotation, scale
-			
-			/*
-			core::aabbox3df box = meshCourant->getBoundingBox();
-			core::vector3df pointsBox[8];
-
-			box.getEdges(pointsBox);
-			*/
 			/*
 			 * 
 			 * Les 8 points sont : 
@@ -117,19 +109,41 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			scene::IMeshSceneNode *element = sceneManager->
 				addMeshSceneNode(meshCourant,  // mesh
 						 sceneManager->getRootSceneNode(), // parent
-						 ID_EstAtteignable, // id 
+						 // Seul les murs sont creusable, et impassable
+						 (m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable), 
 						 core::vector3df(j*(largeurBox + DISTANCE_ECART),
 						 		 0,
 								 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
 						 core::vector3df(0, 0, 0),   // rotation
 						 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 						);
+			if(selector)
+			{
+				metaSelector->addTriangleSelector(selector);
+				/* 
+				 * Marche très bien uniquement pour le premier scene node, mais pas pour les suivants
+
+				element->setTriangleSelector(selector);
+				scene::ISceneNodeAnimator *anim = sceneManager->createCollisionResponseAnimator(
+									selector, 
+									sceneManager->getActiveCamera(), // SceneNode affecté
+									(meshCourant->getBoundingBox().MaxEdge - meshCourant->getBoundingBox().getCenter()), // Radius, code donné dans la librairie
+									core::vector3df(0, 0, 0)); // Gravité desactivée
+									// Les deux autres paramêtres par défaut
+				sceneManager->getActiveCamera()->addAnimator(anim);
+				
+				**/
+				selector->drop();
+				//anim->drop();
+			}
+			
+
 			if(meshObjet != NULL)
 			{
 				scene::IMeshSceneNode *objet = sceneManager->
 					addMeshSceneNode(meshObjet,  // mesh
 							 sceneManager->getRootSceneNode(), // parent
-							 ID_EstAtteignable, // id par defaut
+							 ID_EstAtteignable, 
 							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
 							 		 0,
 									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
@@ -141,9 +155,33 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
 		}
 		//cout << endl;
+		if(metaSelector)
+		{
+			core::array<scene::ISceneNode*> sceneNodes;
+			sceneManager->getSceneNodesFromType(scene::ESNT_ANY, sceneNodes);
+			for(u32 i = 0; i < sceneNodes.size(); i++)
+			{
+				if(sceneNodes[i]->getID() == ID_EstAtteignable)
+				{
+					// La bounding box du mesh
+					core::aabbox3df boundingBoxBase = sceneNodes[i]->getBoundingBox();
+					scene::ISceneNodeAnimatorCollisionResponse *anim = sceneManager->createCollisionResponseAnimator
+								(
+									metaSelector,
+									sceneManager->getActiveCamera(),
+									(boundingBoxBase.MaxEdge - boundingBoxBase.getCenter()),
+									core::vector3df(0, 0, 0) // Gravitée nulle 
+								);
+					metaSelector->drop();
+					sceneManager->getActiveCamera()->addAnimator(anim);
+					anim->drop();
+				}
+			}
+		}
 	}
 	} catch (exception ex)
 	{ cerr << ex.what() << endl; }
+
 }
 
 void Niveau::creuse(int ligne, int colone, Direction direction)
