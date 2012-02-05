@@ -75,19 +75,26 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 { return m_KeyIsDown[keyCode] && !m_KeyIsDownOld[keyCode]; }
 
-bool TraitementEvennement::majNiveau(scene::ICameraSceneNode *camera)
+bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::ICameraSceneNode *camera)
 {
 	bool changement = false;
 	if(MouseState.LeftButtonDown || MouseState.RightButtonDown)
 	{
 		// Récupération d'un trait de la caméra vers sa direction à une distance de 2
-		core::line3df rayon;
+		/*core::line3df rayon;
 		rayon.start = camera->getPosition();
-		rayon.end = rayon.start + (camera->getTarget() - rayon.start)*2.0f;
+		rayon.end = rayon.start + (camera->getTarget() - rayon.start).normalize()*1000.0f;*/
+		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
+
+		core::position2di  screenCoordinate = collisionManager->getScreenCoordinatesFrom3DPosition(camera->getPosition(), camera);
+		core::line3df rayon = collisionManager->getRayFromScreenCoordinates(screenCoordinate, camera);
 		
 		// calcul de l'angle du vecteur entre les deux points
 		f32 angle = asinf( (rayon.end.Z - rayon.start.Z) / rayon.getLength());
+		// Transformation en degres
+		angle *= 360/(2*core::PI);
 		
+
 		// Recalcul de Colone et de Ligne à partir des trois composantes de la caméra
 		int colone = (int)(rayon.start.X/2.0f), 
 		    ligne = (int)(rayon.start.Z/2.0f); // Largeur et longeur des box 
