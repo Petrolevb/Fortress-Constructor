@@ -126,9 +126,9 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					// Animation finie
 					m_Map[i][j].setObjetActivite(false);
 				}
-				objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
 				// Trouver le moyen de mettre les deux
-				//objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
+				objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
+				objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
 			}
 			element->setMaterialFlag(video::EMF_LIGHTING, false);
 		}
