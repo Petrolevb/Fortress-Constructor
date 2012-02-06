@@ -145,7 +145,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							 sceneManager->getRootSceneNode(), // parent
 							 ID_EstAtteignable, 
 							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
-							 		 0,
+							 		 ((m_Map[i][j].getTypeObjet() == PORTE) ? ID_Objet_Porte:ID_Objet),
 									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
 							 rotationObjet,   // rotation
 							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
