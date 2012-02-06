@@ -2,8 +2,10 @@
 *.swp
 *~
 
+test*
+
 *.dae
-*.3ds
+#*.3ds
 
 #*.blend
 #*.obj
