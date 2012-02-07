@@ -14,5 +14,7 @@ Migration des addMeshSceneNode en addOctreeMeshSceneNode
 	Optimisation du rendu
 	Calcul uniquement des unitées visibles
 
+Lors d'un clic, la caméra deviens n'importe quoi et la "camera->target()" change, du fait d'un camera->setTarget(0) dans le main
+
 Dans le futur,
  class Case doit dériver de irr::scene::ISceneNode
