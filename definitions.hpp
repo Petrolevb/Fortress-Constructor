@@ -1,6 +1,9 @@
 #ifndef HPP_DEFINITIONS
 #define HPP_DEFINITIONS
 
+const int LARGEUR_FENETRE = 800;
+const int HAUTEUR_FENETRE = 600;
+
 enum
 {
 	ID_NEstPasAtteingable = 0, // N'est pas touchable par la caméra
