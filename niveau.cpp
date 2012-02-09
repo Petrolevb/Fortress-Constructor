@@ -110,7 +110,9 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			 **/
 				scene::IMeshSceneNode *element = sceneManager->addOctreeSceneNode(meshCourant->getMesh(0));
 				element->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
-									  // position : x, y, z
+				element->setParent(sceneManager->getRootSceneNode()); // parent
+							 // Seul les murs sont creusable, et impassable
+				element->setID((m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable)); 
 				// Pas de rotation, pas de mise à l'echelle
 	
 				if(meshObjet)
@@ -121,15 +123,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
 						core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
 						rotationObjet); // scale par défaut, booléen suivant par défaut
-					scene::IMeshSceneNode *element = sceneManager->
-						addMeshSceneNode(meshCourant,  // mesh
-							 sceneManager->getRootSceneNode(), // parent
-							 // Seul les murs sont creusable, et impassable
-							 (m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable), 
-							 core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
-							 core::vector3df(0, 0, 0),   // rotation
-							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
-							);
 					objet->setMaterialFlag(video::EMF_LIGHTING, false);
 					if(m_Map[i][j].getObjetActivite()) // Si l'objet est actif (ouverture porte, etc...)
 					{

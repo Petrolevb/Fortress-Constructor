@@ -8,3 +8,6 @@
 	=> partie mise en commentaire /* BUG:#3
 
 #4 Collision totalement non fonctionnelle
+	=> rétablie pour le tout premier mesh
+
+#5 Collision avec la texture fait que la caméra change de position z
