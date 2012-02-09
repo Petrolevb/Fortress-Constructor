@@ -76,8 +76,8 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						break;
 					case SOL : 
 						if(m_Map[i][j].getIsSmooth())
-							//meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_poli.obj");  N'EXISTE PAS
-							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
+							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_poli.obj");
+							//meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
 						else
 							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
 						
