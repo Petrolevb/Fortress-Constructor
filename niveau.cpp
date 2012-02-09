@@ -3,6 +3,8 @@
 
 #include<irrlicht/irrlicht.h>
 
+#include "definitions.hpp"
+
 #include "niveau.hpp"
 #include "case.hpp"
 
@@ -49,43 +51,44 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 	
 	try
 	{
-	for(unsigned int i = 0; i < m_Map.size(); i++)
-	{
-		for(unsigned int j = 0; j < m_Map[i].size(); j++)
+		scene::IMetaTriangleSelector *metaSelector = sceneManager->createMetaTriangleSelector();
+		for(unsigned int i = 0; i < m_Map.size(); i++)
 		{
-			scene::IAnimatedMesh *meshCourant = NULL, 
-					     *meshObjet = NULL;
-			core::vector3df rotationObjet(0, 0, 0),
-					positionMesh(0, 0, 0);
-
-			switch(m_Map[i][j].getTypeDeLaCase())
+			for(unsigned int j = 0; j < m_Map[i].size(); j++)
 			{
-				case MUR : 
-					meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
-					if(!meshCourant) exit(1);
-					break;
-				case SOL : 
-					meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
-					switch(m_Map[i][j].getTypeObjet())
-					{
-						case PORTE_NORD :
-							rotationObjet = core::vector3df(0, 90, 0);
-						case PORTE_EST :
-							meshObjet = sceneManager->getMesh("data/mesh/objets/porte_test.3ds");
-							if(!meshObjet) exit(1);
-							break;
-						default :
-							break;
-					}
-					if(!meshCourant) exit(1);
-					break;
-				case VIDE :
-				default : continue;
-			}
-			core::aabbox3df box = meshCourant->getBoundingBox();
-			core::vector3df pointsBox[8];
-
-			box.getEdges(pointsBox);
+				scene::IAnimatedMesh *meshCourant = NULL, 
+						     *meshObjet = NULL;
+				core::vector3df rotationObjet(0, 0, 0),
+						positionMesh(0, 0, 0);
+	
+				scene::ITriangleSelector *selector = NULL;
+				switch(m_Map[i][j].getTypeDeLaCase())
+				{
+					case MUR : 
+						meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
+						if(!meshCourant) exit(1);
+						selector = sceneManager->createOctreeTriangleSelector(meshCourant, 
+												      sceneManager->getRootSceneNode());
+						break;
+					case SOL : 
+						meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
+						switch(m_Map[i][j].getTypeObjet())
+						{
+							case PORTE_NORD :
+								rotationObjet = core::vector3df(0, 90, 0);
+							case PORTE_EST :
+								meshObjet = sceneManager->getMesh("data/mesh/objets/porte_test.3ds");
+								if(!meshObjet) exit(1);
+								break;
+							default :
+								break;
+						}
+						if(!meshCourant) exit(1);
+						break;
+					case VIDE :
+					default : continue;
+				}
+			
 			/*
 			 * 
 			 * Les 8 points sont : 
@@ -105,36 +108,90 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			 *  |/
 			 *   ---> X>
 			 **/
-			scene::IMeshSceneNode *element = sceneManager->addOctreeSceneNode(meshCourant->getMesh(0));
-			element->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
-								  // position : x, y, z
-			// Pas de rotation, pas de mise à l'echelle
-
-			if(meshObjet != NULL)
-			{
-				scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
-					meshObjet, 
-					sceneManager->getRootSceneNode(),
-					-1, // id par défaut
-					core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
-					rotationObjet); // scale par défaut, booléen suivant par défaut
-				objet->setMaterialFlag(video::EMF_LIGHTING, false);
-				if(m_Map[i][j].getObjetActivite())
+				scene::IMeshSceneNode *element = sceneManager->addOctreeSceneNode(meshCourant->getMesh(0));
+				element->setPosition(core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)));
+									  // position : x, y, z
+				// Pas de rotation, pas de mise à l'echelle
+	
+				if(meshObjet)
 				{
-					objet->setAnimationSpeed(50);
-					objet->setLoopMode(true);
-					// Animation finie
-					m_Map[i][j].setObjetActivite(false);
+					scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
+						meshObjet, 
+						sceneManager->getRootSceneNode(),
+						((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
+						core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
+						rotationObjet); // scale par défaut, booléen suivant par défaut
+					scene::IMeshSceneNode *element = sceneManager->
+						addMeshSceneNode(meshCourant,  // mesh
+							 sceneManager->getRootSceneNode(), // parent
+							 // Seul les murs sont creusable, et impassable
+							 (m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable), 
+							 core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
+							 core::vector3df(0, 0, 0),   // rotation
+							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
+							);
+					objet->setMaterialFlag(video::EMF_LIGHTING, false);
+					if(m_Map[i][j].getObjetActivite()) // Si l'objet est actif (ouverture porte, etc...)
+					{
+						objet->setAnimationSpeed(50);
+						objet->setLoopMode(true);
+						// Animation finie
+						m_Map[i][j].setObjetActivite(false);
+					}
+					// Trouver le moyen de mettre les deux textures
+					objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
+					objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
 				}
-				// Trouver le moyen de mettre les deux
-				objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
-				objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
-			}
-			element->setMaterialFlag(video::EMF_LIGHTING, false);
-		}
-	}
-	} catch (exception ex)
+				element->setMaterialFlag(video::EMF_LIGHTING, false);
+				
+				if(selector)
+				{
+					metaSelector->addTriangleSelector(selector);
+					/* 
+					 * Marche très bien uniquement pour le premier scene node, mais pas pour les suivants
+	
+					element->setTriangleSelector(selector);
+					scene::ISceneNodeAnimator *anim = sceneManager->createCollisionResponseAnimator(
+										selector, 
+										sceneManager->getActiveCamera(), // SceneNode affecté
+										(meshCourant->getBoundingBox().MaxEdge - meshCourant->getBoundingBox().getCenter()), // Radius, code donné dans la librairie
+										core::vector3df(0, 0, 0)); // Gravité desactivée
+										// Les deux autres paramêtres par défaut
+					sceneManager->getActiveCamera()->addAnimator(anim);
+					
+					**/
+					selector->drop();
+					//anim->drop();
+				}
+			
+
+			} // Fin boucle de tous les mesh
+
+			if(metaSelector)
+			{
+				core::array<scene::ISceneNode*> sceneNodes;
+				sceneManager->getSceneNodesFromType(scene::ESNT_ANY, sceneNodes);
+				for(u32 i = 0; i < sceneNodes.size(); i++)
+				{
+					if(sceneNodes[i]->getID() == ID_EstAtteignable)
+					{
+						// La bounding box du mesh
+						core::aabbox3df boundingBoxBase = sceneNodes[i]->getBoundingBox();
+						scene::ISceneNodeAnimatorCollisionResponse *anim = sceneManager->createCollisionResponseAnimator
+									(
+										metaSelector,
+										sceneManager->getActiveCamera(),
+										(boundingBoxBase.MaxEdge - boundingBoxBase.getCenter()),
+										core::vector3df(0, 0, 0) // Gravitée nulle 
+									);
+						metaSelector->drop();
+						sceneManager->getActiveCamera()->addAnimator(anim);
+						anim->drop();
+	}	}	}	}	}
+	// Fin générale jusqu'au try
+	catch (exception ex)
 	{ cerr << ex.what() << endl; }
+
 }
 
 void Niveau::creuse(int ligne, int colone, Direction direction)
