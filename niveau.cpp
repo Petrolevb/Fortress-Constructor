@@ -136,15 +136,13 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			}
 			
 
-			if(meshObjet != NULL)
+			if(meshObjet)
 			{
 				scene::IMeshSceneNode *objet = sceneManager->
 					addMeshSceneNode(meshObjet,  // mesh
 							 sceneManager->getRootSceneNode(), // parent
-							 ID_EstAtteignable, 
-							 core::vector3df(j*(largeurBox + DISTANCE_ECART),
-							 		 ((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
-									 i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
+							 ((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
+							 core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),  // position : x, y, z
 							 rotationObjet,   // rotation
 							 core::vector3df(1.0f, 1.0f, 1.0f)  // scale
 							);
