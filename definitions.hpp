@@ -12,4 +12,12 @@ enum
 	ID_Objet_Porte = 1 << 1 // objet porte, id spécifique
 };
 
+typedef enum
+{
+	CREUSE = 0,
+	SMOOTH,
+	FORTIFIE,
+	AUCUNE_ACTION
+} Action;
+
 #endif

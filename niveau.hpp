@@ -27,6 +27,8 @@ class Niveau
 		 * la mise à jour des cases autour
 		 */
 		void creuse(int ligne, int colone, Direction direction);
+		void setSmooth(int ligne, int colone, Direction direction);
+
 		void ouverturePorte();
 		void afficheConsole(irr::scene::ISceneManager *sceneManager);
 		

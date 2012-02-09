@@ -64,14 +64,23 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				scene::ITriangleSelector *selector = NULL;
 				switch(m_Map[i][j].getTypeDeLaCase())
 				{
-					case MUR : 
-						meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
+					case MUR :
+						if(m_Map[i][j].getIsSmooth())
+							meshCourant = sceneManager->getMesh("data/mesh/mur_poli.obj");
+						else
+							meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
+
 						if(!meshCourant) exit(1);
 						selector = sceneManager->createOctreeTriangleSelector(meshCourant, 
 												      sceneManager->getRootSceneNode());
 						break;
 					case SOL : 
-						meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
+						if(m_Map[i][j].getIsSmooth())
+							//meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_poli.obj");  N'EXISTE PAS
+							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
+						else
+							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
+						
 						switch(m_Map[i][j].getTypeObjet())
 						{
 							case PORTE_NORD :
@@ -328,6 +337,18 @@ void Niveau::creuse(int ligne, int colone, Direction direction)
 		case SUD :
 			break;
 		default: break;
+	}
+}
+
+void Niveau::setSmooth(int ligne, int colone, Direction direction)
+{
+	switch(direction)
+	{
+		case NORD  : m_Map[ligne+1][colone].setSmooth(); break;
+		case SUD   : m_Map[ligne-1][colone].setSmooth(); break;
+		case EST   : m_Map[ligne][colone+1].setSmooth(); break;
+		case OUEST : m_Map[ligne][colone-1].setSmooth(); break;
+		default : break;
 	}
 }
 

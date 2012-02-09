@@ -29,6 +29,8 @@ class Case
 		bool getObjetActivite() { return m_Objet->getActiviteEnCours(); }
 		void setObjetActivite(bool value) { m_Objet->setActiviteEnCours(value) ;}
 
+		void setSmooth() { m_IsSmooth = true; }
+		bool getIsSmooth() { return m_IsSmooth; }
 
 		void ajoutObjet(Objet objet);
 		void retireObjet();

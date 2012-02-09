@@ -3,6 +3,7 @@
 
 #include<irrlicht/irrlicht.h>
 
+#include"definitions.hpp"
 #include "niveau.hpp"
 
 class TraitementEvennement : public irr::IEventReceiver
@@ -44,9 +45,8 @@ class TraitementEvennement : public irr::IEventReceiver
 		
 		bool m_ControleCamera; // Si le joueur clique, il perd le controle de la caméra pour sélectionner son option
 		Niveau *m_Niveau;
-		bool m_CreuseAction;
-		bool m_SmoothAction;
-		bool m_FortifieAction;
+		bool m_Action; // Action en cours
+		Action m_ActionEnCours;
 };
 
 

@@ -10,7 +10,7 @@ using namespace irr;
 TraitementEvennement::TraitementEvennement(Niveau *niveau) :
 	m_IsShiftDown(false), m_IsCtrlDown(false),
 	m_ControleCamera(true),
-	m_Niveau(niveau), m_CreuseAction(false), m_SmoothAction(false), m_FortifieAction(false)
+	m_Niveau(niveau), m_Action(false), m_ActionEnCours(AUCUNE_ACTION)
 {
 	for(u32 i = 0; i < KEY_KEY_CODES_COUNT; i++)
 	{ m_KeyIsDown[i] = false; m_KeyIsDownOld[i] = false; }
@@ -32,9 +32,9 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 					m_ControleCamera = true;
 					switch(event.GUIEvent.Caller->getID())
 					{
-						case ID_GUI_Creuse : m_CreuseAction = true; break;
-						case ID_GUI_Smooth : m_SmoothAction = true; break;
-						case ID_GUI_Fortifie : m_FortifieAction = true; break;
+						case ID_GUI_Creuse : m_Action = true; m_ActionEnCours = CREUSE; break;
+						case ID_GUI_Smooth : m_Action = true; m_ActionEnCours = SMOOTH; break;
+						case ID_GUI_Fortifie : m_Action = true; m_ActionEnCours = FORTIFIE; break;
 						case ID_GUI_Annuler : m_ControleCamera = true; MouseState.LeftButtonDown = false; break;
 						case ID_GUI_Default : 
 						default : break;
@@ -118,7 +118,7 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 			guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
 			L"Annuler", L"Annuler action");
 	}
-	if(m_CreuseAction)
+	if(m_Action)
 	{
 		// Récupération d'un trait de la caméra vers sa direction à une distance de 2
 		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
@@ -135,19 +135,34 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 		    ligne = (int)(rayon.start.Z/2.0f); // Largeur et longeur des box 
 		if(ligne < 0 || colone < 0)
 			return false;
-	
+		Direction directionAction;
 		// Déduction de la direction
 		if(angle >= -45  && angle < 45)
-			m_Niveau->creuse(ligne, colone, NORD);
+			directionAction = NORD;
 		else if(angle >= 45 && angle < 135)
-			m_Niveau->creuse(ligne, colone, EST);
+			directionAction = EST;
 		else if(angle >=  135 && angle < -135)
-			m_Niveau->creuse(ligne, colone, SUD);
+			directionAction = SUD;
 		else
-			m_Niveau->creuse(ligne, colone, OUEST);
-		
-		changement = true;
-		m_CreuseAction = false; // Action est effectuée (viens après)
+			directionAction = OUEST;
+		switch(m_ActionEnCours)
+		{
+			case CREUSE :
+				m_Niveau->creuse(ligne, colone, directionAction);
+				changement = true;
+				break;
+			case SMOOTH :
+				m_Niveau->setSmooth(ligne, colone, directionAction);
+				changement = true;
+				break;
+			case FORTIFIE :
+			case AUCUNE_ACTION :
+			default : break;
+		}
+
+		m_Action = false; // Action est effectuée 
+		m_ActionEnCours = AUCUNE_ACTION;
 	}
+	
 	return changement;
 }
