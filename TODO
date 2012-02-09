@@ -15,6 +15,7 @@ Migration des addMeshSceneNode en addOctreeMeshSceneNode
 	Calcul uniquement des unitées visibles
 
 Lors d'un clic, la caméra deviens n'importe quoi et la "camera->target()" change, du fait d'un camera->setTarget(0) dans le main
+=> OK
 
 Collision de tous les meshs et pas seulement d'un seul
 

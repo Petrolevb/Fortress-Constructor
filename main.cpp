@@ -84,10 +84,10 @@ int main(int argc, char *argv[])
 
 		// Si le joueur n'a pas le controle de la caméra, on la désactive
 		if(!receptionEvennement.getControleCamera())
-			sceneManager->setActiveCamera(0);
+			sceneManager->getActiveCamera()->setInputReceiverEnabled(false);
 		else 
-			sceneManager->setActiveCamera(camera);
-		
+			sceneManager->getActiveCamera()->setInputReceiverEnabled(true);
+
 		if(receptionEvennement.getControleCamera()) // Il faut faire ce test avant 
 		if(receptionEvennement.majNiveau(sceneManager, camera))
 		{
