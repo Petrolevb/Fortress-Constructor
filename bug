@@ -1,4 +1,10 @@
-Probleme d'angle avec l'arc sinus
+#1 Probleme d'angle avec l'arc sinus
 	=> OK
 
-Disparition curseur affichage gui
+#2 Disparition curseur affichage gui
+	=> OK
+
+#3 Erreur de segmentation sur le vidage des AnimatedMeshSceneNode
+	=> partie mise en commentaire /* BUG:#3
+
+#4 Collision totalement non fonctionnelle

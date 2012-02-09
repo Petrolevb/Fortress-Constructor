@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	cerr << "Initialisation du driver video" << endl;
 	scene::ISceneManager *sceneManager = device->getSceneManager();
 	cerr << "Recuperation du scene manager" << endl;
-	(device->getCursorControl())->setVisible(false);
+	device->getCursorControl()->setVisible(false);
 	gui::IGUIEnvironment *guiEnvironnement = sceneManager->getGUIEnvironment();
 	cerr << "Recuperation de l'environnement GUI" << endl;
 
@@ -81,13 +81,19 @@ int main(int argc, char *argv[])
 	device->setWindowCaption(positionCase.c_str());
 	while(device->run())
 	{
-		driver->beginScene(true, true, video::SColor(255, 100, 100, 255));
+		driver->beginScene(true, true, video::SColor(255, 0, 0, 0));
 
 		// Si le joueur n'a pas le controle de la caméra, on la désactive
 		if(!receptionEvennement.getControleCamera())
+		{
+			device->getCursorControl()->setVisible(true);
 			sceneManager->getActiveCamera()->setInputReceiverEnabled(false);
+		}
 		else 
+		{
 			sceneManager->getActiveCamera()->setInputReceiverEnabled(true);
+			device->getCursorControl()->setVisible(false);
+		}
 
 		if(receptionEvennement.getControleCamera()) // Il faut faire ce test avant 
 		if(receptionEvennement.majNiveau(sceneManager, camera))
@@ -98,30 +104,30 @@ int main(int argc, char *argv[])
 			for(unsigned int i = 0; i < meshs.size(); i++)
 				if(meshs[i] != NULL)
 				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-
+/* BUG:#3
 			sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
 			for(unsigned int i = 0; i < meshs.size(); i++)
 				if(meshs[i] != NULL)
 				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-
+BUG:#3 */
 			// affichage
 			niveau1.afficheConsole(sceneManager);
 
 
 			device->setWindowCaption(positionCase.c_str());
 		}
-	core::stringw positionCase = L"Ligne ";
-		positionCase += niveau1.getLigneInit();
-		positionCase += ";";
-		positionCase += (int)(camera->getPosition().Z / 2);
-		positionCase +=  " : Colone ";
-		positionCase += niveau1.getColoneInit();
-		positionCase += ";";
-		positionCase += (int)(camera->getPosition().X/2);
-			device->setWindowCaption(positionCase.c_str());
+		
+		core::stringw positionCase = L"Ligne ";
+			positionCase += (int)(camera->getPosition().Z / 2);
+			positionCase +=  " : Colone ";
+			positionCase += (int)(camera->getPosition().X/2);
+		device->setWindowCaption(positionCase.c_str());
+
+
 		sceneManager->drawAll();
-		if(!receptionEvennement.getControleCamera()) // Si le joueur ne controle pas la caméra, il y a un gui a afficher
+		if(!receptionEvennement.getControleCamera()) // Si le joueur ne controle pas la caméra, il y a un gui a affiche
 			guiEnvironnement->drawAll();
+		
 		driver->endScene();
 	}
 
