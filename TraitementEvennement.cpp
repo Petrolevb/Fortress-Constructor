@@ -134,8 +134,8 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 		angle *= 360/(2*core::PI);
 		
 				// Recalcul de Colone et de Ligne à partir des trois composantes de la caméra
-		int colone = (int)(rayon.start.X/2.0f), 
-		    ligne = (int)(rayon.start.Z/2.0f); // Largeur et longeur des box 
+		int colone = (int)(camera->getPosition().X/2 + 0.5), 
+		    ligne = (int)(camera->getPosition().Z/2 + 0.5); // Largeur et longeur des box 
 		if(ligne < 0 || colone < 0)
 			return false;
 		Direction directionAction;

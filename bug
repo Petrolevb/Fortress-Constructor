@@ -13,5 +13,6 @@
 #5 Collision avec la texture fait que la caméra change de position z
 
 #6 Repérage de la position un peu décallé
+	=> OK
 
 #7 SegFault au moment de quitter le programme
