@@ -93,6 +93,9 @@ bool TraitementEvennement::IsKeyDown(EKEY_CODE keyCode) const
 bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::ICameraSceneNode *camera)
 {
 	bool changement = false;
+	if(IsKeyDown(KEY_KEY_A))
+		m_Niveau->ouverturePorte();
+
 	if(MouseState.LeftButtonDown || MouseState.RightButtonDown)
 	{
 		//cette fonction est appellée uniquement avec un controle caméra

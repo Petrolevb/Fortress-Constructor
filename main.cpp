@@ -130,7 +130,7 @@ BUG:#3 */
 		
 		driver->endScene();
 	}
-
+	camera->drop();
 	guiEnvironnement->clear();
 	sceneManager->clear();
 	device->drop();

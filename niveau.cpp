@@ -77,7 +77,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					case SOL : 
 						if(m_Map[i][j].getIsSmooth())
 							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_poli.obj");
-							//meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
 						else
 							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_text.obj");
 						
@@ -165,8 +164,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					selector->drop();
 					//anim->drop();
 				}
-			
-
 			} // Fin boucle de tous les mesh
 
 			if(metaSelector)
@@ -186,10 +183,11 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 										(boundingBoxBase.MaxEdge - boundingBoxBase.getCenter()),
 										core::vector3df(0, 0, 0) // Gravitée nulle 
 									);
-						metaSelector->drop();
 						sceneManager->getActiveCamera()->addAnimator(anim);
 						anim->drop();
-	}	}	}	}	}
+			}	}	}
+			metaSelector->drop();
+	}	}
 	// Fin générale jusqu'au try
 	catch (exception ex)
 	{ cerr << ex.what() << endl; }

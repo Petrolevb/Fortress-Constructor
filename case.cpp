@@ -48,7 +48,7 @@ Case::Case(const Case &caseACopier) :
 }
 
 Case::~Case()
-{ }
+{ if(m_Objet) delete m_Objet; }
 
 Case & Case::operator=(const Case &caseACopier)
 {
