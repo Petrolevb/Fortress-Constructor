@@ -2,3 +2,117 @@
 
 Fortress Constructor est un outil pour reproduire une forteresse et 
 pouvoir la visualiser en 3D
+
+
+Fonctionnement du programme :
+    
+    Le joueur va se déplacer avec les touches zqds, cliquer pour pouvoir Creuser, Smoother ou Fortifier la zone ciblée
+    S'il clique, son choix est ensuite fait en cliquant sur le bouton correspondant
+
+
+Fonctionnement des sources :
+
+Mise en place d'une caméra FPS (qui ne peut pas sauter)
+    main.cpp:45-64
+
+Boucle principale :
+
+Vérification du controle de la caméra
+    Si non : il faut afficher le curseur, et
+        main.cpp:89
+    prévenir le scene manager que la caméra ne recoit pas les évennements
+        main.cpp:90
+    dans l'autre cas on fait exactement l'inverse
+
+Si on a le controle de la caméra et qu'il y a eu un changement effectué par le joueur
+    On récupère les Octree meshs dans un tableau
+    Pour chacun
+        On enleve chacun de ses fils
+        On l'enleve lui
+
+    Les meshs animés (porte par exemple) devraient pouvoir être retiré de la même facon, mais obtention d'une SEGFAULT,
+    référencée BUG 3
+
+    Appel de la fonction affiche
+
+Affichage de la scene, et si on ne controle pas la caméra, affichage de l'environnement utilisateur (GUI)
+
+Fin de la boucle
+
+
+Fonctionnement de la classe Niveau :
+    Contient un tableau de tableau de Case (m_Map : vector<vector<Case> >)
+        Les cases sont principalement définie par leur Type, et si elles sont de type SOL, par l'objet qu'elle peuvent contenir
+            Objet non implémenté pour le moment
+
+
+Traitement des évennements, 
+    Lors d'un évennement :
+        Si appuie sur un bouton du GUI :
+            On met la variable m_Action à true, et on définie le type de l'action en fonction du bouton
+        Si appui sur une touche,
+        Si appuie d'un bouton de souris :
+            On met la variable correspondante à true (ou false)
+
+
+    fonction majNiveau :
+        déclenchement des actions de portes avec appui sur la touche A, en développement
+
+        Si on appuie sur un bouton de la souris
+            Init de l'environnement utilisateur (GUI)
+            Passage du controle de la caméra à false
+            Ajout des 4 boutons
+
+        Si il y a une action
+            Récupération du manager de collisions
+            Récupération des coordonées de l'écrans
+            Récupération du rayon, de la caméra vers l'action
+                TraitementEvennement.cpp:129
+            Calcul de l'angle par rapport au "Nord" (z croissant)
+            Calcul de la position courante, en terme de ligne et de colone
+
+            Détermination de la direction en fonction de l'angle
+                Pour le moment 4, à l'avenir 8
+            Appel de la fonction correspondante à l'Action
+
+Action Smooth & Fortifie (cette dernière non développée pour le moment, abscence des meshs) :
+    Met a jour la variable Case correspondante
+        niveau.cpp:341-351
+
+Action Creuse :
+    En refactorisation, simplification de ce switch qui est énorme...
+
+
+
+Affichage (nécessite un renomage de la fonction) :
+    Définition de constantes (largeur = hauteur = 2 unité)
+    Création d'un metaTriangle pour les collisions
+    Pour chaque case de la map
+        Chargement du mesh en fonction du type et des attributs de la cases (Smooth, fortifié ou rien)
+        Si est de type mur
+            Ajout d'un triangleSelector pour le mesh
+
+        Ajout du mesh en OctreeSceneNode
+            niveau.cpp:119
+        Définition de sa position, du mesh parent, de l'identifiant (ID)
+        Si meshObjet est défini
+            Exactement la même chose
+        La lumière est désactivée sur l'élément
+        Si le triangleSelector est défini
+            On l'ajoute au metaTriangle
+
+        Si le metaTriangle est défini
+            Récupération de TOUS les SceneNode
+            Pour chacun
+                Si l'ID est l'identifiant d'un objet solide (collision donc)
+                    Création d'une collision avec la bounding box du mesh
+
+        => Bug, il semble que seul le premier mesh soit pris en compte, celui en position 0,0 dans le tableau
+
+                    
+
+
+
+
+
+
