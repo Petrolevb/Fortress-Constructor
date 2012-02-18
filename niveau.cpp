@@ -65,7 +65,9 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				switch(m_Map[i][j].getTypeDeLaCase())
 				{
 					case MUR :
-						if(m_Map[i][j].getIsSmooth())
+						if(m_Map[i][j].getIsFortifie())
+							meshCourant = sceneManager->getMesh("data/mesh/mur_fort.obj");
+						else if(m_Map[i][j].getIsSmooth())
 							meshCourant = sceneManager->getMesh("data/mesh/mur_poli.obj");
 						else
 							meshCourant = sceneManager->getMesh("data/mesh/mur_text.obj");
@@ -330,6 +332,31 @@ void Niveau::setSmooth(int ligne, int colone, Direction direction)
 		case EST   : m_Map[ligne][colone+1].setSmooth(); break;
 		case OUEST : m_Map[ligne][colone-1].setSmooth(); break;
 		default : break;
+	}
+}
+
+bool Niveau::fortifie(int ligne, int colone, Direction direction)
+{
+	int decallageLigne = 0, decallageColonne = 0;
+	switch(direction)
+	{
+		case NORD  : decallageLigne++; break;
+		case SUD   : decallageLigne--; break;
+		case EST   : decallageColonne++; break;
+		case OUEST : decallageColonne--; break;
+		default : break;
+	}
+	switch(m_Map[ligne+decallageLigne][colone+decallageColonne].getTypeDeLaCase())
+	{
+		// Seul un mur Smooth peut être fortifié dans le jeu
+		case MUR : 
+			if(m_Map[ligne+decallageLigne][colone+decallageColonne].getIsSmooth())
+			{ 
+				m_Map[ligne+decallageLigne][colone+decallageColonne].fortifie(); 
+				return true; 
+			}
+			return false; // Sinon pas de changement
+		default : return false; // pas de changement
 	}
 }
 

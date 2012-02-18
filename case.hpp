@@ -31,6 +31,8 @@ class Case
 
 		void setSmooth() { m_IsSmooth = true; }
 		bool getIsSmooth() { return m_IsSmooth; }
+		void fortifie() { m_EstFortifie = true; }
+		bool getIsFortifie() { return m_EstFortifie; }
 
 		void ajoutObjet(Objet objet);
 		void retireObjet();

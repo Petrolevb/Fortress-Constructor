@@ -28,6 +28,8 @@ class Niveau
 		 */
 		void creuse(int ligne, int colone, Direction direction);
 		void setSmooth(int ligne, int colone, Direction direction);
+		// Retourne si la case a bien été fortifiée
+		bool fortifie(int ligne, int colone, Direction direction);
 
 		void ouverturePorte();
 		void afficheConsole(irr::scene::ISceneManager *sceneManager);

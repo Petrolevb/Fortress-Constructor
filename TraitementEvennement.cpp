@@ -164,6 +164,8 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 				changement = true;
 				break;
 			case FORTIFIE :
+				changement = m_Niveau->fortifie(ligne, colone, directionAction);
+				break;
 			case AUCUNE_ACTION :
 			default : break;
 		}
