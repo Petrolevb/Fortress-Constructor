@@ -125,9 +125,14 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 	{
 		// Récupération d'un trait de la caméra vers sa direction à une distance de 2
 		scene::ISceneCollisionManager *collisionManager = sceneManager->getSceneCollisionManager();
-				core::position2di  screenCoordinate = collisionManager->getScreenCoordinatesFrom3DPosition(camera->getPosition(), camera);
+		core::position2di  screenCoordinate = collisionManager->getScreenCoordinatesFrom3DPosition(camera->getAbsolutePosition(), camera);
 		core::line3df rayon = collisionManager->getRayFromScreenCoordinates(screenCoordinate, camera);
 		
+		scene::ISceneNode * tmp = collisionManager->getSceneNodeFromScreenCoordinatesBB(
+			screenCoordinate,  ID_EstAtteignable, false, sceneManager->getRootSceneNode());
+		if(tmp != NULL) 
+			rayon.end = tmp->getPosition();
+
 		// calcul de l'angle du vecteur entre les deux points
 		f32 angle = asinf( (rayon.end.Z - rayon.start.Z) / rayon.getLength());
 		// Transformation en degres
