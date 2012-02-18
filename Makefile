@@ -12,7 +12,7 @@ EXEC=Fortress_Constructor
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJS)
+$(EXEC) : $(OBJS) $(INC)
 	@$(CPP) $(OBJS) -o $@  $(LFLAGS)
 
 %.o:%.c
