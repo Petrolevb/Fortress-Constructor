@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 	 * keyMapArray, keyMapSize
 	 * noVerticalMovement (bool), jumpSpeed
 	 */
-	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.01f, ID_NEstPasAtteingable,
+	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.005f, ID_NEstPasAtteingable,
 									      keyMap, 5, true, 0.4);
 	// Caméra en place, dans la bonne direction
 	camera->setPosition(core::vector3df(4, 0, -1));
@@ -104,23 +104,24 @@ int main(int argc, char *argv[])
 			for(unsigned int i = 0; i < meshs.size(); i++)
 				if(meshs[i] != NULL)
 				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-/* BUG:#3
+/* BUG:#3 
 			sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
 			for(unsigned int i = 0; i < meshs.size(); i++)
 				if(meshs[i] != NULL)
-				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-BUG:#3 */
+					meshs[i]->remove();
+* BUG:#3 */
 			// affichage
 			niveau1.afficheConsole(sceneManager);
 
 
 			device->setWindowCaption(positionCase.c_str());
 		}
-		
+	
+		core::vector3df positionCam = camera->getPosition();	
 		core::stringw positionCase = L"Ligne ";
-			positionCase += (int)(camera->getPosition().Z / 2);
+			positionCase += (int)(positionCam.Z / 2 +0.5);
 			positionCase +=  " : Colone ";
-			positionCase += (int)(camera->getPosition().X/2);
+			positionCase += (int)(positionCam.X/2 +0.5);
 		device->setWindowCaption(positionCase.c_str());
 
 

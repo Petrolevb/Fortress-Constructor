@@ -197,145 +197,128 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 void Niveau::creuse(int ligne, int colone, Direction direction)
 {
 	vector<Case> nouveauVector;
+	int decallageLigne = 0, decallageColone = 0;
 	switch(direction)
 	{
-		case HAUT :
-			break;
-		case BAS :
-			break;
-		case OUEST :
-			if(colone-2 < 0) // Si on va creuser hors du tableau, il faut ajouter une colone complête
-			{
-				for(unsigned int i = 0; i < m_Map.size(); i++)
-					m_Map[i].insert(m_Map[i].begin(), Case(VIDE));
-				m_Init_Colone++; colone++;
-			}
-			switch(m_Map[ligne][colone-2].getTypeDeLaCase())
-			{
-				case VIDE :
-					m_Map[ligne][colone-2] = Case(MUR);
-				default : break;
-			}
-			switch(m_Map[ligne][colone-1].getTypeDeLaCase())
-			{
-				case VIDE :
-				case MUR :
-					m_Map[ligne][colone-1] = Case(SOL);
-				default : break;
-			}
-			if(ligne-1 < 0)
-			{
-				m_Map.insert(m_Map.begin(), vector<Case>());
-				m_Init_Ligne++;
-				ligne++;
-			}
-			// Case en bas à gauche
-			switch(m_Map[ligne-1][colone-1].getTypeDeLaCase())
-			{
-				case VIDE : m_Map[ligne-1][colone-1] = Case(MUR); break;
-				default : break;
-			}
-			// Case en haut a gauche
-			switch(m_Map[ligne+1][colone-1].getTypeDeLaCase())
-			{
-				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR); break;
-				default : break;
-			}
-			break;
-		case EST :
-			/* Ajoute un Sol à droite, un mur_un_sud diagonale haut droite, un mur_un_nord diagonale bas droite */
-			if(m_Map.size() < (unsigned int)(ligne+1))
-				m_Map.push_back(vector<Case>());
-			
-			// Ajout du SOL à droite et du MUR OUEST
-				m_Map[ligne][colone+1] = Case(SOL);
-
-				if(m_Map[ligne].size() <= (colone+2))
-					m_Map[ligne].push_back(Case(MUR));
-				else // cela signifie qu'il y a quelque chose en "colone+2"
-				{
-					switch(m_Map[ligne][colone+2].getTypeDeLaCase())
-					{
-						case VIDE : m_Map[ligne][colone+2] = Case(MUR); break;
-						default : break;
-					}
-				}
-			// Fin ajout du SOL a droite
-
-			// Case en haut : 
-				while(m_Map[ligne+1].size() <= (colone+1))
-					m_Map[ligne+1].insert(m_Map[ligne+1].begin() + m_Map[ligne+1].size(), Case(VIDE));
-				
-				switch(m_Map[ligne+1][colone+1].getTypeDeLaCase())
-				{
-					case VIDE : 
-						m_Map[ligne+1][colone+1] = Case(MUR);
-						break;
-					default : break;
-				}
-			// Case en bas : MUR NORD
-				if(ligne-1 < 0)
-				{
-					m_Map.insert(m_Map.begin(), vector<Case>());
-					m_Init_Ligne++;
-					ligne++;
-				}
-				while(m_Map[ligne-1].size() <= (colone+1))
-					m_Map[ligne-1].insert(m_Map[ligne-1].begin(), Case(VIDE));
-				switch(m_Map[ligne-1][colone+1].getTypeDeLaCase())
-				{
-					case VIDE : m_Map[ligne-1][colone+1] = Case(MUR); break;
-					default : break; // Si ce n'est pas une case que l'on vient d'ajouter
-				}
-
-			break;
-
-		case NORD :
-			if(m_Map[ligne+1][colone].getTypeDeLaCase() == SOL) break;
-
-			if(m_Map.size() <= (unsigned int)(ligne+2)) //si m_Map.size() == ligne+2, alors m_Map[i] vas de 0 à (ligne+2) - 1
-				m_Map.insert(m_Map.begin() + ligne+1, vector<Case>());
+		case NORD : 
+			decallageLigne++;
+			if(m_Map.size() <= (unsigned int) (ligne + 2*decallageLigne)) // S'il est égal, ce n'est pas bon non plus
+				m_Map.insert(m_Map.begin() + ligne+2, vector<Case>());
 			
 			// On ajoute dans la ligne+2 des cases VIDE jusqu'où il faut
 			for(unsigned int i = m_Map[ligne+2].size(); i <= (unsigned int)(colone+1); i++)
 					m_Map[ligne+2].insert(m_Map[ligne+2].begin()+ m_Map[ligne+2].size(), Case(VIDE));
+			
 			// De même, dans la ligne+1
 			for(unsigned int i = m_Map[ligne+1].size(); i <= (unsigned int)(colone+1); i++)	
 					m_Map[ligne+1].insert(m_Map[ligne+1].begin()+ m_Map[ligne+1].size(), Case(VIDE));
-
-			// Case en haut a gauche
-			switch(m_Map[ligne+1][colone-1].getTypeDeLaCase())
-			{
-				case VIDE : m_Map[ligne+1][colone-1] = Case(MUR); break;
-				default : break;
-			}
-
-			// Case en haut
-			switch(m_Map[ligne+1][colone].getTypeDeLaCase())
-			{
-				case VIDE : 
-				case MUR : m_Map[ligne+1][colone] = Case(SOL); break;
-				default : break;
-			}
-
-			// Case en haut a droite
-			switch(m_Map[ligne+1][colone+1].getTypeDeLaCase())
-			{
-				case VIDE : m_Map[ligne+1][colone+1] = Case(MUR); break;
-				default : break;
-			}
-			
-			// Case tout en haut
-			switch(m_Map[ligne+2][colone].getTypeDeLaCase())
-			{
-				case VIDE : m_Map[ligne+2][colone] = Case(MUR); break;
-				default : break;
-			};
 			break;
-		case SUD :
+		case SUD : 
+			decallageLigne--;
+			if(ligne == 1) // ne peut pas être égal à 0 à priori
+			{
+				m_Map.insert(m_Map.begin(), vector<Case>());
+				ligne++;
+			}
+			for(unsigned int i = m_Map[ligne-1].size(); i <=(unsigned int)(colone+1); i++)
+				m_Map[ligne-1].insert(m_Map[ligne-1].begin() + m_Map[ligne-1].size(), Case(VIDE));
+
+			for(unsigned int i = m_Map[ligne-2].size(); i <=(unsigned int)(colone+1); i++)
+				m_Map[ligne-2].insert(m_Map[ligne-2].begin() + m_Map[ligne-2].size(), Case(VIDE));
 			break;
-		default: break;
+		case EST : 
+			decallageColone++;
+			if(m_Map[ligne].size() <= (unsigned int)(colone+2))
+				m_Map[ligne].push_back(Case(VIDE));
+			if(m_Map[ligne-1].size() <= (unsigned int)(colone+2))
+				m_Map[ligne-1].push_back(Case(VIDE));
+			if(m_Map[ligne+1].size() <= (unsigned int)(colone+2))
+				m_Map[ligne+1].push_back(Case(VIDE));
+			break;
+		case OUEST : 
+			decallageColone--;
+			if(colone == 1) // Ne peut être 0, 0 est un mur
+				for(unsigned int i = 0; i < m_Map.size(); i++)
+					m_Map[i].insert(m_Map[i].begin(), Case(VIDE));
+			break;
+		case HAUT :
+		case BAS : 
+		default : break;
 	}
+	// Modification d'une case, et ajout de trois
+	
+	if(m_Map[ligne+decallageLigne][colone+decallageColone].getTypeDeLaCase() == SOL) return;
+	if(direction == NORD || direction == SUD)
+	{
+		switch(m_Map[ligne+decallageLigne][colone].getTypeDeLaCase())
+		{
+			case MUR : m_Map[ligne+decallageLigne][colone] = Case(SOL); break;
+			default : break;
+		}
+	
+		switch(	m_Map[ligne+2*decallageLigne][colone].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne+2*decallageLigne][colone] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+	
+		switch(	m_Map[ligne+decallageLigne][colone+1].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne+decallageLigne][colone+1] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+
+		switch(	m_Map[ligne+decallageLigne][colone-1].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne+decallageLigne][colone-1] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+	}
+	else // Donc EST ou OUEST
+	{
+		switch(m_Map[ligne][colone+decallageColone].getTypeDeLaCase())
+		{
+			case MUR : m_Map[ligne][colone+decallageColone] = Case(SOL); break;
+			default : break;
+		}
+	
+		switch(	m_Map[ligne][colone+2*decallageColone].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne][colone+2*decallageColone] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+	
+		switch(	m_Map[ligne+1][colone+decallageColone].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne+1][colone+decallageColone] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+
+		switch(	m_Map[ligne-1][colone+decallageColone].getTypeDeLaCase()) 
+		{
+			case VIDE :
+				m_Map[ligne-1][colone+decallageColone] = Case(MUR);
+				break;
+			case MUR :
+			default : break;
+		}
+	}
+
 }
 
 void Niveau::setSmooth(int ligne, int colone, Direction direction)
