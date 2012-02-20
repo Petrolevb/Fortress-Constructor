@@ -3,6 +3,8 @@
 Fortress Constructor est un outil pour reproduire une forteresse et 
 pouvoir la visualiser en 3D
 
+https://github.comPetrolevb/Fortress-Constructor.git
+https://code.google.com/p/fortress-constructor
 
 Fonctionnement du programme :
     
@@ -117,11 +119,3 @@ Affichage (nécessite un renomage de la fonction) :
                     Création d'une collision avec la bounding box du mesh
 
         => Bug, il semble que seul le premier mesh soit pris en compte, celui en position 0,0 dans le tableau
-
-                    
-
-
-
-
-
-
