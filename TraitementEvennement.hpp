@@ -10,8 +10,7 @@ class TraitementEvennement : public irr::IEventReceiver
 {
 	enum 
 	{
-		ID_GUI_Creuse = 101,
-		ID_GUI_Smooth,
+		ID_GUI_Smooth = 101,
 		ID_GUI_Fortifie,
 		ID_GUI_Annuler,
 		ID_GUI_Default

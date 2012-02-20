@@ -59,8 +59,10 @@ Traitement des évennements,
 
     fonction majNiveau :
         déclenchement des actions de portes avec appui sur la touche A, en développement
-
-        Si on appuie sur un bouton de la souris
+	
+	Si on appuie sur le bouton gauche de la souris
+		Définition de l'action Creuse
+        Si on appuie sur le bouton droit de la souris
             Init de l'environnement utilisateur (GUI)
             Passage du controle de la caméra à false
             Ajout des 4 boutons

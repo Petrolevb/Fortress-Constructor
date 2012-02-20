@@ -32,7 +32,6 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 					m_ControleCamera = true;
 					switch(event.GUIEvent.Caller->getID())
 					{
-						case ID_GUI_Creuse : m_Action = true; m_ActionEnCours = CREUSE; break;
 						case ID_GUI_Smooth : m_Action = true; m_ActionEnCours = SMOOTH; break;
 						case ID_GUI_Fortifie : m_Action = true; m_ActionEnCours = FORTIFIE; break;
 						case ID_GUI_Annuler : m_ControleCamera = true; MouseState.LeftButtonDown = false; break;
@@ -95,8 +94,9 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 	bool changement = false;
 	if(IsKeyDown(KEY_KEY_A))
 		m_Niveau->ouverturePorte();
-
-	if(MouseState.LeftButtonDown || MouseState.RightButtonDown)
+	if(MouseState.LeftButtonDown)
+	{ m_ActionEnCours = CREUSE; m_Action = true; }
+	if (MouseState.RightButtonDown)
 	{
 		//cette fonction est appellée uniquement avec un controle caméra
 		gui::IGUIEnvironment *guiEnvironnement = sceneManager->getGUIEnvironment();
@@ -108,16 +108,17 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 		    posButY = LARGEUR_FENETRE/2;
 
 		// Définition des quatres bouttons
+		/*
 		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
 			guiEnvironnement->getRootGUIElement(), ID_GUI_Creuse, 
-			L"Creuser", L"Creuser par la");
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 40, posButY + 100, posButX+40 + 32), 
+			L"Creuser", L"Creuser par la");*/
+		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 40, posButY + 100, posButX - 40 + 32), 
 			guiEnvironnement->getRootGUIElement(), ID_GUI_Smooth,
 			L"Smoother", L"Smoother ce mur");
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 80, posButY + 100, posButX+80 + 32), 
+		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
 			guiEnvironnement->getRootGUIElement(), ID_GUI_Fortifie, 
 			L"Fortifier", L"Fortifier ce mur");
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 120, posButY + 100, posButX+120 + 32), 
+		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 40, posButY + 100, posButX+40 + 32), 
 			guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
 			L"Annuler", L"Annuler action");
 	}
