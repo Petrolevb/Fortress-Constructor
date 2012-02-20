@@ -1,12 +1,13 @@
 #ifndef HPP_CASE
 #define HPP_CASE
 
-#include "objet.hpp"
-
+#include"objet.hpp"
+#include"salle.hpp"
 typedef enum {
 	VIDE,
 	MUR,
-	SOL
+	SOL,
+	EST_CONSTRUIT
 } TypeCase;
 
 
@@ -33,6 +34,12 @@ class Case
 		bool getIsSmooth() { return m_IsSmooth; }
 		void fortifie() { m_EstFortifie = true; }
 		bool getIsFortifie() { return m_EstFortifie; }
+		
+		// La case doit être marquée comme construit pour pouvoir mettre un batiment
+		void setConstruit() 
+		{ if(m_TypeDeLaCase == SOL) m_TypeDeLaCase = EST_CONSTRUIT; else throw "Vous ne pouvez pas construire cette case"; }
+		void setConstruit(Batiment bat) { if(m_TypeDeLaCase == EST_CONSTRUIT) m_Batiment = bat; }
+		Batiment getConstruction() { return m_Batiment; }
 
 		void ajoutObjet(Objet objet);
 		void retireObjet();
@@ -40,6 +47,7 @@ class Case
 	private :
 		Objet *m_Objet;
 		TypeCase m_TypeDeLaCase;
+		Batiment m_Batiment;
 		bool m_IsSmooth;
 		bool m_EstFortifie;
 };
