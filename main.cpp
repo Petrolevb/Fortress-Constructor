@@ -70,12 +70,8 @@ int main(int argc, char *argv[])
 	niveau1.afficheConsole(sceneManager);
 	// affichage en haut a droite des m_InitColone et m_InitLigne
 	core::stringw positionCase = L"Ligne ";
-		positionCase += niveau1.getLigneInit();
-		positionCase += ";";
 		positionCase += camera->getPosition().Z;
 		positionCase +=  " : Colone ";
-		positionCase += niveau1.getColoneInit();
-		positionCase += ";";
 		positionCase += camera->getPosition().X;
 
 	device->setWindowCaption(positionCase.c_str());
