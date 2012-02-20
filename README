@@ -80,7 +80,16 @@ Action Smooth & Fortifie (cette dernière non développée pour le moment, absce
         niveau.cpp:341-351
 
 Action Creuse :
-    En refactorisation, simplification de ce switch qui est énorme...
+   En fonction de la direction, decallageLigne et decallageColonne est défini
+   Ajout de case vide dans le tableau si nécessaire
+   Si la direction est NORD-SUD
+      Le SOL est mis à la case en ligne +/-1
+      Le MUR est mis à la case en ligne +/-2
+      Deux MURs sont mis aux cases en ligne +/-1 colonne +&-1
+   Sinon, direction EST-OUEST
+      Le SOL est mis à la case en colonne +/-1
+      Le MUR est mis à la case en colonne +/-2
+      Deux MURs sont mis aux cases en ligne +&-1 colonne +/-1
 
 
 
