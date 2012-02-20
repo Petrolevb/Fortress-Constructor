@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.005f, ID_NEstPasAtteingable,
 									      keyMap, 5, true, 0.4);
 	// Caméra en place, dans la bonne direction
-	camera->setPosition(core::vector3df(4, 0, -1));
+	camera->setPosition(core::vector3df(4, 0.1, -1));
 	camera->setTarget(core::vector3df(4, 0, 2));
 
 	niveau1.afficheConsole(sceneManager);
@@ -79,6 +79,18 @@ int main(int argc, char *argv[])
 		positionCase += camera->getPosition().X;
 
 	device->setWindowCaption(positionCase.c_str());
+
+	// Ajout de la lumière : équivalent d'une torche
+	scene::ILightSceneNode *torche = sceneManager->addLightSceneNode(
+		camera, // Noeud parent est la caméra
+		camera->getAbsolutePosition(),
+		video::SColorf(127.f, 30.f, 0.f), // Couleur
+		0.5f, // Radius
+		ID_NEstPasAtteingable//id
+		);
+	// torche->getLightData().Type = ELT_POINT; par défaut, type point : éclaire dans toutes les directions
+	torche->getMaterial(0).Shininess = 0.3f; // Brillance, par défaut à 20
+
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 0, 0, 0));
@@ -95,26 +107,28 @@ int main(int argc, char *argv[])
 			device->getCursorControl()->setVisible(false);
 		}
 
-		if(receptionEvennement.getControleCamera()) // Il faut faire ce test avant 
-		if(receptionEvennement.majNiveau(sceneManager, camera))
+		if(receptionEvennement.getControleCamera()) // Si le jeu n'est pas "freezé"
 		{
-			// réinit de la scene
-			core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
-			sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
-			for(unsigned int i = 0; i < meshs.size(); i++)
-				if(meshs[i] != NULL)
-				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-/* BUG:#3 
-			sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
-			for(unsigned int i = 0; i < meshs.size(); i++)
-				if(meshs[i] != NULL)
-					meshs[i]->remove();
-* BUG:#3 */
-			// affichage
-			niveau1.afficheConsole(sceneManager);
-
-
-			device->setWindowCaption(positionCase.c_str());
+			if(receptionEvennement.majNiveau(sceneManager, camera))
+			{
+				// réinit de la scene
+				core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
+				sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
+				for(unsigned int i = 0; i < meshs.size(); i++)
+					if(meshs[i] != NULL)
+					{ meshs[i]->removeAll(); meshs[i]->remove(); }
+/* BUG:#3 	
+				sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
+				for(unsigned int i = 0; i < meshs.size(); i++)
+					if(meshs[i] != NULL)
+						meshs[i]->remove();
+* BUG:#32 */
+				// affichage
+				niveau1.afficheConsole(sceneManager);
+	
+	
+				device->setWindowCaption(positionCase.c_str());
+			}
 		}
 	
 		core::vector3df positionCam = camera->getPosition();	

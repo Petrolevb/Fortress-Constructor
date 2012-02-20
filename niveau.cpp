@@ -133,7 +133,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
 						core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
 						rotationObjet); // scale par défaut, booléen suivant par défaut
-					objet->setMaterialFlag(video::EMF_LIGHTING, false);
+					objet->setMaterialFlag(video::EMF_LIGHTING, true);
 					if(m_Map[i][j].getObjetActivite()) // Si l'objet est actif (ouverture porte, etc...)
 					{
 						objet->setAnimationSpeed(50);
@@ -145,7 +145,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
 					objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
 				}
-				element->setMaterialFlag(video::EMF_LIGHTING, false);
+				element->setMaterialFlag(video::EMF_LIGHTING, true);
 				
 				if(selector)
 				{
