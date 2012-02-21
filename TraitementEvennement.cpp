@@ -28,23 +28,32 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 			switch(event.GUIEvent.EventType)
 			{
 				case gui::EGET_BUTTON_CLICKED :
-					MouseState.LeftButtonDown = false; 
+					MouseState.LeftButtonDown = false;
+					MouseState.RightButtonDown = false;
 					m_ControleCamera = true;
 					switch(event.GUIEvent.Caller->getID())
 					{
-						case ID_GUI_Smooth : m_Action = true; m_ActionEnCours = SMOOTH; break;
-						case ID_GUI_Fortifie : m_Action = true; m_ActionEnCours = FORTIFIE; break;
+						case ID_GUI_Smooth : 
+							m_Action = true; 
+							m_ActionEnCours = SMOOTH; 
+							break;
+						case ID_GUI_Fortifie : 
+							m_Action = true; 
+							m_ActionEnCours = FORTIFIE; 
+							break;
 						case ID_GUI_Construit : 
+							MouseState.RightButtonDown = true; // GUI réactivée
 							m_ActionEnCours = CONSTRUIT; 
 							break; // Pour le moment, pas d'action
-						case ID_GUI_Annuler : m_ControleCamera = true; MouseState.LeftButtonDown = false; break;
 						{ // GUI construction des batiments
 							case ID_GUI_BATIMENT_ARCHERIE : 
 								m_ActionEnCours = CONSTRUIT_ARCHERIE;
 								m_Action = true; 
 								break;
 						}
-						case ID_GUI_Default : 
+						case ID_GUI_Annuler : 
+							// Rien a faire, anulation déjà faites
+						case ID_GUI_Default :
 						default : break;
 					}
 					break;
@@ -104,7 +113,7 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 	if(IsKeyDown(KEY_KEY_A))
 		m_Niveau->ouverturePorte();
 	if(MouseState.LeftButtonDown)
-	{ m_ActionEnCours = CREUSE; m_Action = true; }
+	{ m_ActionEnCours = CREUSE; m_Action = true; MouseState.LeftButtonDown = false;}
 	if (MouseState.RightButtonDown)
 	{
 		//cette fonction est appellée uniquement avec un controle caméra
@@ -141,6 +150,7 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 				guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
 				L"Annuler", L"Annuler action");
 		}
+		MouseState.RightButtonDown = false;
 	}
 	if(m_Action)
 	{

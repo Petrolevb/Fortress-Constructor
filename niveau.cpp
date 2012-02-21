@@ -48,7 +48,8 @@ Niveau::Niveau()
 	m_Map[4].push_back(Case(MUR));
 	m_Map[4].push_back(Case(MUR));
 	m_Map[4].push_back(Case(MUR));
-	
+
+/*
 	m_Map[1][1].setConstruit();
 	m_Map[1][2].setConstruit();
 	m_Map[1][3].setConstruit();
@@ -58,7 +59,7 @@ Niveau::Niveau()
 	m_Map[3][1].setConstruit();
 	m_Map[3][2].setConstruit();
 	m_Map[3][3].setConstruit();
-	m_Map[2][2].setConstruit(Archerie);
+	m_Map[2][2].setConstruit(Archerie);*/
 	cout << "OK" << endl;
 }
 
@@ -484,6 +485,7 @@ void Niveau::ouverturePorte()
 	// De toute faceon, l'objet change d'état
 	m_Map[0][2].setObjetActivite(true);
 }
+
 bool Niveau::construit(int ligne, int colone, Batiment bat)
 {
 	// Est ce que les cases sont définies
