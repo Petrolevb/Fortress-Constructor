@@ -234,11 +234,11 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_TANNERIE,
 					L"Tannerie", L"Construire une tannerie ici");
 			}
-			{ // Cinquième ligne Encrerie, Cendrerie, Ferme
+			{ // Cinquième ligne Teinturerie, Cendrerie, Ferme
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + 4*dek, tailleY, tailleX + 4*dek),
-					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_ENCRERIE,
-					L"Encrerie", L"Construire une encrerie ici");
+					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_TEINTURERIE,
+					L"Teinturerie", L"Construire une teinturerie ici");
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + 4*dek, tailleY + dek, tailleX + 4*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_CENDRERIE,
@@ -341,7 +341,6 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 				case CONSTRUIT_CENDRERIE : 	changement = m_Niveau->construit(ligne, colone, Cendrerie); break;
 				case CONSTRUIT_COUTURIER : 	changement = m_Niveau->construit(ligne, colone, Couturier); break;
 				case CONSTRUIT_CUISINE : 	changement = m_Niveau->construit(ligne, colone, Cuisine); break;
-				case CONSTRUIT_ENCRERIE : 	changement = m_Niveau->construit(ligne, colone, Encrerie); break;
 				case CONSTRUIT_FERME : 		changement = m_Niveau->construit(ligne, colone, Ferme); break;
 				case CONSTRUIT_FORGE : 		changement = m_Niveau->construit(ligne, colone, Forge); break;
 				case CONSTRUIT_LOOM : 		changement = m_Niveau->construit(ligne, colone, Loom); break;
@@ -350,6 +349,7 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 				case CONSTRUIT_MENUISERIE : 	changement = m_Niveau->construit(ligne, colone, Menuiserie); break;
 				case CONSTRUIT_POISSONNERIE : 	changement = m_Niveau->construit(ligne, colone, Poissonnerie); break;
 				case CONSTRUIT_TANNERIE : 	changement = m_Niveau->construit(ligne, colone, Tannerie); break;
+				case CONSTRUIT_TEINTURERIE : 	changement = m_Niveau->construit(ligne, colone, Teinturerie); break;
 			}
 			case AUCUNE_ACTION :
 			default : break;

@@ -15,7 +15,6 @@ typedef enum
 	Cendrerie,
 	Couturier,
 	Cuisine,
-	Encrerie,
 	Ferme,
 	Forge,
 	Loom,
@@ -24,6 +23,7 @@ typedef enum
 	Menuiserie,
 	Poissonnerie,
 	Tannerie,
+	Teinturerie,
 	NOMBRE_BATIMENT,
 	SANS_BATIMENT
 } Batiment;

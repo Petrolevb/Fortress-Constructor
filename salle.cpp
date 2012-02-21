@@ -55,7 +55,7 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 			ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);
 			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE);
 			break;
-		case Encrerie :
+		case Teinturerie :
 			ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_BORD_NORD); ligne1.push_back(SALLE_VIDE);
 			ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);
 			ligne3.push_back(SALLE_ANGLE_SO); ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_ANGLE_SE);
