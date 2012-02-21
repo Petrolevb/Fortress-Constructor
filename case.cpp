@@ -66,7 +66,21 @@ Case & Case::operator=(const Case &caseACopier)
 	cerr << "OK" << endl;
 	return *this;
 }
+bool Case::operator==(const Case &a)
+{
+	if(a.m_TypeDeLaCase != m_TypeDeLaCase) return false;
+	if(a.m_Batiment != m_Batiment) return false;
+	if(a.m_IsSmooth != m_IsSmooth) return false;
+	if(a.m_EstFortifie != m_EstFortifie) return false;
+	if(a.m_Objet == m_Objet)
+		throw "Case operator == FAIL : les deux pointeurs objets sont identiques";
+	Objet oA = (*a.m_Objet),
+	      oB = (*m_Objet);
 
+	return (oA == oB); // Dernier élément à tester, on peut retourner le résultat de ce test
+
+
+}
 // Fonctions personnelles
 
 void Case::ajoutObjet(Objet objet)

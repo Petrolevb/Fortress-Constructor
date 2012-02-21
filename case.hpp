@@ -21,6 +21,7 @@ class Case
 		~Case();
 			
 		Case & operator=(const Case &caseACopier);
+		bool operator==(const Case & a);
 		
 		// Accesseur
 		TypeCase getTypeDeLaCase() { return m_TypeDeLaCase; }

@@ -31,3 +31,13 @@ Objet & Objet::operator=(const Objet &objetACopier)
 	cerr << "OK" << endl;
 	return *this;
 }
+
+bool Objet::operator==(const Objet &a)
+{
+	if(a.m_TypeDeLObjet != m_TypeDeLObjet) return false;
+	if(a.m_Actif != m_Actif) return false;
+	if(a.m_ActiviteEnCours != m_ActiviteEnCours) return false;
+
+	return true;
+}
+
