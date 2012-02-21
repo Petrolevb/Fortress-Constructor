@@ -83,13 +83,18 @@ int main(int argc, char *argv[])
 	// Ajout de la lumière : équivalent d'une torche
 	scene::ILightSceneNode *torche = sceneManager->addLightSceneNode(
 		camera, // Noeud parent est la caméra
-		camera->getAbsolutePosition(),
+		// On décalle un peu la torche par rapport à la caméra
+		core::vector3df(camera->getAbsolutePosition().X+0.5f, camera->getAbsolutePosition().Y+0.5f, camera->getAbsolutePosition().Z),
 		video::SColorf(127.f, 30.f, 0.f), // Couleur
-		0.5f, // Radius
-		ID_NEstPasAtteingable//id
-		);
-	// torche->getLightData().Type = ELT_POINT; par défaut, type point : éclaire dans toutes les directions
-	torche->getMaterial(0).Shininess = 0.3f; // Brillance, par défaut à 20
+		150.f, // Radius : atténuation des contours, par défaut 100
+		ID_NEstPasAtteingable); //id
+	
+	torche->setLightType(video::ELT_SPOT);
+	torche->getLightData().OuterCone = 50.f; // Angle cone lumière en degres
+	torche->getLightData().SpecularColor = video::SColorf(0.8f, 0.2f, 0.f); // par défaut 1, 1, 1
+
+	//torche->getLightData().Falloff = 100.f ;// 
+	torche->getMaterial(0).Shininess = .03f; // Brillance, par défaut à 20
 
 	while(device->run())
 	{
@@ -131,11 +136,13 @@ int main(int argc, char *argv[])
 			}
 		}
 	
-		core::vector3df positionCam = camera->getPosition();	
+		core::vector3df positionCam = camera->getAbsolutePosition();	
 		core::stringw positionCase = L"Ligne ";
-			positionCase += (int)(positionCam.Z / 2 +0.5);
+			positionCase += (int)(positionCam.Z/2. +0.5);
 			positionCase +=  " : Colone ";
-			positionCase += (int)(positionCam.X/2 +0.5);
+			positionCase += (int)(positionCam.X/2. +0.5);
+			positionCase += " : ";
+			positionCase += (int)(positionCam.Y/2. +0.5);
 		device->setWindowCaption(positionCase.c_str());
 
 
