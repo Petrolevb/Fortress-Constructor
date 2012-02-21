@@ -6,7 +6,24 @@
 
 typedef enum
 {
-	Archerie = 0,
+	Atelier = 0,
+	Atelier_Cuir,
+	Archerie,
+	Bijouterie,
+	Boucherie,
+	Brasserie,
+	Cendrerie,
+	Couturier,
+	Cuisine,
+	Encrerie,
+	Ferme,
+	Forge,
+	Loom,
+	Massonnerie,
+	Mechanic,
+	Menuiserie,
+	Poissonnerie,
+	Tannerie,
 	NOMBRE_BATIMENT,
 	SANS_BATIMENT
 } Batiment;

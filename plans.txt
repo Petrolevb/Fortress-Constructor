@@ -15,20 +15,21 @@ Jeweler's Workshop
  {░
 
 Mason
-;  ░
-░ [░
- o 
+; ░
+░[░
+ o
+
 Butcher
   ░
 ░ ░
    
 Mecanic's
 Ç		
- [░
- ^ ⌂
+[░
+^ ⌂
 
 Famer's
- ░ ≡
+░ ≡
    
 ░╥φ
 
@@ -78,9 +79,9 @@ Clothier
 [░ 
 
 Kitchen
-÷ ░░
-  ░
-∞  ;
+÷░░
+ ░
+∞ ;
 
 Craftdwarf's
  -░

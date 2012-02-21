@@ -15,7 +15,7 @@ using namespace irr;
 Niveau::Niveau()
 {
 	cout << "Niveau  constructeur normal de la classe"; 
-	m_Map.resize(5);
+	m_Map.resize(3);
 	cout << endl << '\t';
 	
 	// Initialisation d'une petite salle, porte d'entrée de la forteresse
@@ -25,41 +25,16 @@ Niveau::Niveau()
 	m_Map[0].push_back(Case(MUR));
 	m_Map[0].push_back(Case(MUR));
 
+	m_Map[1].push_back(Case(VIDE));
 	m_Map[1].push_back(Case(MUR));
 	m_Map[1].push_back(Case(SOL));
-	m_Map[1].push_back(Case(SOL));
-	m_Map[1].push_back(Case(SOL));
 	m_Map[1].push_back(Case(MUR));
-
+	
+	m_Map[2].push_back(Case(VIDE));
 	m_Map[2].push_back(Case(MUR));
-	m_Map[2].push_back(Case(SOL));
-	m_Map[2].push_back(Case(SOL));
-	m_Map[2].push_back(Case(SOL));
+	m_Map[2].push_back(Case(MUR));
 	m_Map[2].push_back(Case(MUR));
 
-	m_Map[3].push_back(Case(MUR));
-	m_Map[3].push_back(Case(SOL));
-	m_Map[3].push_back(Case(SOL));
-	m_Map[3].push_back(Case(SOL));
-	m_Map[3].push_back(Case(MUR));
-
-	m_Map[4].push_back(Case(MUR));
-	m_Map[4].push_back(Case(MUR));
-	m_Map[4].push_back(Case(MUR));
-	m_Map[4].push_back(Case(MUR));
-	m_Map[4].push_back(Case(MUR));
-
-/*
-	m_Map[1][1].setConstruit();
-	m_Map[1][2].setConstruit();
-	m_Map[1][3].setConstruit();
-	m_Map[2][1].setConstruit();
-	m_Map[2][2].setConstruit();
-	m_Map[2][3].setConstruit();
-	m_Map[3][1].setConstruit();
-	m_Map[3][2].setConstruit();
-	m_Map[3][3].setConstruit();
-	m_Map[2][2].setConstruit(Archerie);*/
 	cout << "OK" << endl;
 }
 
