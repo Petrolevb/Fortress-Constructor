@@ -12,8 +12,8 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 	{
 		case Archerie :
 			ligne1.push_back(SALLE_ANGLE_NO); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE);	
-			ligne2.push_back(SALLE_BORD_OUEST); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE);	
-			ligne3.push_back(SALLE_ANGLE_SO); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE);
+			ligne2.push_back(SALLE_BORD_OUEST); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);	
+			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_BORD_SUD); ligne3.push_back(SALLE_VIDE);
 			break;
 		default :
 			throw "Batiment Inconnu";

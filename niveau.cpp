@@ -48,6 +48,17 @@ Niveau::Niveau()
 	m_Map[4].push_back(Case(MUR));
 	m_Map[4].push_back(Case(MUR));
 	m_Map[4].push_back(Case(MUR));
+	
+	m_Map[1][1].setConstruit();
+	m_Map[1][2].setConstruit();
+	m_Map[1][3].setConstruit();
+	m_Map[2][1].setConstruit();
+	m_Map[2][2].setConstruit();
+	m_Map[2][3].setConstruit();
+	m_Map[3][1].setConstruit();
+	m_Map[3][2].setConstruit();
+	m_Map[3][3].setConstruit();
+	m_Map[2][2].setConstruit(Archerie);
 	cout << "OK" << endl;
 }
 
@@ -135,6 +146,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 									{
 										switch(planSalle[a][b])
 										{
+										{ // Angles
 											case SALLE_ANGLE_NO :
 												rotationSalle[3*a +b] = core::vector3df(0, 90, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
@@ -151,22 +163,25 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 												rotationSalle[3*a +b] = core::vector3df(0, -90, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
 												break;
+										}
+										{ // Bords
 											case SALLE_BORD_NORD :
-												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
+												rotationSalle[3*a +b] = core::vector3df(0, 90, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
 												break;
 											case SALLE_BORD_SUD :
-												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
+												rotationSalle[3*a +b] = core::vector3df(0, -90, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
 												break;
 											case SALLE_BORD_EST :
-												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
+												rotationSalle[3*a +b] = core::vector3df(0, 180, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
 												break;
 											case SALLE_BORD_OUEST :
 												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
 												break;
+										}
 											case SALLE_CENTRE :
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_centre.obj");
 												break;
