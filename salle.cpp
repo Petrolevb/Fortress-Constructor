@@ -18,8 +18,9 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 		default :
 			throw "Batiment Inconnu";
 	}
-	retour.push_back(ligne1);
-	retour.push_back(ligne2);
+	// On doit mettre à l'envert ! sinon l'affichage est inversé
 	retour.push_back(ligne3);
+	retour.push_back(ligne2);
+	retour.push_back(ligne1);
 	return retour;
 }
