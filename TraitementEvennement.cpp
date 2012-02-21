@@ -28,13 +28,22 @@ bool TraitementEvennement::OnEvent(const SEvent &event)
 			switch(event.GUIEvent.EventType)
 			{
 				case gui::EGET_BUTTON_CLICKED :
-					MouseState.LeftButtonDown = false; //true;
+					MouseState.LeftButtonDown = false; 
 					m_ControleCamera = true;
 					switch(event.GUIEvent.Caller->getID())
 					{
 						case ID_GUI_Smooth : m_Action = true; m_ActionEnCours = SMOOTH; break;
 						case ID_GUI_Fortifie : m_Action = true; m_ActionEnCours = FORTIFIE; break;
+						case ID_GUI_Construit : 
+							m_ActionEnCours = CONSTRUIT; 
+							break; // Pour le moment, pas d'action
 						case ID_GUI_Annuler : m_ControleCamera = true; MouseState.LeftButtonDown = false; break;
+						{ // GUI construction des batiments
+							case ID_GUI_BATIMENT_ARCHERIE : 
+								m_ActionEnCours = CONSTRUIT_ARCHERIE;
+								m_Action = true; 
+								break;
+						}
 						case ID_GUI_Default : 
 						default : break;
 					}
@@ -108,19 +117,30 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 		    posButY = LARGEUR_FENETRE/2;
 
 		// Définition des quatres bouttons
-		/*
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
-			guiEnvironnement->getRootGUIElement(), ID_GUI_Creuse, 
-			L"Creuser", L"Creuser par la");*/
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 40, posButY + 100, posButX - 40 + 32), 
-			guiEnvironnement->getRootGUIElement(), ID_GUI_Smooth,
-			L"Smoother", L"Smoother ce mur");
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
-			guiEnvironnement->getRootGUIElement(), ID_GUI_Fortifie, 
-			L"Fortifier", L"Fortifier ce mur");
-		guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 40, posButY + 100, posButX+40 + 32), 
-			guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
-			L"Annuler", L"Annuler action");
+		if(m_ActionEnCours == CONSTRUIT) // Si on construit
+		{
+			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 35, posButX + 35),
+				guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_ARCHERIE,
+				L"Archerie", L"Construire une archerie ici");
+			guiEnvironnement->addButton(core::rect<s32>(posButY + 40, posButX + 40, posButY +35 + 40, posButX + 35 + 40),
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
+				L"Annuler", L"Annuler action");
+		}
+		else // Sinon c'est qu'on veut faire autre chose
+		{
+			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 80, posButY + 100, posButX - 80 + 32), 
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Construit, 
+				L"Construire", L"Construire ici");
+			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 40, posButY + 100, posButX - 40 + 32), 
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Smooth,
+				L"Smoother", L"Smoother ce mur");
+			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Fortifie, 
+				L"Fortifier", L"Fortifier ce mur");
+			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 40, posButY + 100, posButX+40 + 32), 
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
+				L"Annuler", L"Annuler action");
+		}
 	}
 	if(m_Action)
 	{
@@ -167,12 +187,16 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 			case FORTIFIE :
 				changement = m_Niveau->fortifie(ligne, colone, directionAction);
 				break;
+			case CONSTRUIT_ARCHERIE :
+				changement = m_Niveau->construit(ligne, colone, Archerie);
+				break;
 			case AUCUNE_ACTION :
 			default : break;
 		}
 
 		m_Action = false; // Action est effectuée 
 		m_ActionEnCours = AUCUNE_ACTION;
+		m_ControleCamera = true;
 	}
 	
 	return changement;

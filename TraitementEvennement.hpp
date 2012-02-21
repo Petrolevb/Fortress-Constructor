@@ -12,6 +12,10 @@ class TraitementEvennement : public irr::IEventReceiver
 	{
 		ID_GUI_Smooth = 101,
 		ID_GUI_Fortifie,
+		ID_GUI_Construit,
+		
+			ID_GUI_BATIMENT_ARCHERIE,
+
 		ID_GUI_Annuler,
 		ID_GUI_Default
 	};
