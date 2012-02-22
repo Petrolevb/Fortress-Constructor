@@ -11,4 +11,7 @@ test*
 #*.obj
 #*.mtl
 
-Fortress_Constructor
+bin/Fortress_Constructor
+build/CMakeFile
+*.cmake
+
