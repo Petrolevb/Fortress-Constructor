@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 		// On décalle un peu la torche par rapport à la caméra
 		core::vector3df(camera->getAbsolutePosition().X+0.5f, camera->getAbsolutePosition().Y+0.5f, camera->getAbsolutePosition().Z),
 		video::SColorf(127.f, 30.f, 0.f), // Couleur
-		150.f, // Radius : atténuation des contours, par défaut 100
+		500.f, // Radius : atténuation des contours, par défaut 100
 		ID_NEstPasAtteingable); //id
 	
 	torche->setLightType(video::ELT_SPOT);
@@ -95,6 +95,13 @@ int main(int argc, char *argv[])
 
 	//torche->getLightData().Falloff = 100.f ;// 
 	torche->getMaterial(0).Shininess = .03f; // Brillance, par défaut à 20
+
+	// Ajout du brouillard pour ne pas avoir un champs de vue illimité
+	
+	driver->setFog(video::SColor(0, 138, 125, 0), video::EFT_FOG_EXP, 
+		       0.f, 0.f, // début et fin, inutile car en mode exponnentiel
+		       0.5f, // densité
+		       false, false); // pixel fog, range fog
 
 	while(device->run())
 	{
