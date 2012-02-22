@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.005f, ID_NEstPasAtteingable,
 									      keyMap, 5, true, 0.4);
 	// Caméra en place, dans la bonne direction
-	camera->setPosition(core::vector3df(4, 0, -1));
+	camera->setPosition(core::vector3df(4, 0.1, -1));
 	camera->setTarget(core::vector3df(4, 0, 2));
 
 	niveau1.afficheConsole(sceneManager);
@@ -79,6 +79,30 @@ int main(int argc, char *argv[])
 		positionCase += camera->getPosition().X;
 
 	device->setWindowCaption(positionCase.c_str());
+
+	// Ajout de la lumière : équivalent d'une torche
+	scene::ILightSceneNode *torche = sceneManager->addLightSceneNode(
+		camera, // Noeud parent est la caméra
+		// On décalle un peu la torche par rapport à la caméra
+		core::vector3df(camera->getAbsolutePosition().X+0.5f, camera->getAbsolutePosition().Y+0.5f, camera->getAbsolutePosition().Z),
+		video::SColorf(127.f, 30.f, 0.f), // Couleur
+		500.f, // Radius : atténuation des contours, par défaut 100
+		ID_NEstPasAtteingable); //id
+	
+	torche->setLightType(video::ELT_SPOT);
+	torche->getLightData().OuterCone = 50.f; // Angle cone lumière en degres
+	torche->getLightData().SpecularColor = video::SColorf(0.8f, 0.2f, 0.f); // par défaut 1, 1, 1
+
+	//torche->getLightData().Falloff = 100.f ;// 
+	torche->getMaterial(0).Shininess = .03f; // Brillance, par défaut à 20
+
+	// Ajout du brouillard pour ne pas avoir un champs de vue illimité
+	
+	driver->setFog(video::SColor(0, 138, 125, 0), video::EFT_FOG_EXP, 
+		       0.f, 0.f, // début et fin, inutile car en mode exponnentiel
+		       0.5f, // densité
+		       false, false); // pixel fog, range fog
+
 	while(device->run())
 	{
 		driver->beginScene(true, true, video::SColor(255, 0, 0, 0));
@@ -95,33 +119,37 @@ int main(int argc, char *argv[])
 			device->getCursorControl()->setVisible(false);
 		}
 
-		if(receptionEvennement.getControleCamera()) // Il faut faire ce test avant 
-		if(receptionEvennement.majNiveau(sceneManager, camera))
+		if(receptionEvennement.getControleCamera()) // Si le jeu n'est pas "freezé"
 		{
-			// réinit de la scene
-			core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
-			sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
-			for(unsigned int i = 0; i < meshs.size(); i++)
-				if(meshs[i] != NULL)
-				{ meshs[i]->removeAll(); meshs[i]->remove(); }
-/* BUG:#3 
-			sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
-			for(unsigned int i = 0; i < meshs.size(); i++)
-				if(meshs[i] != NULL)
-					meshs[i]->remove();
-* BUG:#3 */
-			// affichage
-			niveau1.afficheConsole(sceneManager);
-
-
-			device->setWindowCaption(positionCase.c_str());
+			if(receptionEvennement.majNiveau(sceneManager, camera))
+			{
+				// réinit de la scene
+				core::array<scene::ISceneNode *> meshs; // Octree mesh scene node
+				sceneManager->getSceneNodesFromType(scene::ESNT_OCTREE, meshs);
+				for(unsigned int i = 0; i < meshs.size(); i++)
+					if(meshs[i] != NULL)
+					{ meshs[i]->removeAll(); meshs[i]->remove(); }
+/* BUG:#3 	
+				sceneManager->getSceneNodesFromType(scene::ESNT_ANIMATED_MESH, meshs);
+				for(unsigned int i = 0; i < meshs.size(); i++)
+					if(meshs[i] != NULL)
+						meshs[i]->remove();
+* BUG:#32 */
+				// affichage
+				niveau1.afficheConsole(sceneManager);
+	
+	
+				device->setWindowCaption(positionCase.c_str());
+			}
 		}
 	
-		core::vector3df positionCam = camera->getPosition();	
+		core::vector3df positionCam = camera->getAbsolutePosition();	
 		core::stringw positionCase = L"Ligne ";
-			positionCase += (int)(positionCam.Z / 2 +0.5);
+			positionCase += (int)(positionCam.Z/2. +0.5);
 			positionCase +=  " : Colone ";
-			positionCase += (int)(positionCam.X/2 +0.5);
+			positionCase += (int)(positionCam.X/2. +0.5);
+			positionCase += " : ";
+			positionCase += (int)(positionCam.Y/2. +0.5);
 		device->setWindowCaption(positionCase.c_str());
 
 
