@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	scene::ICameraSceneNode *camera = sceneManager->addCameraSceneNodeFPS(0, 100.0f, 0.005f, ID_NEstPasAtteingable,
 									      keyMap, 5, true, 0.4);
 	// Caméra en place, dans la bonne direction
-	camera->setPosition(core::vector3df(4, 0, -1));
+	camera->setPosition(core::vector3df(4, 0.15, -1));
 	camera->setTarget(core::vector3df(4, 0, 2));
 
 	niveau1.afficheConsole(sceneManager);
