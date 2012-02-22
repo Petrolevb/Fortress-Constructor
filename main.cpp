@@ -98,9 +98,9 @@ int main(int argc, char *argv[])
 
 	// Ajout du brouillard pour ne pas avoir un champs de vue illimité
 	
-	driver->setFog(video::SColor(0, 138, 125, 0), video::EFT_FOG_EXP, 
+	driver->setFog(video::SColor(0, 175, 125, 0), video::EFT_FOG_EXP2, 
 		       0.f, 0.f, // début et fin, inutile car en mode exponnentiel
-		       0.5f, // densité
+		       0.15f, // densité
 		       false, false); // pixel fog, range fog
 
 	while(device->run())
