@@ -1,6 +1,8 @@
 #include<iostream>
 #include<vector>
 
+#include<assert.h>
+
 #include<irrlicht/irrlicht.h>
 
 #include "definitions.hpp"
@@ -222,6 +224,20 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				{
 					for(unsigned int a = 0; a < meshsSalle.size(); a++)
 					{
+						// Ajout du sol de toute facon
+						scene::IAnimatedMesh *sol = sceneManager->getMesh("data/mesh/salle/salle_sol.obj");
+						assert(sol != NULL);
+						scene::IMeshSceneNode *MSCNsol = sceneManager->addOctreeSceneNode(sol->getMesh(0));
+						MSCNsol->setPosition(core::vector3df(
+							(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+							0.2, // Un peu de hauteur, au dessus du sol normal 
+							(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+						MSCNsol->setParent(sceneManager->getRootSceneNode()); // parent
+									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+						MSCNsol->setRotation(rotationSalle[a]);
+						MSCNsol->setID(ID_EstAtteignable);
+						MSCNsol->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+
 						if(meshsSalle[a] == NULL) // Si il n'y a pas de morceau de salle sur cette partie du plan
 							continue; // recommence la boucle à a+1
 
