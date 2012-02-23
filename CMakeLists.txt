@@ -6,8 +6,6 @@ project(Fortress_Constructor)
 include_directories("/usr/include/irrlicht")
 link_directories("/usr/lib")
 
-#EXEC=Fortress_Constructor
-
 
 file(
 	GLOB_RECURSE
@@ -20,11 +18,15 @@ file(
 	src/*.hpp
 )
 
-add_executable(
+add_EXECutable(
 	bin/Fortress_Constructor
 	${SRC}
 	${HEAD}
 )
+
+
+set(CMAKE_CXX_FLAGS "-g -ansi -pedantic -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "")
 
 target_link_libraries(
 	bin/Fortress_Constructor

@@ -12,6 +12,5 @@ test*
 #*.mtl
 
 bin/Fortress_Constructor
-build/CMakeFile
-*.cmake
+build
 
