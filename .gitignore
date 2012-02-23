@@ -2,8 +2,6 @@
 *.swp
 *~
 
-test*
-
 *.dae
 #*.3ds
 
@@ -14,3 +12,6 @@ test*
 bin/Fortress_Constructor
 build
 
+*.xml
+*.planner
+*.mpp
