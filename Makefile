@@ -1,12 +1,12 @@
 CPP=g++
 CPPFLAGS=-g -Wextra  -Wall 
 
-SRC=$(wildcard *.cpp)
-INC=$(wildcard *.hpp)
+SRC=$(wildcard src/*.cpp)
+INC=$(wildcard src/*.hpp)
 OBJS=$(SRC:.cpp=.o)
 
 LFLAGS= -lIrrlicht -lGL 
-EXEC=Fortress_Constructor 
+EXEC=bin/Fortress_Constructor 
 
 .PHONY: all clean mrproper
 
@@ -19,6 +19,6 @@ $(EXEC) : $(OBJS) $(INC)
 	@$(CPP) -c $< -o $@ $(CPPFLAGS)
 
 clean :
-	@rm *.o
+	@rm $(OBJS)
 mrproper :
 	@rm $(EXEC)
