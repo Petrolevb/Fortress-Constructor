@@ -70,6 +70,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				meshsSalle.push_back(NULL); meshsSalle.push_back(NULL); meshsSalle.push_back(NULL);
 
 				vector<core::vector3df> rotationSalle(9, core::vector3df(0, 0, 0));
+				vector< vector<TypeConstruction> > planSalle;
 				bool construction = false; // Indique si on doit gérer une construction dans l'affichage
 
 				core::vector3df rotationObjet(0, 0, 0),
@@ -111,7 +112,6 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						if(!meshCourant) exit(1);
 						if(m_Map[i][j].getTypeDeLaCase() == EST_CONSTRUIT)
 						{
-							vector< vector<TypeConstruction> > planSalle;
 							Batiment bat =  m_Map[i][j].getConstruction();
 							if(bat != SANS_BATIMENT && bat != NOMBRE_BATIMENT) // Si il y a bien une vraie constructio
 							{
@@ -163,6 +163,12 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 											case SALLE_CENTRE :
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_centre.obj");
 												break;
+											case SALLE_VIDE_TOURS :
+												meshObjet = sceneManager->getMesh("data/mesh/objets/tours.obj");
+												break;
+											case SALLE_VIDE_FORGE :
+												meshObjet = sceneManager->getMesh("data/mesh/objets/forge.obj");
+												break;
 											default : break;
 										}
 									}
@@ -200,7 +206,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				element->setID((m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable)); 
 				// Pas de rotation, pas de mise à l'echelle
 	
-				if(meshObjet)
+				if(meshObjet && !construction)
 				{
 					scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
 						meshObjet, 
@@ -224,33 +230,49 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				{
 					for(unsigned int a = 0; a < meshsSalle.size(); a++)
 					{
-						// Ajout du sol de toute facon
-						scene::IAnimatedMesh *sol = sceneManager->getMesh("data/mesh/salle/salle_sol.obj");
-						assert(sol != NULL);
-						scene::IMeshSceneNode *MSCNsol = sceneManager->addOctreeSceneNode(sol->getMesh(0));
-						MSCNsol->setPosition(core::vector3df(
-							(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
-							0.2, // Un peu de hauteur, au dessus du sol normal 
-							(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
-						MSCNsol->setParent(sceneManager->getRootSceneNode()); // parent
-									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
-						MSCNsol->setRotation(rotationSalle[a]);
-						MSCNsol->setID(ID_EstAtteignable);
-						MSCNsol->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
-
+						{ // Ajout du sol de toute facon
+							scene::IAnimatedMesh *sol = sceneManager->getMesh("data/mesh/salle/salle_sol.obj");
+							assert(sol != NULL);
+							scene::IMeshSceneNode *MSCNsol = sceneManager->addOctreeSceneNode(sol->getMesh(0));
+							MSCNsol->setPosition(core::vector3df(
+								(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+								0.2, // Un peu de hauteur, au dessus du sol normal 
+								(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+							MSCNsol->setParent(sceneManager->getRootSceneNode()); // parent
+										 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+							MSCNsol->setRotation(rotationSalle[a]);
+							MSCNsol->setID(ID_EstAtteignable);
+							MSCNsol->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+						}
+						
 						if(meshsSalle[a] == NULL) // Si il n'y a pas de morceau de salle sur cette partie du plan
-							continue; // recommence la boucle à a+1
-
-						scene::IMeshSceneNode *morceauSalle = sceneManager->addOctreeSceneNode(meshsSalle[a]->getMesh(0));
-						morceauSalle->setPosition(core::vector3df(
-							(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
-							0, 
-							(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
-						morceauSalle->setParent(sceneManager->getRootSceneNode()); // parent
-									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
-						morceauSalle->setRotation(rotationSalle[a]);
-						morceauSalle->setID(ID_EstAtteignable);
-						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+						{
+							switch(planSalle[a/3][a%3])
+							{
+								case SALLE_VIDE_FORGE :
+								case SALLE_VIDE_TOURS :
+									meshsSalle[a] =  meshObjet;
+									// On peut enchainer et placer le morceau de la salle
+									break;
+								default : continue; // recommence la boucle
+							}
+						}
+						else // Placement du morceau de la salle
+						{
+							// BUG #OBJ NON CREE
+							if(meshsSalle[a] == NULL) continue; 
+	
+							scene::IMeshSceneNode *morceauSalle = sceneManager->addOctreeSceneNode(meshsSalle[a]->getMesh(0));
+							morceauSalle->setPosition(core::vector3df(
+								(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+								0, 
+								(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+							morceauSalle->setParent(sceneManager->getRootSceneNode()); // parent
+										 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+							morceauSalle->setRotation(rotationSalle[a]);
+							morceauSalle->setID(ID_EstAtteignable);
+							morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+						}
 					}
 				}
 				element->setMaterialFlag(video::EMF_LIGHTING, false);

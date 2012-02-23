@@ -41,7 +41,12 @@ typedef enum
 	SALLE_BORD_EST,
 
 	SALLE_CENTRE,
-	SALLE_VIDE
+
+	 // partie vide, mais avec objets : SALLE_VIDE_objet
+		SALLE_VIDE,
+		SALLE_VIDE_FORGE,
+		SALLE_VIDE_TOURS
+	
 } TypeConstruction;
 
 class Salle

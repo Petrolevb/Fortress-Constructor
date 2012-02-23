@@ -53,7 +53,7 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 		case Menuiserie :
 			ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE);
 			ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);
-			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE);
+			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE_TOURS); ligne3.push_back(SALLE_VIDE);
 			break;
 		case Teinturerie :
 			ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_BORD_NORD); ligne1.push_back(SALLE_VIDE);
@@ -67,7 +67,7 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 			break;
 		case Atelier:
 			ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_ANGLE_NE);
-			ligne2.push_back(SALLE_BORD_OUEST); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);
+			ligne2.push_back(SALLE_BORD_OUEST); ligne2.push_back(SALLE_VIDE_TOURS); ligne2.push_back(SALLE_VIDE);
 			ligne3.push_back(SALLE_ANGLE_SO); ligne3.push_back(SALLE_BORD_SUD); ligne3.push_back(SALLE_VIDE);
 			break;
 		case Atelier_Cuir :
@@ -77,7 +77,7 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 			break;
 		case Archerie :
 			ligne1.push_back(SALLE_ANGLE_NO); ligne1.push_back(SALLE_VIDE); ligne1.push_back(SALLE_VIDE);	
-			ligne2.push_back(SALLE_BORD_OUEST); ligne2.push_back(SALLE_VIDE); ligne2.push_back(SALLE_VIDE);	
+			ligne2.push_back(SALLE_BORD_OUEST); ligne2.push_back(SALLE_VIDE_TOURS); ligne2.push_back(SALLE_VIDE);	
 			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_BORD_SUD); ligne3.push_back(SALLE_VIDE);
 			break;
 		case Massonnerie : // Les deux sont pour l'instant identiques
