@@ -13,3 +13,6 @@ test*
 
 Fortress_Constructor
 build
+
+*.mpp
+*.planner

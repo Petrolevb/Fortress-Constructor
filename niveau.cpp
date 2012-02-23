@@ -17,26 +17,59 @@ using namespace irr;
 Niveau::Niveau()
 {
 	cout << "Niveau  constructeur normal de la classe"; 
-	m_Map.resize(3);
+	m_Map.resize(5);
 	cout << endl << '\t';
 	
-	// Initialisation d'une petite salle, porte d'entrée de la forteresse
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(PORTE_NORD)); 
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(MUR));
-
-	m_Map[1].push_back(Case(VIDE));
-	m_Map[1].push_back(Case(MUR));
-	m_Map[1].push_back(Case(SOL));
-	m_Map[1].push_back(Case(MUR));
+	// Initialisatpion d'une petite salle, porte d'entrée de la forteresse
+	{ //* Démarrage salle 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(PORTE_NORD)); 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
 	
-	m_Map[2].push_back(Case(VIDE));
-	m_Map[2].push_back(Case(MUR));
-	m_Map[2].push_back(Case(MUR));
-	m_Map[2].push_back(Case(MUR));
+		
+		m_Map[1].push_back(Case(MUR));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(MUR));
 
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(MUR));
+
+		m_Map[3].push_back(Case(MUR));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(MUR));
+
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+	} // */
+	/*{ // Démarrage normal 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(PORTE_NORD)); 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+	
+		m_Map[1].push_back(Case(VIDE));
+		m_Map[1].push_back(Case(MUR));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(MUR));
+		
+		m_Map[2].push_back(Case(VIDE));
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(MUR));
+	} // */
 	cout << "OK" << endl;
 }
 
@@ -257,22 +290,17 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 								default : continue; // recommence la boucle
 							}
 						}
-						else // Placement du morceau de la salle
-						{
-							// BUG #OBJ NON CREE
-							if(meshsSalle[a] == NULL) continue; 
-	
-							scene::IMeshSceneNode *morceauSalle = sceneManager->addOctreeSceneNode(meshsSalle[a]->getMesh(0));
-							morceauSalle->setPosition(core::vector3df(
-								(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
-								0, 
-								(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
-							morceauSalle->setParent(sceneManager->getRootSceneNode()); // parent
-										 // les morceaux de salle ne sont pas atteignables et compte comme des murs
-							morceauSalle->setRotation(rotationSalle[a]);
-							morceauSalle->setID(ID_EstAtteignable);
-							morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
-						}
+						if(meshsSalle[a] == NULL) continue; 
+								scene::IMeshSceneNode *morceauSalle = sceneManager->addOctreeSceneNode(meshsSalle[a]->getMesh(0));
+						morceauSalle->setPosition(core::vector3df(
+							(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+							0, 
+							(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+						morceauSalle->setParent(sceneManager->getRootSceneNode()); // parent
+									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+						morceauSalle->setRotation(rotationSalle[a]);
+						morceauSalle->setID(ID_EstAtteignable);
+						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
 					}
 				}
 				element->setMaterialFlag(video::EMF_LIGHTING, false);
