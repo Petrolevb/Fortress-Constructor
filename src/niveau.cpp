@@ -279,6 +279,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							MSCNsol->setRotation(rotationSalle[a]);
 							MSCNsol->setID(ID_EstAtteignable);
 							MSCNsol->setMaterialFlag(video::EMF_LIGHTING, true); 
+							MSCNsol->setMaterialFlag(video::EMF_FOG_ENABLE, true);
 						}
 						
 						if(meshsSalle[a] == NULL) // Si il n'y a pas de morceau de salle sur cette partie du plan
@@ -304,6 +305,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						morceauSalle->setRotation(rotationSalle[a]);
 						morceauSalle->setID(ID_EstAtteignable);
 						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, true); 
+						morceauSalle->setMaterialFlag(video::EMF_FOG_ENABLE, true);
 					}
 				}
 				element->setMaterialFlag(video::EMF_LIGHTING, true);
