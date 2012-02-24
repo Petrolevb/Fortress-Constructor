@@ -9,7 +9,7 @@
 #*.obj
 #*.mtl
 
-bin/Fortress_Constructor
+bin
 build
 
 *.xml
