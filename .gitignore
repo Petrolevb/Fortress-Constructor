@@ -5,6 +5,7 @@
 test*
 
 *.dae
+*.x3d
 #*.3ds
 
 #*.blend
@@ -13,6 +14,8 @@ test*
 
 Fortress_Constructor
 build
+bin
+doc
 
 *.mpp
 *.planner

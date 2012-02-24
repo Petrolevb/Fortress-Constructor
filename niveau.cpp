@@ -136,7 +136,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							case PORTE_NORD :
 								rotationObjet = core::vector3df(0, 90, 0);
 							case PORTE_EST :
-								meshObjet = sceneManager->getMesh("data/mesh/objets/porte_test.3ds");
+								meshObjet = sceneManager->getMesh("data/mesh/objets/porte.3ds");
 								if(!meshObjet) exit(1);
 								break;
 							default :
