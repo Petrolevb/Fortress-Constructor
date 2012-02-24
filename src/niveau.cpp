@@ -278,7 +278,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 										 // les morceaux de salle ne sont pas atteignables et compte comme des murs
 							MSCNsol->setRotation(rotationSalle[a]);
 							MSCNsol->setID(ID_EstAtteignable);
-							MSCNsol->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+							MSCNsol->setMaterialFlag(video::EMF_LIGHTING, true); 
 						}
 						
 						if(meshsSalle[a] == NULL) // Si il n'y a pas de morceau de salle sur cette partie du plan
@@ -303,7 +303,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
 						morceauSalle->setRotation(rotationSalle[a]);
 						morceauSalle->setID(ID_EstAtteignable);
-						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, true); 
 					}
 				}
 				element->setMaterialFlag(video::EMF_LIGHTING, true);
