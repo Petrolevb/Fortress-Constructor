@@ -29,6 +29,7 @@ class Objet
 		~Objet();
 
 		Objet & operator=(const Objet &objetACopier);
+		bool operator==(const Objet &a);
 
 		TypeObjet getTypeObjet() { return m_TypeDeLObjet; }
 		bool getActif() { return m_Actif; }

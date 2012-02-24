@@ -1,39 +1,75 @@
 #include<iostream>
 #include<vector>
 
+#include<assert.h>
+
 #include<irrlicht/irrlicht.h>
 
 #include "definitions.hpp"
 
 #include "niveau.hpp"
 #include "case.hpp"
+#include"salle.hpp"
 
 using namespace std;
 using namespace irr;
 
-Niveau::Niveau() :
-	m_Init_Ligne(1), m_Init_Colone(2)
+Niveau::Niveau()
 {
 	cout << "Niveau  constructeur normal de la classe"; 
-	m_Map.resize(3);
+	m_Map.resize(5);
 	cout << endl << '\t';
 	
-	// Initialisation d'une petite salle, porte d'entrée de la forteresse
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(PORTE_NORD)); 
-	m_Map[0].push_back(Case(MUR));
-	m_Map[0].push_back(Case(MUR));
+	// Initialisatpion d'une petite salle, porte d'entrée de la forteresse
+	{ //* Démarrage salle 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(PORTE_NORD)); 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+	
+		
+		m_Map[1].push_back(Case(MUR));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(MUR));
 
-	m_Map[1].push_back(Case(VIDE));
-	m_Map[1].push_back(Case(MUR));
-	m_Map[1].push_back(Case(SOL));
-	m_Map[1].push_back(Case(MUR));
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(SOL));
+		m_Map[2].push_back(Case(MUR));
 
-	m_Map[2].push_back(Case(VIDE));
-	m_Map[2].push_back(Case(VIDE));
-	m_Map[2].push_back(Case(MUR));
+		m_Map[3].push_back(Case(MUR));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(SOL));
+		m_Map[3].push_back(Case(MUR));
 
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+		m_Map[4].push_back(Case(MUR));
+	} // */
+	/*{ // Démarrage normal 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(PORTE_NORD)); 
+		m_Map[0].push_back(Case(MUR));
+		m_Map[0].push_back(Case(MUR));
+	
+		m_Map[1].push_back(Case(VIDE));
+		m_Map[1].push_back(Case(MUR));
+		m_Map[1].push_back(Case(SOL));
+		m_Map[1].push_back(Case(MUR));
+		
+		m_Map[2].push_back(Case(VIDE));
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(MUR));
+		m_Map[2].push_back(Case(MUR));
+	} // */
 	cout << "OK" << endl;
 }
 
@@ -58,6 +94,18 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 			{
 				scene::IAnimatedMesh *meshCourant = NULL, 
 						     *meshObjet = NULL;
+
+
+				vector<scene::IAnimatedMesh *> meshsSalle;
+				// Par défaut, les 9 sont à nul
+				meshsSalle.push_back(NULL); meshsSalle.push_back(NULL); meshsSalle.push_back(NULL);
+				meshsSalle.push_back(NULL); meshsSalle.push_back(NULL); meshsSalle.push_back(NULL);
+				meshsSalle.push_back(NULL); meshsSalle.push_back(NULL); meshsSalle.push_back(NULL);
+
+				vector<core::vector3df> rotationSalle(9, core::vector3df(0, 0, 0));
+				vector< vector<TypeConstruction> > planSalle;
+				bool construction = false; // Indique si on doit gérer une construction dans l'affichage
+
 				core::vector3df rotationObjet(0, 0, 0),
 						positionMesh(0, 0, 0);
 	
@@ -76,6 +124,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						selector = sceneManager->createOctreeTriangleSelector(meshCourant, 
 												      sceneManager->getRootSceneNode());
 						break;
+					case EST_CONSTRUIT :
 					case SOL : 
 						if(m_Map[i][j].getIsSmooth())
 							meshCourant = sceneManager->getMesh("data/mesh/sol-plafond_poli.obj");
@@ -87,13 +136,78 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							case PORTE_NORD :
 								rotationObjet = core::vector3df(0, 90, 0);
 							case PORTE_EST :
-								meshObjet = sceneManager->getMesh("data/mesh/objets/porte_test.3ds");
+								meshObjet = sceneManager->getMesh("data/mesh/objets/porte.3ds");
 								if(!meshObjet) exit(1);
 								break;
 							default :
 								break;
 						}
 						if(!meshCourant) exit(1);
+						if(m_Map[i][j].getTypeDeLaCase() == EST_CONSTRUIT)
+						{
+							Batiment bat =  m_Map[i][j].getConstruction();
+							if(bat != SANS_BATIMENT && bat != NOMBRE_BATIMENT) // Si il y a bien une vraie constructio
+							{
+								planSalle = Salle::getPlan(bat);
+								construction = true;
+
+								for(unsigned int a = 0; a < planSalle.size() ; a++)
+								{
+									for(unsigned int b = 0 ; b < planSalle[a].size(); b++)
+									{
+										switch(planSalle[a][b])
+										{
+										{ // Angles
+											case SALLE_ANGLE_NO :
+												rotationSalle[3*a +b] = core::vector3df(0, 90, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
+												break;
+											case SALLE_ANGLE_NE :
+												rotationSalle[3*a +b] = core::vector3df(0, 180, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
+												break;
+											case SALLE_ANGLE_SO :
+												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
+												break;
+											case SALLE_ANGLE_SE :
+												rotationSalle[3*a +b] = core::vector3df(0, -90, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_angle.obj");
+												break;
+										}
+										{ // Bords
+											case SALLE_BORD_NORD :
+												rotationSalle[3*a +b] = core::vector3df(0, 90, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
+												break;
+											case SALLE_BORD_SUD :
+												rotationSalle[3*a +b] = core::vector3df(0, -90, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
+												break;
+											case SALLE_BORD_EST :
+												rotationSalle[3*a +b] = core::vector3df(0, 180, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
+												break;
+											case SALLE_BORD_OUEST :
+												rotationSalle[3*a +b] = core::vector3df(0, 0, 0);
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_cote.obj");
+												break;
+										}
+											case SALLE_CENTRE :
+												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_centre.obj");
+												break;
+											case SALLE_VIDE_TOURS :
+												meshObjet = sceneManager->getMesh("data/mesh/objets/tours.obj");
+												break;
+											case SALLE_VIDE_FORGE :
+												meshObjet = sceneManager->getMesh("data/mesh/objets/forge.obj");
+												break;
+											default : break;
+										}
+									}
+								} // Fin des for
+							}
+						}
 						break;
 					case VIDE :
 					default : continue;
@@ -125,7 +239,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				element->setID((m_Map[i][j].getTypeDeLaCase() == MUR ? ID_EstAtteignable : ID_NEstPasAtteingable)); 
 				// Pas de rotation, pas de mise à l'echelle
 	
-				if(meshObjet)
+				if(meshObjet && !construction)
 				{
 					scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
 						meshObjet, 
@@ -147,6 +261,50 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 					// Trouver le moyen de mettre les deux textures
 					objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
 					objet->setMaterialTexture(0, sceneManager->getVideoDriver()->getTexture("data/textures/objets/grande_porte.png"));
+				}
+				if(construction)
+				{
+					for(unsigned int a = 0; a < meshsSalle.size(); a++)
+					{
+						{ // Ajout du sol de toute facon
+							scene::IAnimatedMesh *sol = sceneManager->getMesh("data/mesh/salle/salle_sol.obj");
+							assert(sol != NULL);
+							scene::IMeshSceneNode *MSCNsol = sceneManager->addOctreeSceneNode(sol->getMesh(0));
+							MSCNsol->setPosition(core::vector3df(
+								(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+								0.2, // Un peu de hauteur, au dessus du sol normal 
+								(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+							MSCNsol->setParent(sceneManager->getRootSceneNode()); // parent
+										 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+							MSCNsol->setRotation(rotationSalle[a]);
+							MSCNsol->setID(ID_EstAtteignable);
+							MSCNsol->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+						}
+						
+						if(meshsSalle[a] == NULL) // Si il n'y a pas de morceau de salle sur cette partie du plan
+						{
+							switch(planSalle[a/3][a%3])
+							{
+								case SALLE_VIDE_FORGE :
+								case SALLE_VIDE_TOURS :
+									meshsSalle[a] =  meshObjet;
+									// On peut enchainer et placer le morceau de la salle
+									break;
+								default : continue; // recommence la boucle
+							}
+						}
+						if(meshsSalle[a] == NULL) continue; 
+								scene::IMeshSceneNode *morceauSalle = sceneManager->addOctreeSceneNode(meshsSalle[a]->getMesh(0));
+						morceauSalle->setPosition(core::vector3df(
+							(a%3-1 +j)*(largeurBox + DISTANCE_ECART), // Colone du centre, * position dans la salle
+							0, 
+							(a/3-1 +i)*(longueurBox + DISTANCE_ECART))); // ligne du centre * position dans la salle
+						morceauSalle->setParent(sceneManager->getRootSceneNode()); // parent
+									 // les morceaux de salle ne sont pas atteignables et compte comme des murs
+						morceauSalle->setRotation(rotationSalle[a]);
+						morceauSalle->setID(ID_EstAtteignable);
+						morceauSalle->setMaterialFlag(video::EMF_LIGHTING, false); // WARN: Lumière à changer au merge
+					}
 				}
 				element->setMaterialFlag(video::EMF_LIGHTING, true);
 				element->setMaterialFlag(video::EMF_FOG_ENABLE, true);
@@ -371,4 +529,36 @@ void Niveau::ouverturePorte()
 	m_Map[0][2].setObjetActif(!m_Map[0][2].getObjetActif());
 	// De toute faceon, l'objet change d'état
 	m_Map[0][2].setObjetActivite(true);
+}
+
+bool Niveau::construit(int ligne, int colone, Batiment bat)
+{
+	// Est ce que les cases sont définies
+	if(m_Map.size() < (unsigned int)ligne+2) 		return false;
+	if(m_Map[ligne-1].size() < (unsigned int)colone+2) 	return false;
+	if(m_Map[ligne].size() < (unsigned int)colone+2) 	return false;
+	if(m_Map[ligne+1].size() < (unsigned int)colone+2) 	return false;
+
+	// Test si les 9 cases autours sont des SOL et libres
+	if(m_Map[ligne-1][colone-1].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne-1][colone].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne-1][colone+1].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne][colone-1].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne][colone].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne][colone+1].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne+1][colone-1].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne+1][colone].getTypeDeLaCase() != SOL) 	return false;
+	if(m_Map[ligne+1][colone+1].getTypeDeLaCase() != SOL) 	return false;
+
+	// On peut donc construire
+	m_Map[ligne-1][colone-1].setConstruit();
+	m_Map[ligne-1][colone].setConstruit();
+	m_Map[ligne-1][colone+1].setConstruit();
+	m_Map[ligne][colone-1].setConstruit();
+	m_Map[ligne][colone].setConstruit(); m_Map[ligne][colone].setConstruit(bat);
+	m_Map[ligne][colone+1].setConstruit();
+	m_Map[ligne+1][colone-1].setConstruit();
+	m_Map[ligne+1][colone].setConstruit();
+	m_Map[ligne+1][colone+1].setConstruit();
+	return true;
 }

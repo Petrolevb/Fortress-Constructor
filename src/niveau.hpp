@@ -6,6 +6,7 @@
 #include<irrlicht/irrlicht.h>
 
 #include"case.hpp"
+#include"salle.hpp"
 
 typedef enum{
 	HAUT,
@@ -31,19 +32,13 @@ class Niveau
 		// Retourne si la case a bien été fortifiée
 		bool fortifie(int ligne, int colone, Direction direction);
 
+		bool construit(int ligne, int colone, Batiment bat);
+
 		void ouverturePorte();
 		void afficheConsole(irr::scene::ISceneManager *sceneManager);
-		
-		// Accesseurs
-		int getLigneInit() { return m_Init_Ligne; }
-		void setLigneInit(int val) { m_Init_Ligne = val; }
-		int getColoneInit() { return m_Init_Colone; } 
-		void setColoneInit(int val) { m_Init_Colone = val; }
 
 	private :
 		std::vector< std::vector<Case> > m_Map;
-		int m_Init_Ligne;
-		int m_Init_Colone;
 };
 
 #endif
