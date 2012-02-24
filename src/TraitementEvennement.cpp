@@ -182,107 +182,245 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX, tailleY, tailleX),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_MASSONNERIE,
+					#ifdef _LANG_FR
 					L"Maconnerie", L"Construire une maconnerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Mason", L"Create Mason's workshop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 1*dek, posButX, tailleY + 1*dek, tailleX),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_MENUISERIE,
+					#ifdef _LANG_FR
 					L"Menuiserie", L"Construire une menuiserie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Carpenter", L"Create Carpenter's workshop");
+					#endif
+					#endif
 			}
 			{ // Seconde ligne Atelier, Archerie, Forge, Mechanic
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + dek, tailleY, tailleX + dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_ATELIER,
+					#ifdef _LANG_FR
 					L"Atelier", L"Construire un atelier ici");
+					#else
+					#ifdef _LANG_EN
+					L"Craftsdwarf", L"Create Carftsdwarf's workshop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + dek, tailleY + dek, tailleX + dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_ARCHERIE,
+					#ifdef _LANG_FR
 					L"Archerie", L"Construire une archerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Bowyer", L"Create Bowyer's workshop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 2*dek, posButX + dek, tailleY + 2*dek, tailleX + dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_FORGE,
+					#ifdef _LANG_FR
 					L"Forge", L"Construire une forge ici");
+					#else
+					#ifdef _LANG_EN
+					L"Forge", L"Create Forge");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 3*dek, posButX + dek, tailleY + 3*dek, tailleX + dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_MECHANIC,
+					#ifdef _LANG_FR
 					L"Mechanic", L"Construire une mechanic ici");
+					#else
+					#ifdef _LANG_EN
+					L"Mechanics", L"Create Mechanics workshop");
+					#endif
+					#endif
 			}
 			{ // Troisième ligne Boucherie, Poissonnerie, Brasserie, Cuisine
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + 2*dek, tailleY, tailleX + 2*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_BOUCHERIE,
+					#ifdef _LANG_FR
 					L"Boucherie", L"Construire une boucherie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Butcher", L"Create butcher's shop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + 2*dek, tailleY + dek, tailleX + 2*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_POISSONNERIE,
+					#ifdef _LANG_FR
 					L"Poissonnerie", L"Construire une poissonnerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Fichery", L"Create Fisher's shop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 2*dek, posButX + 2*dek, tailleY + 2*dek, tailleX + 2*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_BRASSERIE,
+					#ifdef _LANG_FR
 					L"Brasserie", L"Construire une brasserie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Still", L"Create still");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 3*dek, posButX + 2*dek, tailleY + 3*dek, tailleX + 2*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_CUISINE,
+					#ifdef _LANG_FR
 					L"Cuisine", L"Construire une cuisine ici");
+					#else
+					#ifdef _LANG_EN
+					L"Kitchen", L"Create kitchen");
+					#endif
+					#endif
 			}
 			{ // Quatrième ligne Atelier Cuir, Tannerie
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY,  posButX + 3*dek, tailleY, tailleX + 3*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_ATELIER_CUIR,
+					#ifdef _LANG_FR
 					L"Atelier Cuir", L"Construire un atelier de cuir ici");
+					#else
+					#ifdef _LANG_EN
+					L"Leather Works", L"Create leather works");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + 3*dek, tailleY + dek, tailleX + 3*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_TANNERIE,
+					#ifdef _LANG_FR
 					L"Tannerie", L"Construire une tannerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Tanner's shop", L"Create tanner's shop");
+					#endif
+					#endif
 			}
 			{ // Cinquième ligne Teinturerie, Cendrerie, Ferme
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + 4*dek, tailleY, tailleX + 4*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_TEINTURERIE,
+					#ifdef _LANG_FR
 					L"Teinturerie", L"Construire une teinturerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Dyer", L"Create Dyer's workshop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + 4*dek, tailleY + dek, tailleX + 4*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_CENDRERIE,
+					#ifdef _LANG_FR
 					L"Cendrerie", L"Construire une cendrerie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Ashery", L"Create ashery");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + 2*dek, posButX + 4*dek, tailleY + 2*dek, tailleX + 4*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_FERME,
+					#ifdef _LANG_FR
 					L"Ferme", L"Construire une ferme ici");
+					#else
+					#ifdef _LANG_EN
+					L"Farm", L"Create farm");
+					#endif
+					#endif
 			}
 			{ // Sixième ligne Couturier, Loom
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + 5*dek, tailleY, tailleX + 5*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_COUTURIER,
+					#ifdef _LANG_FR
 					L"Couturier", L"Construire un couturier ici");
+					#else
+					#ifdef _LANG_EN
+					L"Clothier", L"Create clothier workshop");
+					#endif
+					#endif
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY + dek, posButX + 5*dek, tailleY + dek, tailleX + 5*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_LOOM,
+					#ifdef _LANG_FR
 					L"Loom", L"Construire une loom ici");
+					#else
+					#ifdef _LANG_EN
+					L"Loom", L"Create loom");
+					#endif
+					#endif
 			}
 			{ // Septième ligne Bijouterie
 				guiEnvironnement->addButton(
 					core::rect<s32>(posButY, posButX + 6*dek, tailleY, tailleX + 6*dek),
 					guiEnvironnement->getRootGUIElement(), ID_GUI_BATIMENT_BIJOUTERIE,
+					#ifdef _LANG_FR
 					L"Bijouterie", L"Construire une bijouterie ici");
+					#else
+					#ifdef _LANG_EN
+					L"Jeweler's workshop", L"Create jeweler's workshop");
+					#endif
+					#endif
 			}
 
 			guiEnvironnement->addButton(core::rect<s32>(posButY - dek, posButX - dek, tailleY -dek, tailleX - dek),
 				guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
+				#ifdef _LANG_FR
 				L"Annuler", L"Annuler action");
+				#else
+				#ifdef _LANG_EN
+				L"Cancel", L"Cancel action");
+				#endif
+				#endif
 		}
 		else // Sinon c'est qu'on veut faire autre chose
 		{
 			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 80, posButY + 100, posButX - 80 + 32), 
-				guiEnvironnement->getRootGUIElement(), ID_GUI_Construit, 
+				guiEnvironnement->getRootGUIElement(), ID_GUI_Construit,
+			#ifdef _LANG_FR
 				L"Construire", L"Construire ici");
+			#else
+			#ifdef _LANG_EN
+				L"Build", L"Build around here");
+			#endif
+			#endif
 			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX - 40, posButY + 100, posButX - 40 + 32), 
 				guiEnvironnement->getRootGUIElement(), ID_GUI_Smooth,
+			#ifdef _LANG_FR
 				L"Smoother", L"Smoother ce mur");
+			#else
+			#ifdef _LANG_EN
+				L"Smooth", L"Smooth this wall");
+			#endif
+			#endif
 			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX, posButY + 100, posButX + 32), 
 				guiEnvironnement->getRootGUIElement(), ID_GUI_Fortifie, 
+			#ifdef _LANG_FR
 				L"Fortifier", L"Fortifier ce mur");
+			#else
+			#ifdef _LANG_EN
+				L"Fortificate", L"Carve fortifications here");
+			#endif
+			#endif
 			guiEnvironnement->addButton(core::rect<s32>(posButY, posButX + 40, posButY + 100, posButX+40 + 32), 
 				guiEnvironnement->getRootGUIElement(), ID_GUI_Annuler, 
+			#ifdef _LANG_FR
 				L"Annuler", L"Annuler action");
+			#else
+			#ifdef _LANG_EN
+				L"Cancel", L"Cancel action");
+			#endif
+			#endif
 		}
 		MouseState.RightButtonDown = false;
 	}

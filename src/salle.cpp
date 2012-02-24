@@ -97,7 +97,14 @@ vector<vector<TypeConstruction> > Salle::getPlan(Batiment batiment)// Méthode s
 			ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE); ligne3.push_back(SALLE_VIDE);
 			break;
 		default :
+		#ifdef _LANG_EN
+			throw "Unknown Construction";
+		#else
+		#ifdef _LANG_FR
 			throw "Batiment Inconnu";
+		#endif
+		#endif
+
 	}
 	// On doit mettre à l'envert ! sinon l'affichage est inversé
 	retour.push_back(ligne3);

@@ -1,5 +1,11 @@
+LANG=en
 CPP=g++
-CPPFLAGS=-g -Wextra  -Wall 
+
+ifeq ($(LANG), fr)
+	CPPFLAGS=-g -Wextra  -Wall -D_LANG_FR
+else
+	CPPFLAGS=-g -Wextra  -Wall -D_LANG_EN
+endif
 
 SRC=$(wildcard src/*.cpp)
 INC=$(wildcard src/*.hpp)
