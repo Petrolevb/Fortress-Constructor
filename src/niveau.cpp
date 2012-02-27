@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<vector>
 
 #include<assert.h>
@@ -210,9 +211,9 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						}
 						break;
 					case VIDE :
-					default : break;
+					default : continue;
 				}
-			
+				if(!meshCourant) throw("Mesh courant vide");
 			/*
 			 * 
 			 * Les 8 points sont : 
@@ -537,8 +538,8 @@ void Niveau::activiteObjet(int ligne, int colone, Direction direction)
 		case EST : decallageColonne++; break;
 		default : return;
 	}
-	if(m_Map.size() >= ligne+decallageLigne) return; // Pas possible
-	if(m_Map[ligne+decallageLigne].size() >= colone+decallageColonne) return; // Pas possible non plus
+	if((int)m_Map.size() >= ligne+decallageLigne) return; // Pas possible
+	if((int)m_Map[ligne+decallageLigne].size() >= colone+decallageColonne) return; // Pas possible non plus
 	m_Map[ligne+decallageLigne][colone+decallageColonne].setObjetActif(!m_Map[0][2].getObjetActif());
 	m_Map[ligne+decallageLigne][colone+decallageColonne].setObjetActivite(true);
 }
