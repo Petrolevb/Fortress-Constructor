@@ -158,7 +158,7 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 {
 	bool changement = false;
 	if(IsKeyDown(KEY_KEY_A))
-		m_Niveau->ouverturePorte();
+	{m_Action = true, m_ActionEnCours = ACTION_OBJET; }	
 	if(MouseState.LeftButtonDown)
 	{ m_ActionEnCours = CREUSE; m_Action = true; MouseState.LeftButtonDown = false;}
 	if (MouseState.RightButtonDown)
@@ -458,6 +458,10 @@ bool TraitementEvennement::majNiveau(scene::ISceneManager *sceneManager, scene::
 			directionAction = OUEST;
 		switch(m_ActionEnCours)
 		{
+			case ACTION_OBJET :
+				m_Niveau->activiteObjet(ligne, colone, directionAction);
+				changement = true;
+				break;
 			case CREUSE :
 				m_Niveau->creuse(ligne, colone, directionAction);
 				changement = true;

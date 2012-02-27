@@ -210,7 +210,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						}
 						break;
 					case VIDE :
-					default : continue;
+					default : break;
 				}
 			
 			/*
@@ -257,6 +257,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 						objet->setLoopMode(true);
 						// Animation finie
 						m_Map[i][j].setObjetActivite(false);
+						objet->setCurrentFrame(100);
 					}
 					// Trouver le moyen de mettre les deux textures
 					objet->setMaterialTexture(1, sceneManager->getVideoDriver()->getTexture("data/textures/objets/contour_test.png"));
@@ -347,7 +348,8 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 										metaSelector,
 										sceneManager->getActiveCamera(),
 										(boundingBoxBase.MaxEdge - boundingBoxBase.getCenter()),
-										core::vector3df(0, 0, 0) // Gravitée nulle 
+										// Gravitée nulle, par défaut 0, -10, 0 
+										core::vector3df(0, 0, 0) 
 									);
 						sceneManager->getActiveCamera()->addAnimator(anim);
 						anim->drop();
@@ -524,13 +526,21 @@ bool Niveau::fortifie(int ligne, int colone, Direction direction)
 	}
 }
 
-void Niveau::ouverturePorte()
+void Niveau::activiteObjet(int ligne, int colone, Direction direction)
 {
-	// On connait pour le moment la position de la seule et unique porte, après sera donné la position
-	// position : Ligne 0, colone 2
-	m_Map[0][2].setObjetActif(!m_Map[0][2].getObjetActif());
-	// De toute faceon, l'objet change d'état
-	m_Map[0][2].setObjetActivite(true);
+	int decallageLigne = 0, decallageColonne = 0;
+	switch(direction)
+	{
+		case NORD : decallageLigne++; break;
+		case SUD : decallageLigne--; break;
+		case OUEST : decallageColonne--; break;
+		case EST : decallageColonne++; break;
+		default : return;
+	}
+	if(m_Map.size() >= ligne+decallageLigne) return; // Pas possible
+	if(m_Map[ligne+decallageLigne].size() >= colone+decallageColonne) return; // Pas possible non plus
+	m_Map[ligne+decallageLigne][colone+decallageColonne].setObjetActif(!m_Map[0][2].getObjetActif());
+	m_Map[ligne+decallageLigne][colone+decallageColonne].setObjetActivite(true);
 }
 
 bool Niveau::construit(int ligne, int colone, Batiment bat)

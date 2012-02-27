@@ -27,6 +27,7 @@ class Niveau
 		 * Prend en parramêtre la position de la case de départ et traite automatiquement 
 		 * la mise à jour des cases autour
 		 */
+		void activiteObjet(int ligne, int colone, Direction direction);
 		void creuse(int ligne, int colone, Direction direction);
 		void setSmooth(int ligne, int colone, Direction direction);
 		// Retourne si la case a bien été fortifiée
@@ -34,7 +35,6 @@ class Niveau
 
 		bool construit(int ligne, int colone, Batiment bat);
 
-		void ouverturePorte();
 		void afficheConsole(irr::scene::ISceneManager *sceneManager);
 
 	private :

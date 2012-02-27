@@ -15,6 +15,7 @@ enum
 typedef enum
 {
 	CREUSE = 0,
+	ACTION_OBJET,
 	SMOOTH,
 	FORTIFIE,
 	CONSTRUIT,
