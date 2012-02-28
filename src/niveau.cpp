@@ -244,7 +244,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 				{
 					scene::IAnimatedMeshSceneNode *objet = sceneManager->addAnimatedMeshSceneNode(
 						meshObjet, 
-						sceneManager->getRootSceneNode(),
+						sceneManager->getRootSceneNode(), // parent
 						((m_Map[i][j].getTypeObjet() == PORTE_NORD||PORTE_EST)?ID_Objet_Porte:ID_Objet),
 						core::vector3df(j*(largeurBox + DISTANCE_ECART), 0, i*(longueurBox + DISTANCE_ECART)),
 						rotationObjet); // scale par défaut, booléen suivant par défaut

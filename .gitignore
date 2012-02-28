@@ -10,7 +10,6 @@
 #*.obj
 #*.mtl
 
-bin
 build
 
 *.xml
