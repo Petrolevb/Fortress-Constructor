@@ -197,12 +197,17 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 											case SALLE_CENTRE :
 												meshsSalle[3*a +b] = sceneManager->getMesh("data/mesh/salle/salle_centre.obj");
 												break;
+											{ // Objets des salles
 											case SALLE_VIDE_TOURS :
 												meshObjet = sceneManager->getMesh("data/mesh/objets/tours.obj");
 												break;
 											case SALLE_VIDE_FORGE :
 												meshObjet = sceneManager->getMesh("data/mesh/objets/forge.obj");
 												break;
+											case SALLE_VIDE_FOUR :
+												meshObjet = sceneManager->getMesh("data/mesh/objets/four.obj");
+												break;
+											}
 											default : break;
 										}
 									}
@@ -290,6 +295,7 @@ void Niveau::afficheConsole(scene::ISceneManager *sceneManager)
 							{
 								case SALLE_VIDE_FORGE :
 								case SALLE_VIDE_TOURS :
+								case SALLE_VIDE_FOUR :
 									meshsSalle[a] =  meshObjet;
 									// On peut enchainer et placer le morceau de la salle
 									break;

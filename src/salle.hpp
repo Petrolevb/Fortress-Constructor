@@ -45,7 +45,8 @@ typedef enum
 	 // partie vide, mais avec objets : SALLE_VIDE_objet
 		SALLE_VIDE,
 		SALLE_VIDE_FORGE,
-		SALLE_VIDE_TOURS
+		SALLE_VIDE_TOURS,
+		SALLE_VIDE_FOUR,
 	
 } TypeConstruction;
 
